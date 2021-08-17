@@ -1,15 +1,26 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import Margin from "../../assets/cssVars/Margin";
 import Color from "../../assets/cssVars/Color";
 import Hamburger from "./Hamburger";
 import Nav from "./Nav";
 
-const _Header = styled.header`
+type _HeaderProps = {
+    isOpen: boolean,
+};
+
+const _Header = styled.header<_HeaderProps>`
     position: fixed;
     left: 0;
     top: 0;
     z-index: 1;
+    width: 0;
+    ${(props) =>
+        props.isOpen
+            ? css`
+                width: auto;
+            `
+    :''}
 `;
 
 type HeaderProps = {};
@@ -31,8 +42,9 @@ class Header extends React.Component<HeaderProps, HeaderState>{
     }
 
     render(){
+        let status = this.state.status != null ? this.state.status : false;
         return(
-            <_Header>
+            <_Header isOpen={status} >
                 <Nav status={this.state.status} ></Nav>
                 <Hamburger status={this.state.status} toggleState={this.toggleStatus} ></Hamburger>
             </_Header>
