@@ -59,7 +59,7 @@ class Pane extends React.Component<PaneProps, PaneState>{
             <_Pane isOpen={this.props.isOpen}>
                 <CloseBtn onClick={this.props.onCloseClick}>×</CloseBtn>
                 <ul>
-                    <li>{this.props.info["Name"]}</li>
+                    <li>{this.props.info["name"]}</li>
                 </ul>
             </_Pane>
         );
