@@ -2,6 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Map from "../../pages/map/Map";
 
+const _Main = styled.main`
+    overflow: hidden;
+`;
+
 type MainProps = {};
 type MainState = {};
 
@@ -12,9 +16,9 @@ class Main extends React.Component<MainProps, MainState>{
 
     render(){
         return(
-            <main>
+            <_Main>
                 <Map></Map>
-            </main>
+            </_Main>
         );
     }
 }
