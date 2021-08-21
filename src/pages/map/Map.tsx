@@ -40,13 +40,25 @@ type MapState = {
 };
 
 class Map extends React.Component<MapProps, MapState>{
+    //以下の2つの配列の順番をエリアごとに一致させる
     private static AreaPaths = [
         ["test/test_zoom.png","test/test_zoom2.png",],
         ["test/test_zoom.png","test/test_zoom2.png",],
         ["test/test_zoom.png","test/test_zoom2.png",],
     ];
+    private static AreaPos = [
+        [260, 100, -85, 0],
+        [180, 100, -120, -120],
+        [180, 100, 200, -120],
+    ]
+
     constructor(props: MapProps){
         super(props);
+
+        let areas: number[][] = [];
+        Map.AreaPos.forEach((pos: number[]) =>{
+            areas.push([pos[0], pos[1], this.getRelativePostion(pos[2], "x"), this.getRelativePostion(pos[3], "y")]);
+        });
         this.state = {
             width: window.innerWidth,
             height: window.innerHeight,
@@ -67,11 +79,7 @@ class Map extends React.Component<MapProps, MapState>{
             level: 0,
             area: 0,
             maxLevel: 0,
-            areas: [
-                [260, 100, this.getRelativePostion(-85, "x"), this.getRelativePostion(0, "y")],
-                [180, 100, this.getRelativePostion(-120, "x"), this.getRelativePostion(-120, "y")],
-                [180, 100, this.getRelativePostion(200, "x"), this.getRelativePostion(-120, "y")],
-            ],
+            areas: areas,
 
             tmp: 0,
         };
@@ -90,9 +98,14 @@ class Map extends React.Component<MapProps, MapState>{
     }
 
     handleResizeWindow = () =>{
+        let areas: number[][] = [];
+        Map.AreaPos.forEach((pos: number[]) =>{
+            areas.push([pos[0], pos[1], this.getRelativePostion(pos[2], "x"), this.getRelativePostion(pos[3], "y")]);
+        });
         this.setState({
             width: window.innerWidth,
             height: window.innerHeight,
+            areas:areas,
         });
     }
 
