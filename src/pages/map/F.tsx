@@ -10,7 +10,6 @@ type FloorProps = {
     y: number,
     width: number,
     height: number,
-    //level: number,
 };
 type FloorState = {};
 

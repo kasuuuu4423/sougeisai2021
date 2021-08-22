@@ -6,7 +6,7 @@ import Place from "./Place";
 import Pane from "./Pane";
 import Area from "./Area";
 import { ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn } from "./buttons";
-import micoCms from "../../lib/microCms";
+import MicroCms from "../../lib/microCms";
 import Util from "../../lib/Util";
 
 const Test = styled.div`
@@ -84,7 +84,7 @@ class Map extends React.Component<MapProps, MapState>{
         window.addEventListener('resize', this.handleResizeWindow);
 
         let image = new window.Image();
-        image.src = window.location.origin+"/img/test/back.png";
+        image.src = window.location.origin+"/img/map/back.png";
         image.onload = () => {
             // setState will redraw layer
             // because "image" property is changed
@@ -133,7 +133,7 @@ class Map extends React.Component<MapProps, MapState>{
 
     handlePlaceClick = (info:{[key: string]: string}) =>{
         const id = info["id"];
-        let res = micoCms.getPlaceById(id, (res: {[key: string]: string})=>{
+        let res = MicroCms.getPlaceById(id, (res: {[key: string]: string})=>{
             this.setState({
                 paneInfo: res,
                 paneState: true
@@ -190,7 +190,7 @@ class Map extends React.Component<MapProps, MapState>{
     handleAreaMovePlus = () =>{
         let nextArea = Util.checkAndGetUndifined(this.state.areas).length-1 == Util.checkAndGetUndifined(this.state.area) ? 0 : Util.checkAndGetUndifined(this.state.area)+1;
         let area = this.state.areas != null ? this.state.areas[nextArea] : [];
-        let zoomMag = 2.5;
+        let zoomMag = 3;
         this.setState({
             scale: zoomMag,
             x: -area[2]*zoomMag + window.innerWidth/2,
@@ -204,7 +204,7 @@ class Map extends React.Component<MapProps, MapState>{
     handleAreaMoveMinus = () =>{
         let nextArea = 0 == Util.checkAndGetUndifined(this.state.area) ? Util.checkAndGetUndifined(this.state.areas).length-1 : Util.checkAndGetUndifined(this.state.area)-1;
         let area = this.state.areas != null ? this.state.areas[nextArea] : [];
-        let zoomMag = 2.5;
+        let zoomMag = 3;
         this.setState({
             scale: zoomMag,
             x: -area[2]*zoomMag + window.innerWidth/2,
@@ -239,14 +239,14 @@ class Map extends React.Component<MapProps, MapState>{
         return(
             <Background>
                 <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>🔍</ZoomoutBtn>
-                <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={!this.state.isZoom}
+                <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
                     x={this.state.x} y={this.state.y}width={window.innerWidth} height={window.innerHeight}>
                         <Layer>
                             <Image image={this.state.image} offsetX={tmpX} offsetY={window.innerHeight / 2} x={window.innerWidth / 2} y={window.innerHeight / 2} width={width} height={window.innerHeight} />
                         </Layer>
                         {
                             areas.map((area: number[], i)=>
-                                <Area nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
+                                <Area areaId={"ky1g8_gt23"} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
                                     width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
                             )
                         }

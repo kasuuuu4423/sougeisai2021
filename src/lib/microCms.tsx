@@ -8,7 +8,13 @@ interface GetResponse {
     },
 }
 
-export default class micoCms{
+interface GetEvent {
+    "data": {
+        "contents": {[key: string]: string | {[key: string]: string}}[],
+    },
+}
+
+export default class MicroCms{
     public static getPlaceById = (id: string, callback=(res: {})=>{}) =>{
         const url = "https://sougeisai2021.microcms.io/api/v1/place/" + id;
         const queries = { id: '1000' };
@@ -17,6 +23,22 @@ export default class micoCms{
         };
         Axios
             .get<GetResponse>(url, {params: queries, headers: headers})
+            .then(res => {
+                callback(res["data"]);
+                return res;
+            })
+            .catch(error => {
+                return error;
+            });
+    }
+    public static getEventsByAreaId = (areaId: string, callback=(res: {})=>{}) =>{
+        const url = "https://sougeisai2021.microcms.io/api/v1/event";
+        const queries = { filter: 'aria_id[contains]'+areaId };
+        const headers = {
+            "X-API-KEY": XAPIKEY,
+        };
+        Axios
+            .get<GetEvent>(url, {params: queries, headers: headers})
             .then(res => {
                 callback(res["data"]);
                 return res;

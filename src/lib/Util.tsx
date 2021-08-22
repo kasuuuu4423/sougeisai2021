@@ -14,6 +14,17 @@ class Util{
         }
         return variable != null ? variable : false;
     }
+
+    public static getHTMLImage = (path: string, callback: (image: HTMLImageElement)=>void = ()=>{}) =>{
+        let image = new window.Image();
+        image.src = window.location.origin+"/img/"+path;
+        image.onload = () => {
+            // setState will redraw layer
+            // because "image" property is changed
+            callback(image);
+            return image;
+        };
+    }
 }
 
 export default Util;
