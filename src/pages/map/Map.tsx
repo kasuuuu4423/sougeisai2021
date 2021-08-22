@@ -44,13 +44,13 @@ class Map extends React.Component<MapProps, MapState>{
     private static AreaPaths = [
         ["test/test_zoom.png","test/test_zoom2.png",],
         ["test/test_zoom.png","test/test_zoom2.png",],
-        ["test/test_zoom.png","test/test_zoom2.png",],
+        ["test/test_zoom.png","test/test_zoom2.png","test/test.png",],
     ];
     private static AreaPos = [
         [260, 100, -85, 0],
         [180, 100, -120, -120],
         [180, 100, 200, -120],
-    ]
+    ];
 
     constructor(props: MapProps){
         super(props);
@@ -62,8 +62,6 @@ class Map extends React.Component<MapProps, MapState>{
         this.state = {
             width: window.innerWidth,
             height: window.innerHeight,
-            // x: window.innerWidth/2,
-            // y: window.innerHeight/2,
             x: 0,
             y: 0,
             ofX: null,
@@ -176,14 +174,14 @@ class Map extends React.Component<MapProps, MapState>{
     }
 
     handleLavelPlus = () =>{
-        let level = this.state.level != null ? this.state.level+1:0;
+        let level = this.state.level != null ? this.state.level-1:0;
         this.setState({
             level: level,
         });
     }
 
     handleLavelMinus = () =>{
-        let level = this.state.level != null ? this.state.level-1:0;
+        let level = this.state.level != null ? this.state.level+1:0;
         this.setState({
             level: level,
         });
@@ -198,6 +196,7 @@ class Map extends React.Component<MapProps, MapState>{
             x: -area[2]*zoomMag + window.innerWidth/2,
             y: -area[3]*zoomMag + window.innerHeight/2,
             area: nextArea,
+            level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
         });
     }
@@ -211,6 +210,7 @@ class Map extends React.Component<MapProps, MapState>{
             x: -area[2]*zoomMag + window.innerWidth/2,
             y: -area[3]*zoomMag + window.innerHeight/2,
             area: nextArea,
+            level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
         });
     }
@@ -233,7 +233,6 @@ class Map extends React.Component<MapProps, MapState>{
         let width = this.state.image != null ? window.innerHeight*this.state.image.width/this.state.image.height : 0;
         let tmpX = this.state.image != null ? width / 2 : 0;
         let areas: number[][] = Util.checkAndGetUndifined(this.state.areas);
-        let places: [{[key: string]:string}, number, number, number, number][] = [];
         let isZoom = this.state.isZoom != null ? this.state.isZoom : false;
         let level = Util.checkAndGetUndifined(this.state.level);
         let maxLevel = Util.checkAndGetUndifined(this.state.maxLevel);
@@ -252,8 +251,8 @@ class Map extends React.Component<MapProps, MapState>{
                             )
                         }
                 </Stage>
-                {maxLevel-1 > level && <LevelPlusBtn onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
-                {level > 0 && <LevelMinusBtn onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
+                {level > 0 && <LevelPlusBtn onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
+                {maxLevel-1 > level && <LevelMinusBtn onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
                 <AreaMovePlusBtn onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>
                 <AreaMoveMinusBtn onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>
                 <Pane onCloseClick ={this.handlePaneClose} isOpen={this.state.paneState} info={this.state.paneInfo} />

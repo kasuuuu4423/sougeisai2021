@@ -54,7 +54,6 @@ class Area extends React.Component<AreaProps, AreaState>{
                 this.setState({
                     images: images,
                 });
-                console.log(this.state.images);
             });
         });
     }
@@ -96,7 +95,10 @@ class Area extends React.Component<AreaProps, AreaState>{
                 let width = height*image.width/image.height;
                 imagesSize.push([width, height]);
             });
-            floor = <Floor image={images[this.props.level]} ofX={imagesSize[this.props.level][0]/2} ofY={this.props.height/2} x={this.props.x} y={this.props.y} width={imagesSize[this.props.level][0]} height={imagesSize[this.props.level][1]} />;
+            if(imagesSize[this.props.level] != null){
+                floor = <Floor image={images[this.props.level]}
+                ofX={imagesSize[this.props.level][0]/2} ofY={this.props.height/2} x={this.props.x} y={this.props.y} width={imagesSize[this.props.level][0]} height={imagesSize[this.props.level][1]} />;
+            }
         }
 
         return(
