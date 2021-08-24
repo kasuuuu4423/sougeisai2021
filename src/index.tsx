@@ -34,10 +34,11 @@ class Site extends React.Component<{}, SiteState> {
   }
 
   render() {
+    let isZoom = Util.checkAndGetUndifined(this.state.isZoom);
     return (
       <Container className="container">
         {!Util.checkAndGetUndifined(this.state.isZoom) && <Header></Header>}
-        <Main handleIsZoom={this.handleIsZoom} handleIsZoomout={this.handleIsZoomout}></Main>
+        <Main isZoom={isZoom} handleIsZoom={this.handleIsZoom} handleIsZoomout={this.handleIsZoomout}></Main>
       </Container>
     );
   }

@@ -45,14 +45,22 @@ type MapState = {
 class Map extends React.Component<MapProps, MapState>{
     //以下の2つの配列の順番をエリアごとに一致させる
     private static AreaPaths = [
-        ["test/test_zoom.png","test/test_zoom2.png",],
-        ["test/test_zoom.png","test/test_zoom2.png",],
-        ["test/test_zoom.png","test/test_zoom2.png","test/test.png",],
+        ["map/places/c/c_roof.png","map/places/c/c_f4.png","map/places/c/c_f3.png","map/places/c/c_f2.png","map/places/c/c_f1.png"],
+        ["map/places/clover/clover_roof.png","map/places/clover/clover_1.png"],
+        ["map/places/entrance/ent_roof.png","map/places/entrance/ent_f2.png","map/places/entrance/ent_f1.png"],
+        ["map/places/nurse/nurse_roof.png","map/places/nurse/nurse_f5.png","map/places/nurse/nurse_f4.png","map/places/nurse/nurse_f3.png","map/places/nurse/nurse_f2.png","map/places/nurse/nurse_f1.png"],
+        ["map/places/g_h/g_h_roof.png","map/places/g_h/g_h_3.png","map/places/g_h/g_h_2.png","map/places/g_h/g_h_1.png"],
+        ["map/places/a_b/a_b_4.png","map/places/a_b/a_b_3.png","map/places/a_b/a_b_2.png","map/places/a_b/a_b_1.png"],
+        ["map/places/f_senkou/f_senkou_roof.png","map/places/f_senkou/f_senkou_f4.png","map/places/f_senkou/f_senkou_f3.png","map/places/f_senkou/f_senkou_f2.png","map/places/f_senkou/f_senkou_f1.png","map/places/f_senkou/f_senkou_fb1.png"],
     ];
     private static AreaPos = [
-        [260, 100, -85, 0],
-        [180, 100, -120, -120],
-        [180, 100, 200, -120],
+        [119, 34, -161, -11],
+        [155, 53, -19, -3],
+        [176, 55, 19, 142],
+        [155, 197, 279, -170],
+        [125, 155, 52, -160],
+        [193, 71, -107, -155],
+        [124, 65, -265.8, -136],
     ];
 
     constructor(props: MapProps){
@@ -247,6 +255,7 @@ class Map extends React.Component<MapProps, MapState>{
                     x={this.state.x} y={this.state.y}width={window.innerWidth} height={window.innerHeight}>
                         <Layer>
                             <Image image={this.state.image} offsetX={tmpX} offsetY={window.innerHeight / 2} x={window.innerWidth / 2} y={window.innerHeight / 2} width={width} height={window.innerHeight} />
+                            {isZoom && <Rect opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={window.innerHeight / 2} x={window.innerWidth / 2} y={window.innerHeight / 2} width={width} height={window.innerHeight} />}
                         </Layer>
                         {
                             areas.map((area: number[], i)=>

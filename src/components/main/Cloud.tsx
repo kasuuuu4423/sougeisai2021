@@ -42,6 +42,7 @@ type CloudProps = {
     left: string,
     top: string,
     bottom: string,
+    isZoom: boolean,
 };
 
 type CloudState = {};
@@ -61,6 +62,7 @@ class Cloud extends React.Component<CloudProps, CloudState>{
         left: 'auto',
         top: 'auto',
         bottom: 'auto',
+        isZoom: false,
     };
 
     render(){
@@ -71,9 +73,11 @@ class Cloud extends React.Component<CloudProps, CloudState>{
         let size = getRandomArbitrary(150, 280);
         let start = getRandomArbitrary(0, 3);
         let duration = getRandomArbitrary(3, 7);
+
+        let isZoom = Util.checkAndGetUndifined(this.props.isZoom);
         return(
             <div>
-                <_Cloud duration={duration} start={start} size={size} right={this.props.right} left={this.props.left} top={this.props.top} bottom={this.props.bottom} src={src} alt="雲" />
+                {!isZoom && <_Cloud duration={duration} start={start} size={size} right={this.props.right} left={this.props.left} top={this.props.top} bottom={this.props.bottom} src={src} alt="雲" />}
             </div>
         );
     }
