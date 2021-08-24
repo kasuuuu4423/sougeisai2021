@@ -25,6 +25,10 @@ class Util{
             return image;
         };
     }
+
+    public static getImgPath = () =>{
+        return window.location.origin + "/img";
+    }
 }
 
 export default Util;

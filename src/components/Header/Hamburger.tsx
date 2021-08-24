@@ -57,6 +57,18 @@ const WrapHam = styled.div`
     height: 20px;
     margin: ${Margin.M};
     cursor: pointer;
+    &::before{
+        content: "";
+        background-image: url("${window.location.origin}/img/nav/cloud_ham.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: fixed;
+        display: block;
+        width: 100px;
+        height: 80px;
+        left: -10px;
+        top: 77px;
+    }
 `;
 
 type HamProps = {

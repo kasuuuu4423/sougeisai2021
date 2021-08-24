@@ -13,9 +13,10 @@ type WrapNavProps = {
 const WrapNav = styled.nav<WrapNavProps>`
     transition: ${Other.TRANSITION};
     transform: translateX(-100%);
-    height: calc(100vh - 135px);
+    height: calc(100vh - 122px);
     width: 300px;
-    margin-top: 135px;
+    margin-top: 122px;
+    border-radius: 0 10px 0 0;
     background: ${Color.LIGHTGRAY};
     ${(props) =>
         props.isOpen
