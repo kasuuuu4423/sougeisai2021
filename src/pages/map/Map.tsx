@@ -5,7 +5,7 @@ import Konva from "konva";
 import Place from "./Place";
 import Pane from "./Pane";
 import Area from "./Area";
-import { ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn } from "./buttons";
+import { ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn, BtnLabelArea, BtnLabelFloor, InfoBtn } from "./buttons";
 import MicroCms from "../../lib/microCms";
 import Util from "../../lib/Util";
 
@@ -17,7 +17,10 @@ const Background = styled.div`
     background: #319EA7;
 `;
 
-type MapProps = {};
+type MapProps = {
+    handleIsZoom: ()=>void,
+    handleIsZoomout: ()=>void,
+};
 type MapState = {
     width?: number,
     height?: number,
@@ -149,7 +152,7 @@ class Map extends React.Component<MapProps, MapState>{
 
     handleAreaClick = (w: number, h: number, x: number, y: number, areaNum:number) =>{
         if(!this.state.isZoom){
-            let zoomMag = 2.5;
+            let zoomMag = 3;
             this.setState({
                 scale: zoomMag,
                 x: -x*zoomMag + window.innerWidth/2,
@@ -158,6 +161,7 @@ class Map extends React.Component<MapProps, MapState>{
                 area: areaNum,
                 maxLevel: Map.AreaPaths[areaNum].length,
             });
+            this.props.handleIsZoom();
         }
     }
 
@@ -170,6 +174,7 @@ class Map extends React.Component<MapProps, MapState>{
                 level: 0,
                 isZoom: false,
             });
+            this.props.handleIsZoomout();
         }
     }
 
@@ -238,7 +243,6 @@ class Map extends React.Component<MapProps, MapState>{
         let maxLevel = Util.checkAndGetUndifined(this.state.maxLevel);
         return(
             <Background>
-                <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>🔍</ZoomoutBtn>
                 <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
                     x={this.state.x} y={this.state.y}width={window.innerWidth} height={window.innerHeight}>
                         <Layer>
@@ -251,8 +255,12 @@ class Map extends React.Component<MapProps, MapState>{
                             )
                         }
                 </Stage>
+                <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>
+                <InfoBtn isZoom={isZoom}>?</InfoBtn>
+                <BtnLabelFloor isZoom={isZoom}>floor</BtnLabelFloor>
                 {level > 0 && <LevelPlusBtn onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
                 {maxLevel-1 > level && <LevelMinusBtn onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
+                <BtnLabelArea isZoom={isZoom}>area</BtnLabelArea>
                 <AreaMovePlusBtn onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>
                 <AreaMoveMinusBtn onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>
                 <Pane onCloseClick ={this.handlePaneClose} isOpen={this.state.paneState} info={this.state.paneInfo} />

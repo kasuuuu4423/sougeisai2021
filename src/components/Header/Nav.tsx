@@ -1,9 +1,10 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import styled, {css} from "styled-components";
 import Margin from "../../assets/cssVars/Margin";
 import Color from "../../assets/cssVars/Color";
 import Other from "../../assets/cssVars/Other";
 import NavItem from "./NavItem";
+import Util from "../../lib/Util";
 
 type WrapNavProps = {
     isOpen: boolean | false;
@@ -12,10 +13,10 @@ type WrapNavProps = {
 const WrapNav = styled.nav<WrapNavProps>`
     transition: ${Other.TRANSITION};
     transform: translateX(-100%);
-    height: 100vh;
+    height: calc(100vh - 135px);
     width: 300px;
+    margin-top: 135px;
     background: ${Color.LIGHTGRAY};
-    padding: 50px ${Margin.M};
     ${(props) =>
         props.isOpen
             ? css`
@@ -25,9 +26,12 @@ const WrapNav = styled.nav<WrapNavProps>`
 `;
 
 const List = styled.ul`
-    padding: 0;
+    padding: 75px ${Margin.M};
     margin: 0;
-    margin-top: ${Margin.L};
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+    height: 72%;
 `;
 
 type NavState = {
@@ -38,17 +42,20 @@ type NavProps = {
 };
 
 class Nav extends React.Component<NavProps, NavState> {
-    data = [
+    data: {
+        text: string | ReactElement,
+        link: string
+    }[] = [
         {
             text: 'サイトについて',
             link: '#',
         },
         {
-            text: '桑芸祭って何？',
+            text: '桑芸祭2021とは？',
             link: '#',
         },
         {
-            text: 'サイトの使い方',
+            text: 'サイトの歩き方',
             link: '#',
         },
         {
@@ -56,20 +63,28 @@ class Nav extends React.Component<NavProps, NavState> {
             link: '#',
         },
         {
-            text: 'etc...',
+            text: 'アートマーケット',
             link: '#',
         },
+        {
+            text: <img src="" alt="" />,
+            link: 'https://www.scu.ac.jp/',
+        }
     ];
 
     constructor(props: NavProps){
         super(props);
+
+        this.data[5]['text'] = <img src={window.location.origin+'/img/nav/scu.png'} alt="" />;
+        console.log(this.data[5]['text']);
     }
 
     render(){
         let status = this.props.status != null ? this.props.status : false;
         let list: JSX.Element[] = [];
         for(let i in this.data){
-            list.push(<NavItem link={this.data[i].link} text={this.data[i].text}></NavItem>);
+            console.log(i);
+            list.push(<NavItem target={i === "5" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}></NavItem>);
         }
         return(
             <WrapNav isOpen={status}>

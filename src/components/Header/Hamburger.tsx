@@ -52,7 +52,7 @@ const LineBottom = styled(Line)`
 
 const WrapHam = styled.div`
     position: fixed;
-    top: 0;
+    top: 75px;
     width: 35px;
     height: 20px;
     margin: ${Margin.M};

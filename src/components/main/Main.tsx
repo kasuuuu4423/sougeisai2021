@@ -6,7 +6,10 @@ const _Main = styled.main`
     overflow: hidden;
 `;
 
-type MainProps = {};
+type MainProps = {
+    handleIsZoom: ()=>void,
+    handleIsZoomout: ()=>void,
+};
 type MainState = {};
 
 class Main extends React.Component<MainProps, MainState>{
@@ -17,7 +20,7 @@ class Main extends React.Component<MainProps, MainState>{
     render(){
         return(
             <_Main>
-                <Map></Map>
+                <Map handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
             </_Main>
         );
     }
