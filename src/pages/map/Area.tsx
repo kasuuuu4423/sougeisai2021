@@ -196,7 +196,7 @@ class Area extends React.Component<AreaProps, AreaState>{
         return(
             <Layer>
                 {checkNowArea && this.props.areaNum==this.props.nowArea && this.props.isZoom && floor}
-                {hoverImage}
+                {!this.props.isZoom && hoverImage}
                 {checkNowArea || !this.props.isZoom &&
                     <Rect onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick}  onClick={this.handleClick}
                         width={this.props.width} height={this.props.height} onMouseOver={this.handleHover} onMouseOut={this.handleHoverOut}
