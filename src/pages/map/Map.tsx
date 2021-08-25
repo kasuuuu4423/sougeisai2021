@@ -53,13 +53,23 @@ type MapState = {
 class Map extends React.Component<MapProps, MapState>{
     //以下の2つの配列の順番をエリアごとに一致させる
     private static AreaPaths = [
-        ["map/places/c/c_roof.png","map/places/c/c_f4.png","map/places/c/c_f3.png","map/places/c/c_f2.png","map/places/c/c_f1.png"],
-        ["map/places/clover/clover_roof.png","map/places/clover/clover_1.png"],
-        ["map/places/entrance/ent_roof.png","map/places/entrance/ent_f2.png","map/places/entrance/ent_f1.png"],
-        ["map/places/nurse/nurse_roof.png","map/places/nurse/nurse_f5.png","map/places/nurse/nurse_f4.png","map/places/nurse/nurse_f3.png","map/places/nurse/nurse_f2.png","map/places/nurse/nurse_f1.png"],
-        ["map/places/g_h/g_h_roof.png","map/places/g_h/g_h_3.png","map/places/g_h/g_h_2.png","map/places/g_h/g_h_1.png"],
-        ["map/places/a_b/a_b_4.png","map/places/a_b/a_b_3.png","map/places/a_b/a_b_2.png","map/places/a_b/a_b_1.png"],
-        ["map/places/f_senkou/f_senkou_roof.png","map/places/f_senkou/f_senkou_f4.png","map/places/f_senkou/f_senkou_f3.png","map/places/f_senkou/f_senkou_f2.png","map/places/f_senkou/f_senkou_f1.png","map/places/f_senkou/f_senkou_fb1.png"],
+        /*C棟*/ ["map/places/c/c_roof.png","map/places/c/c_f4.png","map/places/c/c_f3.png","map/places/c/c_f2.png","map/places/c/c_f1.png"],
+        /*クローバー棟*/ ["map/places/clover/clover_roof.png","map/places/clover/clover_1.png"],
+        /*エントランス棟*/ ["map/places/entrance/ent_roof.png","map/places/entrance/ent_f2.png","map/places/entrance/ent_f1.png"],
+        /*看護棟*/ ["map/places/nurse/nurse_roof.png","map/places/nurse/nurse_f5.png","map/places/nurse/nurse_f4.png","map/places/nurse/nurse_f3.png","map/places/nurse/nurse_f2.png","map/places/nurse/nurse_f1.png"],
+        /*GH棟*/ ["map/places/g_h/g_h_roof.png","map/places/g_h/g_h_3.png","map/places/g_h/g_h_2.png","map/places/g_h/g_h_1.png"],
+        /*AB棟*/ ["map/places/a_b/a_b_4.png","map/places/a_b/a_b_3.png","map/places/a_b/a_b_2.png","map/places/a_b/a_b_1.png"],
+        /*F専攻科棟*/ ["map/places/f_senkou/f_senkou_roof.png","map/places/f_senkou/f_senkou_f4.png","map/places/f_senkou/f_senkou_f3.png","map/places/f_senkou/f_senkou_f2.png","map/places/f_senkou/f_senkou_f1.png","map/places/f_senkou/f_senkou_fb1.png"],
+    ];
+
+    private static AreaHoverPaths = [
+        /*C棟*/ "map/hovers/hover_c.png",
+        /*クローバー棟*/ "map/hovers/hover_clover.png",
+        /*エントランス棟*/ "map/hovers/hover_entrance.png",
+        /*看護棟*/ "map/hovers/hover_nurse.png",
+        /*GH棟*/ "map/hovers/hover_g_h.png",
+        /*AB棟*/ "map/hovers/hover_a_b.png",
+        /*F専攻科棟*/ "map/hovers/hover_f.png",
     ];
 
     //縦幅でずれてしまうバグ
@@ -71,6 +81,10 @@ class Map extends React.Component<MapProps, MapState>{
         [125, 155, 52, -160],
         [193, 71, -107, -155],
         [124, 65, -265.8, -136],
+    ];
+
+    private static AreaId = [
+
     ];
 
     private isSp: boolean = false;
@@ -293,7 +307,7 @@ class Map extends React.Component<MapProps, MapState>{
                         </Layer>
                         {
                             areas.map((area: number[], i)=>
-                                <Area areaId={"ky1g8_gt23"} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
+                                <Area areaId={"ky1g8_gt23"} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
                                     width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
                             )
                         }

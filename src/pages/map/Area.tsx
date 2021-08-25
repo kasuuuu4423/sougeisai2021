@@ -8,6 +8,7 @@ import { throws } from "assert";
 import Util from "../../lib/Util";
 import MicroCms from "../../lib/microCms";
 import Plan from "./Plan";
+import Other from "../../assets/cssVars/Other";
 //microCMSから情報を取得
 //stateに保存
 //階層を見て，適切なeventを表示
@@ -22,6 +23,7 @@ type AreaProps = {
     x: number,
     y: number,
     images: string[],
+    hoverImage: string,
     onClick: ((w: number, h: number, x: number, y: number, areaNum: number)=>void) | (()=>{}),
     onMouseEnter: ()=>{} | void,
     onMouseLeave: ()=>{} | void,
@@ -35,12 +37,17 @@ type AreaProps = {
 
 type AreaState = {
     images?: HTMLImageElement[],
-    events?: {[key: string]: string | {[key: string]: string}}[][]
+    hoverImage?: HTMLImageElement,
+    events?: {[key: string]: string | {[key: string]: string}}[][],
+    isHover?: boolean,
 };
 
 class Area extends React.Component<AreaProps, AreaState>{
+    private image: Konva.Image | null;
+
     constructor(props: AreaProps){
         super(props);
+        this.image = new Konva.Image({image: undefined});
 
         let eventData: {[key: string]: string | {[key: string]: string}}[][] = [];
         let res = MicroCms.getEventsByAreaId(this.props.areaId, (res: {[key: string]: {[key: string]: string | {[key: string]: string}}[]})=>{
@@ -59,7 +66,9 @@ class Area extends React.Component<AreaProps, AreaState>{
         });
         this.state = {
             images: [],
+            hoverImage: new window.Image(),
             events: eventData,
+            isHover: false,
         };
         let images = this.state.images != null ? this.state.images : [];
         this.props.images.forEach((path)=>{
@@ -68,6 +77,11 @@ class Area extends React.Component<AreaProps, AreaState>{
                 this.setState({
                     images: images,
                 });
+            });
+        });
+        Util.getHTMLImage(this.props.hoverImage, (image: HTMLImageElement)=>{
+            this.setState({
+                hoverImage: image,
             });
         });
     }
@@ -82,6 +96,7 @@ class Area extends React.Component<AreaProps, AreaState>{
         x: 0,
         y: 0,
         images: [],
+        hoverImage: "",
         onClick: ()=>{},
         onMouseEnter: ()=>{},
         onMouseLeave: ()=>{},
@@ -97,6 +112,30 @@ class Area extends React.Component<AreaProps, AreaState>{
 
     handleClick = () =>{
         this.props.onClick(this.props.width, this.props.height, this.props.x, this.props.y, this.props.areaNum);
+    }
+
+    handleHover = () =>{
+        this.setState({
+            isHover: true,
+        });
+        if(this.image != null){
+            this.image.to({
+                opacity: 1,
+                duration: 0.1,
+            });
+        }
+    }
+
+    handleHoverOut = () =>{
+        this.setState({
+            isHover: false,
+        });
+        if(this.image != null){
+            this.image.to({
+                opacity: 0,
+                duration: 0.1,
+            });
+        }
     }
 
     render(){
@@ -115,6 +154,11 @@ class Area extends React.Component<AreaProps, AreaState>{
                 ofX={imagesSize[this.props.level][0]/2} ofY={this.props.height/2} x={this.props.x} y={this.props.y} width={imagesSize[this.props.level][0]} height={imagesSize[this.props.level][1]} />;
             }
         }
+
+        let tmpHoverImage = this.state.hoverImage != null ? this.state.hoverImage : new window.Image();
+        let height = this.props.height;
+        let width = height*tmpHoverImage.width/tmpHoverImage.height;
+        let hoverImage = <Image ref={node=>{this.image = node}} opacity={0} image={tmpHoverImage} offsetX={width/2} offsetY={this.props.height/2} x={this.props.x} y={this.props.y} width={width} height={height} />;
 
         let elmEvent: ReactElement[] = [];
         if(this.state.events != null && Array.isArray(this.state.events[this.props.level])){
@@ -151,11 +195,12 @@ class Area extends React.Component<AreaProps, AreaState>{
         let checkNowArea = this.props.areaNum == this.props.nowArea && this.props.isZoom;
         return(
             <Layer>
-                {checkNowArea && floor}
                 {checkNowArea && this.props.areaNum==this.props.nowArea && this.props.isZoom && floor}
-                {checkNowArea || !this.props.isZoom && <Rect onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick}  onClick={this.handleClick}
-                    stroke="#000" width={this.props.width} height={this.props.height}
-                    offsetX={this.props.width/2} offsetY={this.props.height/2} x={this.props.x} y={this.props.y} />}
+                {hoverImage}
+                {checkNowArea || !this.props.isZoom &&
+                    <Rect onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick}  onClick={this.handleClick}
+                        width={this.props.width} height={this.props.height} onMouseOver={this.handleHover} onMouseOut={this.handleHoverOut}
+                        offsetX={this.props.width/2} offsetY={this.props.height/2} x={this.props.x} y={this.props.y} />}
                 {checkNowArea && elmEvent}
             </Layer>
         );
