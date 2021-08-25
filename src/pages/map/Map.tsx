@@ -8,6 +8,14 @@ import Area from "./Area";
 import { ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn, BtnLabelArea, BtnLabelFloor, InfoBtn } from "./buttons";
 import MicroCms from "../../lib/microCms";
 import Util from "../../lib/Util";
+import { throws } from "assert";
+
+//ToDo
+/*
+イベント関係とモーダル接続
+モーダルデザイン
+タスクあぶり出し
+*/
 
 const Test = styled.div`
     font-size: 50px;
@@ -53,6 +61,8 @@ class Map extends React.Component<MapProps, MapState>{
         ["map/places/a_b/a_b_4.png","map/places/a_b/a_b_3.png","map/places/a_b/a_b_2.png","map/places/a_b/a_b_1.png"],
         ["map/places/f_senkou/f_senkou_roof.png","map/places/f_senkou/f_senkou_f4.png","map/places/f_senkou/f_senkou_f3.png","map/places/f_senkou/f_senkou_f2.png","map/places/f_senkou/f_senkou_f1.png","map/places/f_senkou/f_senkou_fb1.png"],
     ];
+
+    //縦幅でずれてしまうバグ
     private static AreaPos = [
         [119, 34, -161, -11],
         [155, 53, -19, -3],
@@ -63,6 +73,21 @@ class Map extends React.Component<MapProps, MapState>{
         [124, 65, -265.8, -136],
     ];
 
+    private isSp: boolean = false;
+
+    private static MapHeight: {[key: string]: number} = {
+        'pc': 664,
+        'sp': 664,
+    };
+
+    private static MagRate: {[key: string]: number} = {
+        'pc': 3,
+        'sp': 1.7,
+    };
+
+    private _magRate: number = Map.MagRate['pc'];
+    private _mapHeight: number = Map.MapHeight['pc'];
+
     constructor(props: MapProps){
         super(props);
 
@@ -71,8 +96,8 @@ class Map extends React.Component<MapProps, MapState>{
             areas.push([pos[0], pos[1], this.getRelativePostion(pos[2], "x"), this.getRelativePostion(pos[3], "y")]);
         });
         this.state = {
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight,
             x: 0,
             y: 0,
             ofX: null,
@@ -103,6 +128,15 @@ class Map extends React.Component<MapProps, MapState>{
                 image: image
             });
         };
+
+        //スマホ判定
+        this.isSp = document.documentElement.clientWidth < 750 ? true : false;
+
+        if(this.isSp){
+            this._magRate = Map.MagRate['sp'];
+            this._mapHeight = Map.MapHeight['sp'];
+        }
+
         Konva.hitOnDragEnabled = true;
     }
 
@@ -112,8 +146,8 @@ class Map extends React.Component<MapProps, MapState>{
             areas.push([pos[0], pos[1], this.getRelativePostion(pos[2], "x"), this.getRelativePostion(pos[3], "y")]);
         });
         this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight,
             areas:areas,
         });
     }
@@ -160,11 +194,11 @@ class Map extends React.Component<MapProps, MapState>{
 
     handleAreaClick = (w: number, h: number, x: number, y: number, areaNum:number) =>{
         if(!this.state.isZoom){
-            let zoomMag = 3;
+            let zoomMag = this._magRate;
             this.setState({
                 scale: zoomMag,
-                x: -x*zoomMag + window.innerWidth/2,
-                y: -y*zoomMag + window.innerHeight/2,
+                x: -x*zoomMag + document.documentElement.clientWidth/2,
+                y: -y*zoomMag + document.documentElement.clientHeight/2,
                 isZoom: true,
                 area: areaNum,
                 maxLevel: Map.AreaPaths[areaNum].length,
@@ -203,11 +237,11 @@ class Map extends React.Component<MapProps, MapState>{
     handleAreaMovePlus = () =>{
         let nextArea = Util.checkAndGetUndifined(this.state.areas).length-1 == Util.checkAndGetUndifined(this.state.area) ? 0 : Util.checkAndGetUndifined(this.state.area)+1;
         let area = this.state.areas != null ? this.state.areas[nextArea] : [];
-        let zoomMag = 3;
+        let zoomMag = this._magRate;
         this.setState({
             scale: zoomMag,
-            x: -area[2]*zoomMag + window.innerWidth/2,
-            y: -area[3]*zoomMag + window.innerHeight/2,
+            x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
+            y: -area[3]*zoomMag + document.documentElement.clientHeight/2,
             area: nextArea,
             level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
@@ -217,11 +251,11 @@ class Map extends React.Component<MapProps, MapState>{
     handleAreaMoveMinus = () =>{
         let nextArea = 0 == Util.checkAndGetUndifined(this.state.area) ? Util.checkAndGetUndifined(this.state.areas).length-1 : Util.checkAndGetUndifined(this.state.area)-1;
         let area = this.state.areas != null ? this.state.areas[nextArea] : [];
-        let zoomMag = 3;
+        let zoomMag = this._magRate;
         this.setState({
             scale: zoomMag,
-            x: -area[2]*zoomMag + window.innerWidth/2,
-            y: -area[3]*zoomMag + window.innerHeight/2,
+            x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
+            y: -area[3]*zoomMag + document.documentElement.clientHeight/2,
             area: nextArea,
             level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
@@ -235,15 +269,15 @@ class Map extends React.Component<MapProps, MapState>{
     getRelativePostion = (num: number,  mode: string) =>{
         switch(mode){
             case "x":
-                return window.innerWidth/2 + num;
+                return document.documentElement.clientWidth/2 + num;
             case "y":
-                return window.innerHeight/2 + num;
+                return document.documentElement.clientHeight/2 + num;
         }
         return 0;
     }
 
     render(){
-        let width = this.state.image != null ? window.innerHeight*this.state.image.width/this.state.image.height : 0;
+        let width = this.state.image != null ? this._mapHeight*this.state.image.width/this.state.image.height : 0;
         let tmpX = this.state.image != null ? width / 2 : 0;
         let areas: number[][] = Util.checkAndGetUndifined(this.state.areas);
         let isZoom = this.state.isZoom != null ? this.state.isZoom : false;
@@ -252,10 +286,10 @@ class Map extends React.Component<MapProps, MapState>{
         return(
             <Background>
                 <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
-                    x={this.state.x} y={this.state.y}width={window.innerWidth} height={window.innerHeight}>
+                    x={this.state.x} y={this.state.y}width={document.documentElement.clientWidth} height={document.documentElement.clientHeight}>
                         <Layer>
-                            <Image image={this.state.image} offsetX={tmpX} offsetY={window.innerHeight / 2} x={window.innerWidth / 2} y={window.innerHeight / 2} width={width} height={window.innerHeight} />
-                            {isZoom && <Rect opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={window.innerHeight / 2} x={window.innerWidth / 2} y={window.innerHeight / 2} width={width} height={window.innerHeight} />}
+                            <Image image={this.state.image} offsetX={tmpX} offsetY={this._mapHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={this._mapHeight} />
+                            {isZoom && <Rect opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={document.documentElement.clientHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={document.documentElement.clientHeight} />}
                         </Layer>
                         {
                             areas.map((area: number[], i)=>

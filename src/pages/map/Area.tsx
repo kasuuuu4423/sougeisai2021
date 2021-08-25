@@ -154,7 +154,7 @@ class Area extends React.Component<AreaProps, AreaState>{
                 {checkNowArea && floor}
                 {checkNowArea && this.props.areaNum==this.props.nowArea && this.props.isZoom && floor}
                 {checkNowArea || !this.props.isZoom && <Rect onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick}  onClick={this.handleClick}
-                    width={this.props.width} height={this.props.height}
+                    stroke="#000" width={this.props.width} height={this.props.height}
                     offsetX={this.props.width/2} offsetY={this.props.height/2} x={this.props.x} y={this.props.y} />}
                 {checkNowArea && elmEvent}
             </Layer>
