@@ -54,12 +54,13 @@ class Area extends React.Component<AreaProps, AreaState>{
             let data: {[key: string]: string | {[key: string]: string}}[] = res["contents"];
             data.forEach((item) => {
                 if(typeof item["floor"] == "number"){
+                    let floor = parseInt(item["floor"]);
                     if(!Array.isArray(eventData[item["floor"]])){
-                        eventData[item["floor"]] = [];
-                        eventData[item["floor"]].push(item);
+                        eventData[floor] = [];
+                        eventData[floor].push(item);
                     }
                     else{
-                        eventData[item["floor"]].push(item);
+                        eventData[floor].push(item);
                     }
                 }
             });
@@ -163,26 +164,37 @@ class Area extends React.Component<AreaProps, AreaState>{
         let elmEvent: ReactElement[] = [];
         if(this.state.events != null && Array.isArray(this.state.events[this.props.level])){
             let events = this.state.events[this.props.level];
+            console.log(events);
             events.forEach((event)=>{
                 if( typeof event["coord"] == "string" &&
                     typeof event["type"] == "string" &&
                     typeof event["title"] == "string" &&
                     typeof event["introduction"] == "string" &&
                     typeof event["onAir_at"] == "string" &&
+                    typeof event["offAir_at"] == "string" &&
                     typeof event["onAir_link"] == "string" &&
-                    typeof event["archive_link"] == "string" &&
                     typeof event["group"] == "object"
                 ){
+                    console.log(event);
                     let coord = event["coord"].split(",");
                     let x = parseInt(coord[0]);
                     let y = parseInt(coord[1]);
+                    let archiveLink: string = "";
+                    if(typeof event["archive_link"] == "string"){
+                        archiveLink = event["archive_link"];
+                    }
+                    let imageUrl: string = "";
+                    if(typeof event["image"] == "object" && typeof event["image"]["url"] == "string"){
+                        imageUrl = event["image"]["url"];
+                    }
                     elmEvent.push(
                         <Plan type={event["type"]}
                             title={event["title"]}
                             introduction={event["introduction"]} 
                             onAirAt={event["onAir_at"]}
+                            offAirAt={event["offAir_at"]}
                             onAirLink={event["onAir_link"]}
-                            archiveLink={event["archive_link"]}
+                            archiveLink={archiveLink}
                             group={event["group"]}
                             x={this.props.x + x}
                             y={this.props.y + y}

@@ -84,7 +84,13 @@ class Map extends React.Component<MapProps, MapState>{
     ];
 
     private static AreaId = [
-
+        "area_c",
+        "area_clover",
+        "area_entrance",
+        "area_nurse",
+        "area_gh",
+        "area_ab",
+        "area_ef",
     ];
 
     private isSp: boolean = false;
@@ -307,7 +313,7 @@ class Map extends React.Component<MapProps, MapState>{
                         </Layer>
                         {
                             areas.map((area: number[], i)=>
-                                <Area areaId={"ky1g8_gt23"} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
+                                <Area areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
                                     width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
                             )
                         }

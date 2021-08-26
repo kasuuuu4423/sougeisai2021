@@ -77,14 +77,12 @@ class Nav extends React.Component<NavProps, NavState> {
         super(props);
 
         this.data[5]['text'] = <img src={window.location.origin+'/img/nav/scu.png'} alt="" />;
-        console.log(this.data[5]['text']);
     }
 
     render(){
         let status = this.props.status != null ? this.props.status : false;
         let list: JSX.Element[] = [];
         for(let i in this.data){
-            console.log(i);
             list.push(<NavItem target={i === "5" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}></NavItem>);
         }
         return(

@@ -9,6 +9,7 @@ type EventProps = {
     title: string,
     introduction: string,
     onAirAt: string,
+    offAirAt: string,
     onAirLink: string,
     archiveLink: string,
     group: {[key: string]: string},
@@ -35,13 +36,14 @@ class Plan extends React.Component<EventProps, EventState>{
             this.setState({eventIcon: image});
         });
         Util.getHTMLImage("test/heart.png", (image)=>{
-            this.setState({eventIcon: image});
+            this.setState({cmIcon: image});
         });
     }
     
     render(){
         let icons: {[key: string]: HTMLImageElement} = {
             'event': Util.checkAndGetUndifined(this.state.eventIcon),
+            'cm': Util.checkAndGetUndifined(this.state.cmIcon),
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
