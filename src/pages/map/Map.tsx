@@ -3,7 +3,6 @@ import styled, {css, CSSProperties} from "styled-components";
 import { Layer, Rect, Stage, Image } from "react-konva";
 import Konva from "konva";
 import Place from "./Place";
-import Pane from "./Pane";
 import Area from "./Area";
 import { ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn, BtnLabelArea, BtnLabelFloor, InfoBtn } from "./buttons";
 import MicroCms from "../../lib/microCms";
@@ -28,6 +27,9 @@ const Background = styled.div`
 type MapProps = {
     handleIsZoom: ()=>void,
     handleIsZoomout: ()=>void,
+    handleOpenModal: (info: {[key: string]: string})=>void,
+    handleCloseModal: ()=>void,
+    modalIsOpen: boolean,
 };
 type MapState = {
     width?: number,
@@ -38,8 +40,6 @@ type MapState = {
     ofY?: number | null,
     image?: HTMLImageElement,
     cursor?: CSSProperties,
-    paneInfo?: {[key: string]: string},
-    paneState?: boolean,
     scale?: number,
     isZoom?: boolean,
     level?: number,
@@ -126,8 +126,6 @@ class Map extends React.Component<MapProps, MapState>{
             cursor: {
                 cursor: "grab",
             },
-            paneInfo: {},
-            paneState: false,
             scale: 1,
             isZoom: false,
             level: 0,
@@ -196,22 +194,6 @@ class Map extends React.Component<MapProps, MapState>{
         });
     }
 
-    handlePlaceClick = (info:{[key: string]: string}) =>{
-        const id = info["id"];
-        let res = MicroCms.getPlaceById(id, (res: {[key: string]: string})=>{
-            this.setState({
-                paneInfo: res,
-                paneState: true
-            });
-        });
-    }
-
-    handlePaneClose = () =>{
-        this.setState({
-            paneState: false,
-        });
-    }
-
     handleAreaClick = (w: number, h: number, x: number, y: number, areaNum:number) =>{
         if(!this.state.isZoom){
             let zoomMag = this._magRate;
@@ -237,6 +219,7 @@ class Map extends React.Component<MapProps, MapState>{
                 isZoom: false,
             });
             this.props.handleIsZoomout();
+            this.props.handleCloseModal();
         }
     }
 
@@ -282,6 +265,12 @@ class Map extends React.Component<MapProps, MapState>{
         });
     }
 
+    handleClickStage = () =>{
+        if(this.props.modalIsOpen){
+            this.props.handleCloseModal();
+        }
+    }
+
     moveStageTo = (x: number, y: number) =>{
         this.setState({x: x, y: y});
     }
@@ -309,24 +298,23 @@ class Map extends React.Component<MapProps, MapState>{
                     x={this.state.x} y={this.state.y}width={document.documentElement.clientWidth} height={document.documentElement.clientHeight}>
                         <Layer>
                             <Image image={this.state.image} offsetX={tmpX} offsetY={this._mapHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={this._mapHeight} />
-                            {isZoom && <Rect opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={document.documentElement.clientHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={document.documentElement.clientHeight} />}
+                            {isZoom && <Rect onClick={this.handleClickStage} opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={document.documentElement.clientHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={document.documentElement.clientHeight} />}
                         </Layer>
                         {
                             areas.map((area: number[], i)=>
-                                <Area areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
+                                <Area handleOpenModal={this.props.handleOpenModal} areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
                                     width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
                             )
                         }
                 </Stage>
                 <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>
-                <InfoBtn isZoom={isZoom}>?</InfoBtn>
+                {/* <InfoBtn isZoom={isZoom}>?</InfoBtn> */}
                 <BtnLabelFloor isZoom={isZoom}>floor</BtnLabelFloor>
                 {level > 0 && <LevelPlusBtn onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
                 {maxLevel-1 > level && <LevelMinusBtn onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
                 <BtnLabelArea isZoom={isZoom}>area</BtnLabelArea>
                 <AreaMovePlusBtn onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>
                 <AreaMoveMinusBtn onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>
-                <Pane onCloseClick ={this.handlePaneClose} isOpen={this.state.paneState} info={this.state.paneInfo} />
             </Background>
         );
     }

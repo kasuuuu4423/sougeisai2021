@@ -33,6 +33,7 @@ type AreaProps = {
     areaNum: number,
     nowArea: number,
     maxLevel: number,
+    handleOpenModal: (info: {[key: string]: string})=>void,
 };
 
 type AreaState = {
@@ -109,6 +110,7 @@ class Area extends React.Component<AreaProps, AreaState>{
         areaNum: 0,
         nowArea: 0,
         maxLevel: 1,
+        handleOpenModal: ()=>{},
     };
 
     handleClick = () =>{
@@ -168,18 +170,17 @@ class Area extends React.Component<AreaProps, AreaState>{
             events.forEach((event)=>{
                 if( typeof event["coord"] == "string" &&
                     typeof event["type"] == "string" &&
-                    typeof event["title"] == "string" &&
                     typeof event["introduction"] == "string" &&
-                    typeof event["onAir_at"] == "string" &&
-                    typeof event["offAir_at"] == "string" &&
                     typeof event["onAir_link"] == "string" &&
                     typeof event["group"] == "object"
                 ){
-                    console.log(event);
                     let coord = event["coord"].split(",");
                     let x = parseInt(coord[0]);
                     let y = parseInt(coord[1]);
                     let archiveLink: string = "";
+                    let title: string = "";
+                    let onAirAt: string = "";
+                    let offAirAt: string = "";
                     if(typeof event["archive_link"] == "string"){
                         archiveLink = event["archive_link"];
                     }
@@ -187,18 +188,29 @@ class Area extends React.Component<AreaProps, AreaState>{
                     if(typeof event["image"] == "object" && typeof event["image"]["url"] == "string"){
                         imageUrl = event["image"]["url"];
                     }
+                    if(typeof event["title"] == "string"){
+                        title = event["title"];
+                    }
+                    if(typeof event["onAir_at"] == "string" &&
+                        typeof event["offAir_at"] == "string"){
+                        onAirAt = event["onAir_at"];
+                        offAirAt = event["offAir_at"];
+                    }
                     elmEvent.push(
                         <Plan type={event["type"]}
-                            title={event["title"]}
+                            title={title}
                             introduction={event["introduction"]} 
-                            onAirAt={event["onAir_at"]}
-                            offAirAt={event["offAir_at"]}
+                            onAirAt={onAirAt}
+                            offAirAt={offAirAt}
                             onAirLink={event["onAir_link"]}
                             archiveLink={archiveLink}
                             group={event["group"]}
                             x={this.props.x + x}
                             y={this.props.y + y}
-                            />
+                            handleOpenModal={this.props.handleOpenModal}
+                            onMouseEnter={this.props.onMouseEnter}
+                            onMouseLeave={this.props.onMouseLeave}
+                        />
                     );
                 }
             });

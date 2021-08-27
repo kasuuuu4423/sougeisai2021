@@ -13,11 +13,14 @@ type EventProps = {
     onAirLink: string,
     archiveLink: string,
     group: {[key: string]: string},
+    handleOpenModal: (info: {[key: string]: string})=>void,
+    onMouseEnter: ()=>{} | void,
+    onMouseLeave: ()=>{} | void,
 };
 type EventState = {
     eventIcon?: HTMLImageElement,
     cmIcon?: HTMLImageElement,
-    martIcon?: HTMLImageElement,
+    marketIcon?: HTMLImageElement,
     altIcon?: HTMLImageElement,
 };
 
@@ -29,7 +32,7 @@ class Plan extends React.Component<EventProps, EventState>{
             //企画　CM、アートマ、オルタナ
             eventIcon: new window.Image(),
             cmIcon: new window.Image(),
-            martIcon: new window.Image(),
+            marketIcon: new window.Image(),
             altIcon: new window.Image(),
         };
         Util.getHTMLImage("test/star.png", (image)=>{
@@ -38,16 +41,40 @@ class Plan extends React.Component<EventProps, EventState>{
         Util.getHTMLImage("test/heart.png", (image)=>{
             this.setState({cmIcon: image});
         });
+        Util.getHTMLImage("test/heart.png", (image)=>{
+            this.setState({marketIcon: image});
+        });
+        Util.getHTMLImage("test/heart.png", (image)=>{
+            this.setState({altIcon: image});
+        });
+    }
+
+    handleClick = () =>{
+        this.props.handleOpenModal({
+            type: this.props.type,
+            title: this.props.title,
+            introduction: this.props.introduction,
+            onAirAt: this.props.onAirAt,
+            offAirAt: this.props.offAirAt,
+            onAirLink: this.props.onAirLink,
+            archiveLink: this.props.archiveLink,
+            groupName: this.props.group['name'],
+            groupPlace: this.props.group['act_at'],
+            groupTwitter: this.props.group['twitter'],
+            groupInstagram: this.props.group['instagram'],
+        });
     }
     
     render(){
         let icons: {[key: string]: HTMLImageElement} = {
             'event': Util.checkAndGetUndifined(this.state.eventIcon),
             'cm': Util.checkAndGetUndifined(this.state.cmIcon),
+            'market': Util.checkAndGetUndifined(this.state.marketIcon),
+            'alt': Util.checkAndGetUndifined(this.state.altIcon),
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
-            <Image image={image}  x={this.props.x} y={this.props.y} width={20} height={20} ></Image>
+            <Image onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onClick={this.handleClick} image={image}  x={this.props.x} y={this.props.y} width={20} height={20} ></Image>
         );
     }
 }
