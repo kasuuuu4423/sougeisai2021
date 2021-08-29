@@ -166,7 +166,6 @@ class Area extends React.Component<AreaProps, AreaState>{
         let elmEvent: ReactElement[] = [];
         if(this.state.events != null && Array.isArray(this.state.events[this.props.level])){
             let events = this.state.events[this.props.level];
-            console.log(events);
             events.forEach((event)=>{
                 if( typeof event["coord"] == "string" &&
                     typeof event["type"] == "string" &&

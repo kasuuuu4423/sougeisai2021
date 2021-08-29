@@ -6,6 +6,77 @@ import Other from "../../assets/cssVars/Other";
 import NavItem from "./NavItem";
 import Util from "../../lib/Util";
 
+type NavState = {
+};
+
+type NavProps = {
+    status?: boolean,
+    handleOpenTImetable: ()=>void,
+    itemOnClick: ()=>void,
+};
+
+class Nav extends React.Component<NavProps, NavState> {
+    data: {
+        text: string | ReactElement,
+        link: string,
+        onClick: ()=>void,
+    }[] = [
+        {
+            text: 'サイトについて',
+            link: '#',
+            onClick: this.props.itemOnClick
+        },
+        {
+            text: '桑芸祭2021とは？',
+            link: '#',
+            onClick: this.props.itemOnClick
+        },
+        {
+            text: 'サイトの歩き方',
+            link: '#',
+            onClick: this.props.itemOnClick
+        },
+        {
+            text: 'イベントタイムテーブル',
+            link: '#',
+            onClick: this.props.handleOpenTImetable,
+        },
+        {
+            text: 'アートマーケット',
+            link: '#',
+            onClick: this.props.itemOnClick
+        },
+        {
+            text: <img src="" alt="" />,
+            link: 'https://www.scu.ac.jp/',
+            onClick: this.props.itemOnClick
+        }
+    ];
+
+    constructor(props: NavProps){
+        super(props);
+
+        this.data[5]['text'] = <img src={window.location.origin+'/img/nav/scu.png'} alt="" />;
+    }
+
+    render(){
+        let status = this.props.status != null ? this.props.status : false;
+        let list: JSX.Element[] = [];
+        for(let i in this.data){
+            list.push(<NavItem onClick={this.data[i].onClick} target={i === "5" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}></NavItem>);
+        }
+        return(
+            <WrapNav isOpen={status}>
+                <List>
+                    {list}
+                </List>
+            </WrapNav>
+        );
+    }
+}
+
+export default Nav;
+
 type WrapNavProps = {
     isOpen: boolean | false;
 };
@@ -34,65 +105,3 @@ const List = styled.ul`
     flex-wrap: wrap;
     height: 72%;
 `;
-
-type NavState = {
-};
-
-type NavProps = {
-    status?: boolean,
-};
-
-class Nav extends React.Component<NavProps, NavState> {
-    data: {
-        text: string | ReactElement,
-        link: string
-    }[] = [
-        {
-            text: 'サイトについて',
-            link: '#',
-        },
-        {
-            text: '桑芸祭2021とは？',
-            link: '#',
-        },
-        {
-            text: 'サイトの歩き方',
-            link: '#',
-        },
-        {
-            text: 'イベントタイムテーブル',
-            link: '#',
-        },
-        {
-            text: 'アートマーケット',
-            link: '#',
-        },
-        {
-            text: <img src="" alt="" />,
-            link: 'https://www.scu.ac.jp/',
-        }
-    ];
-
-    constructor(props: NavProps){
-        super(props);
-
-        this.data[5]['text'] = <img src={window.location.origin+'/img/nav/scu.png'} alt="" />;
-    }
-
-    render(){
-        let status = this.props.status != null ? this.props.status : false;
-        let list: JSX.Element[] = [];
-        for(let i in this.data){
-            list.push(<NavItem target={i === "5" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}></NavItem>);
-        }
-        return(
-            <WrapNav isOpen={status}>
-                <List>
-                    {list}
-                </List>
-            </WrapNav>
-        );
-    }
-}
-
-export default Nav;

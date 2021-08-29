@@ -307,14 +307,14 @@ class Map extends React.Component<MapProps, MapState>{
                             )
                         }
                 </Stage>
-                <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>
+                {isZoom && <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>}
                 {/* <InfoBtn isZoom={isZoom}>?</InfoBtn> */}
-                <BtnLabelFloor isZoom={isZoom}>floor</BtnLabelFloor>
-                {level > 0 && <LevelPlusBtn onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
-                {maxLevel-1 > level && <LevelMinusBtn onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
-                <BtnLabelArea isZoom={isZoom}>area</BtnLabelArea>
-                <AreaMovePlusBtn onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>
-                <AreaMoveMinusBtn onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>
+                {isZoom && <BtnLabelFloor isZoom={isZoom}>floor</BtnLabelFloor>}
+                {isZoom && level > 0 && <LevelPlusBtn onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
+                {isZoom && maxLevel-1 > level && <LevelMinusBtn onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
+                {isZoom && <BtnLabelArea isZoom={isZoom}>area</BtnLabelArea>}
+                {isZoom && <AreaMovePlusBtn onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>}
+                {isZoom && <AreaMoveMinusBtn onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>}
             </Background>
         );
     }

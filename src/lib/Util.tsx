@@ -29,6 +29,10 @@ class Util{
     public static getImgPath = () =>{
         return window.location.origin + "/img";
     }
+
+    public static checkType = (s: any, type: string) =>{
+        return typeof s == type ? s : "";
+    }
 }
 
 export default Util;

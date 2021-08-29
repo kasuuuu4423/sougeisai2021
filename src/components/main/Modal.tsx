@@ -8,7 +8,8 @@ import Other from "../../assets/cssVars/Other";
 
 type ModalProps = {
     isOpen: boolean,
-    info: {[key: string]: string},
+    info: {[key: string]: string} | {[key: string]: string | {[key: string]: string}}[],
+    handleCloseModal: ()=>void,
     /*
     type: this.props.type,
     title: this.props.title,
@@ -33,9 +34,15 @@ class Modal extends React.Component<ModalProps, ModalState>{
         super(props);
     }
 
+    static defaultProps: ModalProps = {
+        isOpen: false,
+        info: {},
+        handleCloseModal: ()=>{},
+    };
+
     render(){
         let item: ReactElement = <div></div>;
-        if(this.props.info['type']){
+        if(!(this.props.info instanceof  Array) && this.props.info['type']){
             item = this.getModalContent(this.props.info);
         }
 
@@ -51,6 +58,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
             case 'event':
                 return <div className="container event">
                     <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <h1>{info['title']}</h1>
                     <dl>
                         <div className="wrap_groupe">
@@ -90,6 +98,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
             case 'market':
                 return <div className="container event">
                     <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <h1>アートマーケット</h1>
                     <dl>
                         <div className="wrap_groupe">
@@ -122,6 +131,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
             case 'cm':
                 return <div className="container event">
                     <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <h1>CM</h1>
                     <dl>
                         <div className="wrap_groupe">
@@ -161,6 +171,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
             case 'alt':
                 return <div className="container event">
                     <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <h1>オルタナティブ</h1>
                     <dl>
                         <div className="wrap_groupe">
@@ -198,12 +209,10 @@ class Modal extends React.Component<ModalProps, ModalState>{
 
 export default Modal;
 
-
-
 type _ModalProps = {
     isOpen: boolean,
 };
-const _Modal = styled.div<_ModalProps>`
+export const _Modal = styled.div<_ModalProps>`
     position: fixed;
     top: 50%;
     right: 30px;
@@ -234,7 +243,7 @@ const _Modal = styled.div<_ModalProps>`
         padding: 20px;
         display: grid;
         row-gap: 10px;
-        grid-template-rows: 2rem calc(80vh - 2rem);
+        grid-template-rows: 4rem calc(80vh - 4rem);
         .back{
             position: absolute;
             z-index: -1;
@@ -246,15 +255,24 @@ const _Modal = styled.div<_ModalProps>`
             border: solid 3px ${Color.WHITE};
             border-radius: 10px;
         }
+        .x{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            transform: translate(-50%, -50%);
+            img{
+                width: 100%;
+            }
+        }
         dl{
             overflow-y: scroll;
             height: 100%;
             margin: 0;
         }
-    }
-    .event{
         h1{
             text-align: center;
+            align-self: center;
             margin: 0;
         }
         dl{
@@ -354,6 +372,9 @@ const _Modal = styled.div<_ModalProps>`
                     margin: 0;
                 }
             }
+        }
+        ul{
+            padding-left: 55px;
         }
     }
 `;

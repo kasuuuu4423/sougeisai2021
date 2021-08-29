@@ -5,25 +5,9 @@ import Color from "../../assets/cssVars/Color";
 import Hamburger from "./Hamburger";
 import Nav from "./Nav";
 
-type _HeaderProps = {
-    isOpen: boolean,
+type HeaderProps = {
+    handleOpenTImetable: ()=>void,
 };
-
-const _Header = styled.header<_HeaderProps>`
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1;
-    width: 0;
-    ${(props) =>
-        props.isOpen
-            ? css`
-                width: auto;
-            `
-    :''}
-`;
-
-type HeaderProps = {};
 
 type HeaderState = {
     status?: boolean,
@@ -41,11 +25,16 @@ class Header extends React.Component<HeaderProps, HeaderState>{
         this.setState({status: !this.state.status});
     }
 
+    toggleStatusAndOpenTimetable = () =>{
+        this.toggleStatus();
+        this.props.handleOpenTImetable();
+    }
+
     render(){
         let status = this.state.status != null ? this.state.status : false;
         return(
             <_Header isOpen={status} >
-                <Nav status={this.state.status} ></Nav>
+                <Nav itemOnClick={this.toggleStatus} handleOpenTImetable={this.toggleStatusAndOpenTimetable} status={this.state.status} ></Nav>
                 <Hamburger status={this.state.status} toggleState={this.toggleStatus} ></Hamburger>
             </_Header>
         );
@@ -53,3 +42,21 @@ class Header extends React.Component<HeaderProps, HeaderState>{
 }
 
 export default Header;
+
+type _HeaderProps = {
+    isOpen: boolean,
+};
+
+const _Header = styled.header<_HeaderProps>`
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 0;
+    ${(props) =>
+        props.isOpen
+            ? css`
+                width: auto;
+            `
+    :''}
+`;

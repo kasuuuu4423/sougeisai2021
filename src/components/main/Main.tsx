@@ -5,6 +5,8 @@ import Cloud from "./Cloud";
 import Modal from "./Modal";
 import Top from "../../pages/top/Top";
 import Util from "../../lib/Util";
+import Timetable from "./Timetable";
+import { time } from "console";
 
 const _Main = styled.main`
     overflow: hidden;
@@ -14,6 +16,9 @@ type MainProps = {
     handleIsZoom: ()=>void,
     handleIsZoomout: ()=>void,
     isZoom: boolean,
+    timetableIsOpen?: boolean,
+    handleOpenTimetalbe: ()=>void,
+    handleCloseTimetalbe: ()=>void,
 };
 type MainState = {
     modalIsOpen?: boolean,
@@ -44,16 +49,21 @@ class Main extends React.Component<MainProps, MainState>{
         });
     }
 
+    handleCloseTimetable = () =>{
+    }
+
     render(){
         let width = document.body.clientWidth;
         let mediaQuery = width > 750;
         let modalIsOpen = Util.checkAndGetUndifined(this.state.modalIsOpen);
         let modalInfo = this.state.modalInfo != null ? this.state.modalInfo : {};
+        const timetableIsOpen = this.props.timetableIsOpen != null ? this.props.timetableIsOpen : false;
         return(
             <_Main>
                 {/* <Top></Top> */}
                 <Map modalIsOpen={modalIsOpen} handleOpenModal={this.handleOpenModal} handleCloseModal={this.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
-                <Modal info={modalInfo} isOpen={modalIsOpen}></Modal>
+                <Modal handleCloseModal={this.handleCloseModal} info={modalInfo} isOpen={modalIsOpen}></Modal>
+                <Timetable handleCloseTimetable={this.props.handleCloseTimetalbe} isOpen={timetableIsOpen} handleOpenModal={this.handleOpenModal} handleCloseModal={this.handleCloseModal}></Timetable>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[0].toString() + "px"} top={this.cloud_y[0].toString() + "px"} ></Cloud>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[1].toString() + "px"} bottom={this.cloud_y[1].toString() + "px"} ></Cloud>
                 {mediaQuery && <Cloud isZoom={this.props.isZoom} cloudNum={3} left={this.cloud_x[2].toString() + "px"} bottom={this.cloud_y[2].toString() + "px"} ></Cloud>}

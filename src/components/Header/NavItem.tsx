@@ -28,6 +28,7 @@ type NavItemProps = {
     link?: string,
     text?: string | ReactElement,
     target: string,
+    onClick: ()=>void,
 };
 
 class NavItem extends React.Component<NavItemProps>{
@@ -37,12 +38,13 @@ class NavItem extends React.Component<NavItemProps>{
 
     static defaultProps: NavItemProps = {
         target: "",
+        onClick: ()=>{}
     }
 
     render(){
         return(
             <ListItem>
-                <Anker target={this.props.target} href={this.props.link}>
+                <Anker onClick={this.props.onClick} target={this.props.target} href={this.props.link}>
                     {this.props.text}
                 </Anker>
             </ListItem>

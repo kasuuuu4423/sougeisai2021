@@ -35,16 +35,16 @@ class Plan extends React.Component<EventProps, EventState>{
             marketIcon: new window.Image(),
             altIcon: new window.Image(),
         };
-        Util.getHTMLImage("test/star.png", (image)=>{
+        Util.getHTMLImage("main/modal/icons/event.png", (image)=>{
             this.setState({eventIcon: image});
         });
-        Util.getHTMLImage("test/heart.png", (image)=>{
+        Util.getHTMLImage("main/modal/icons/cm.png", (image)=>{
             this.setState({cmIcon: image});
         });
-        Util.getHTMLImage("test/heart.png", (image)=>{
+        Util.getHTMLImage("main/modal/icons/market.png", (image)=>{
             this.setState({marketIcon: image});
         });
-        Util.getHTMLImage("test/heart.png", (image)=>{
+        Util.getHTMLImage("main/modal/icons/alt.png", (image)=>{
             this.setState({altIcon: image});
         });
     }
@@ -74,7 +74,7 @@ class Plan extends React.Component<EventProps, EventState>{
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
-            <Image onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onClick={this.handleClick} image={image}  x={this.props.x} y={this.props.y} width={20} height={20} ></Image>
+            <Image onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onClick={this.handleClick} image={image}  x={this.props.x} y={this.props.y} width={15} height={15} ></Image>
         );
     }
 }
