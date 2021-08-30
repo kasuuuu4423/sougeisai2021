@@ -5,12 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
 import Other from "../../assets/cssVars/Other";
-import {Title, Group, Introduction, Image, Links} from "./ModalItems";
+import {Title, Group, Introduction, Image, Links, ToTimetable} from "./ModalItems";
 
 type ModalProps = {
     isOpen: boolean,
     info: {[key: string]: string} | {[key: string]: string | {[key: string]: string}}[],
     handleCloseModal: ()=>void,
+    handleOpenTimetable: ()=>void,
     /*
     type: this.props.type,
     title: this.props.title,
@@ -39,16 +40,19 @@ class Modal extends React.Component<ModalProps, ModalState>{
         isOpen: false,
         info: {},
         handleCloseModal: ()=>{},
+        handleOpenTimetable: ()=>{},
     };
 
     render(){
         let item: ReactElement = <div></div>;
+        let type: string = "";
         if(!(this.props.info instanceof  Array) && this.props.info['type']){
             item = this.getModalContent(this.props.info);
+            type = this.props.info['type'];
         }
 
         return(
-            <_Modal isOpen={this.props.isOpen}>
+            <_Modal className={type} isOpen={this.props.isOpen}>
                 {item}
             </_Modal>
         );
@@ -69,10 +73,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>
-                        <div className="toTimetable">
-                            <span>その他のイベントタイムスケジュールへ</span>
-                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
-                        </div>
+                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'showcase':
@@ -88,10 +89,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>
-                        <div className="toTimetable">
-                            <span>その他のイベントタイムスケジュールへ</span>
-                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
-                        </div>
+                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'market':
@@ -121,10 +119,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>
-                        <div className="toTimetable">
-                            <span>その他のイベントタイムスケジュールへ</span>
-                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
-                        </div>
+                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'alt':
@@ -139,10 +134,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Links title="" Links={{
                             '掲載LINK': info['onAirLink'],
                         }}/>
-                        <div className="toTimetable">
-                            <span>その他のイベントタイムスケジュールへ</span>
-                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
-                        </div>
+                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'circle':
@@ -154,10 +146,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Group status="あｓｄふぁｓｄ" hideDd={true} hideDt={true} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        <div className="toTimetable">
-                            <span>その他のイベントタイムスケジュールへ</span>
-                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
-                        </div>
+                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'easter':
@@ -210,6 +199,24 @@ export const _Modal = styled.div<_ModalProps>`
                 transform: translate(0%, -50%);
             `
     :''}
+    &.event, &.showcase{
+        background: ${Color.BLUEGREEN};
+    }
+    &.circle{
+        background: ${Color.CIRCLE};
+    }
+    &.easter{
+        background: ${Color.EASTER};
+    }
+    &.market{
+        background: ${Color.MARKET};
+    }
+    &.photo{
+        background: ${Color.PHOTO};
+    }
+    &.lab{
+        background: ${Color.LAB};
+    }
     a{
         color: ${Color.WHITE};
         text-decoration: none;
@@ -264,20 +271,6 @@ export const _Modal = styled.div<_ModalProps>`
             dd{
                 text-align: left;
                 margin-left: 20px;
-            }
-            .toTimetable{
-                display: grid;
-                grid-template-columns: 1fr 2rem;
-                column-gap: 10px;
-                align-items: center;
-                width: 100%;
-                span{
-                    text-align: right;
-                }
-                .btn_toTimetable{
-                    cursor: pointer;
-                    margin: 0;
-                }
             }
         }
         ul{

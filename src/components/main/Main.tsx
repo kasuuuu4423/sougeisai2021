@@ -50,7 +50,7 @@ class Main extends React.Component<MainProps, MainState>{
             <_Main>
                 {/* <Top></Top> */}
                 <Map modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
-                <Modal handleCloseModal={this.props.handleCloseModal} info={this.props.modalInfo} isOpen={modalIsOpen}></Modal>
+                <Modal handleOpenTimetable={this.props.handleOpenTimetalbe} handleCloseModal={this.props.handleCloseModal} info={this.props.modalInfo} isOpen={modalIsOpen}></Modal>
                 <Timetable handleCloseTimetable={this.props.handleCloseTimetalbe} isOpen={timetableIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal}></Timetable>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[0].toString() + "px"} top={this.cloud_y[0].toString() + "px"} ></Cloud>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[1].toString() + "px"} bottom={this.cloud_y[1].toString() + "px"} ></Cloud>

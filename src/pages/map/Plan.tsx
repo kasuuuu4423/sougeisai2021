@@ -113,7 +113,7 @@ class Plan extends React.Component<EventProps, EventState>{
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
-            <Image onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onClick={this.handleClick} image={image}  x={this.props.x} y={this.props.y} width={15} height={15} ></Image>
+            <Image onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onClick={this.handleClick} image={image}  x={this.props.x} y={this.props.y} width={13} height={13} ></Image>
         );
     }
 }

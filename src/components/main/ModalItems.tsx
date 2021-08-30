@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import {faClock} from "@fortawesome/free-solid-svg-icons";
+import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
 import React from "react";
 import styled, {css} from "styled-components";
 import Color from "../../assets/cssVars/Color";
@@ -184,7 +185,6 @@ export class Introduction extends React.Component<IntroductionProps>{
     };
 
     render(){
-        console.log(this.props.hideTitle);
         return(
             <_Introduction>
                 {!this.props.hideTitle && <dt>説明</dt>}
@@ -275,6 +275,44 @@ export class Links extends React.Component<LinksProps>{
                     })}
                 </dd>
             </_Links>
+        );
+    }
+}
+
+type ToTimetableProps = {
+    handleOpenTimetable: ()=>void,
+};
+
+const _ToTimetable = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 2rem;
+    column-gap: 10px;
+    align-items: center;
+    width: 100%;
+    span{
+        text-align: right;
+    }
+    .btn_toTimetable{
+        cursor: pointer;
+        margin: 0;
+    }
+`;
+
+export class ToTimetable extends React.Component<ToTimetableProps>{
+    constructor(props: ToTimetableProps){
+        super(props);
+    }
+
+    static defaultProps: ToTimetableProps = {
+        handleOpenTimetable: ()=>{},
+    };
+
+    render(){
+        return(
+            <_ToTimetable onClick={this.props.handleOpenTimetable}>
+                <span>その他のイベントタイムスケジュールへ</span>
+                <div className="btn_toTimetable"><FontAwesomeIcon style={iconStyle} icon={faClock}></FontAwesomeIcon></div>
+            </_ToTimetable>
         );
     }
 }
