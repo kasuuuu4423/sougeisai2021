@@ -12,6 +12,8 @@ const Container = styled.div`
 type SiteState = {
   isZoom?: boolean,
   timetableIsOpen: boolean,
+  modalIsOpen?: boolean,
+  modalInfo?: {[key: string]: string},
 };
 
 class Site extends React.Component<{}, SiteState> {
@@ -23,6 +25,20 @@ class Site extends React.Component<{}, SiteState> {
       timetableIsOpen: false,
     };
   }
+
+  handleOpenModal = (info: {[key: string]: string}) =>{
+    this.setState({
+      modalIsOpen: true,
+      modalInfo: info,
+    });
+  }
+
+  handleCloseModal = () =>{
+    this.setState({
+      modalIsOpen: false,
+    });
+  }
+
 
   handleIsZoom = () =>{
     this.setState({
@@ -52,7 +68,7 @@ class Site extends React.Component<{}, SiteState> {
     return (
       <Container className="container">
         {!Util.checkAndGetUndifined(this.state.isZoom) && <Header handleOpenTImetable={this.handleOpenTimetable}></Header>}
-        <Main timetableIsOpen={this.state.timetableIsOpen} handleOpenTimetalbe={this.handleOpenTimetable} handleCloseTimetalbe={this.handleClsoeTimetable} isZoom={isZoom} handleIsZoom={this.handleIsZoom} handleIsZoomout={this.handleIsZoomout}></Main>
+        <Main modalIsOpen={this.state.modalIsOpen} modalInfo={this.state.modalInfo} handleCloseModal={this.handleCloseModal} handleOpenModal={this.handleOpenModal} timetableIsOpen={this.state.timetableIsOpen} handleOpenTimetalbe={this.handleOpenTimetable} handleCloseTimetalbe={this.handleClsoeTimetable} isZoom={isZoom} handleIsZoom={this.handleIsZoom} handleIsZoomout={this.handleIsZoomout}></Main>
       </Container>
     );
   }

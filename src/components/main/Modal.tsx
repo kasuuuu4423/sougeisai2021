@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
 import Other from "../../assets/cssVars/Other";
+import {Title, Group, Introduction, Image, Links} from "./ModalItems";
 
 type ModalProps = {
     isOpen: boolean,
@@ -59,36 +60,34 @@ class Modal extends React.Component<ModalProps, ModalState>{
                 return <div className="container event">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
-                    <h1>{info['title']}</h1>
+                    <Title title="イベント"></Title>
                     <dl>
-                        <div className="wrap_groupe">
-                            <dt>企画団体</dt>
-                            <dd>{info['groupName']}</dd>
-                            <div className="sns">
-                                {info['groupTwitter'] != null && <a href={info['groupTwitter']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faTwitter}></FontAwesomeIcon></a>}
-                                {info['groupInstagram'] != null && <a href={info['groupInstagram']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faInstagram}></FontAwesomeIcon></a>}
-                            </div>
+                        <Group hideDt={true} name={info['title']} place={info['groupPlace']}></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <Links title="配信時間" time={info['onAirAt']} Links={{
+                            'LIVE配信': info['onAirLink'],
+                            '追いかけ視聴': info['archiveLink'],
+                        }}/>
+                        <div className="toTimetable">
+                            <span>その他のイベントタイムスケジュールへ</span>
+                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
                         </div>
-                        <dt>活動場所</dt>
-                        <dd>{info['groupPlace']}</dd>
-                        <dt>企画説明</dt>
-                        <dd>
-                            <p>
-                                {info['introduction']}
-                            </p>
-                        </dd>
-                        <div className="wrap_img">
-                            <img src="https://via.placeholder.com/150" alt="" />
-                        </div>
-                        <dt className="w-100">配信時間</dt>
-                        <dd className="links">
-                            <div>LIVE配信 
-                                <a href={info['onAirLink']} target="_blank">Watch!!</a>
-                            </div>
-                            <div>追いかけ視聴 
-                                <a href={info['archiveLink']} target="_blank">Watch!!</a>
-                            </div>
-                        </dd>
+                    </dl>
+                </div>;
+            case 'showcase':
+                return <div className="container showcase">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title={info['title']}></Title>
+                    <dl>
+                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction="演劇"></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <Links title="配信時間" time={info['onAirAt']} Links={{
+                            'LIVE配信': info['onAirLink'],
+                            '追いかけ視聴': info['archiveLink'],
+                        }}/>
                         <div className="toTimetable">
                             <span>その他のイベントタイムスケジュールへ</span>
                             <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
@@ -96,72 +95,32 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     </dl>
                 </div>;
             case 'market':
-                return <div className="container event">
+                return <div className="container market">
                     <div className="back"></div>
-                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
-                    <h1>アートマーケット</h1>
+                        <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                        <Title title="アートマーケット"></Title>
                     <dl>
-                        <div className="wrap_groupe">
-                            <dt>出店団体</dt>
-                            <dd>{info['groupName']}</dd>
-                            <div className="sns">
-                                {info['groupTwitter'] != null && <a href={info['groupTwitter']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faTwitter}></FontAwesomeIcon></a>}
-                                {info['groupInstagram'] != null && <a href={info['groupInstagram']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faInstagram}></FontAwesomeIcon></a>}
-                            </div>
-                        </div>
-                        <dt>活動場所</dt>
-                        <dd>{info['groupPlace']}</dd>
-                        <dt>商品紹介</dt>
-                        <dd>
-                            <p>
-                                {info['introduction']}
-                            </p>
-                        </dd>
-                        <div className="wrap_img">
-                            <img src="https://via.placeholder.com/150" alt="" />
-                        </div>
-                        <dt className="w-100"></dt>
-                        <dd className="links">
-                            <div>オンライン販売
-                                <a href={info['marketLink']} target="_blank">BASE</a>
-                            </div>
-                        </dd>
+                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction="演劇"></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <Links title="オンライン販売先" Links={{
+                            'BASE': info['onAirLink'],
+                        }}/>
                     </dl>
                 </div>;
             case 'cm':
-                return <div className="container event">
+                return <div className="container cm">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
-                    <h1>CM</h1>
+                    <Title title="CM"></Title>
                     <dl>
-                        <div className="wrap_groupe">
-                            <dt>企画団体</dt>
-                            <dd>{info['groupName']}</dd>
-                            <div className="sns">
-                                {info['groupTwitter'] != null && <a href={info['groupTwitter']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faTwitter}></FontAwesomeIcon></a>}
-                                {info['groupInstagram'] != null && <a href={info['groupInstagram']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faInstagram}></FontAwesomeIcon></a>}
-                            </div>
-                        </div>
-                        <dt>活動場所</dt>
-                        <dd>{info['groupPlace']}</dd>
-                        <dt>CMについて</dt>
-                        <dd>
-                            <p>
-                                {info['introduction']}
-                            </p>
-                        </dd>
-                        <div className="wrap_img">
-                            <img src="https://via.placeholder.com/150" alt="" />
-                        </div>
-                        <dt className="w-100">配信時間</dt>
-                        <dd className="links">
-                            <div>LIVE配信 
-                                <a href={info['onAirLink']} target="_blank">Watch!!</a>
-                            </div>
-                            <div>追いかけ視聴 
-                                <a href={info['archiveLink']} target="_blank">Watch!!</a>
-                            </div>
-                        </dd>
+                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <Links title="配信時間" time={info['onAirAt']} Links={{
+                            'LIVE配信': info['onAirLink'],
+                            '追いかけ視聴': info['archiveLink'],
+                        }}/>
                         <div className="toTimetable">
                             <span>その他のイベントタイムスケジュールへ</span>
                             <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
@@ -169,36 +128,56 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     </dl>
                 </div>;
             case 'alt':
-                return <div className="container event">
+                return <div className="container alt">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
-                    <h1>オルタナティブ</h1>
+                    <Title title="オルタナティブ"></Title>
                     <dl>
-                        <div className="wrap_groupe">
-                            <dt>企画団体</dt>
-                            <dd>{info['groupName']}</dd>
-                            <div className="sns">
-                                {info['groupTwitter'] != null && <a href={info['groupTwitter']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faTwitter}></FontAwesomeIcon></a>}
-                                {info['groupInstagram'] != null && <a href={info['groupInstagram']} target="_blank"><FontAwesomeIcon style={this.iconStyle} icon={faInstagram}></FontAwesomeIcon></a>}
-                            </div>
+                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <Links title="" Links={{
+                            '掲載LINK': info['onAirLink'],
+                        }}/>
+                        <div className="toTimetable">
+                            <span>その他のイベントタイムスケジュールへ</span>
+                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
                         </div>
-                        <dt>活動場所</dt>
-                        <dd>{info['groupPlace']}</dd>
-                        <dt>企画説明</dt>
-                        <dd>
-                            <p>
-                                {info['introduction']}
-                            </p>
-                        </dd>
-                        <div className="wrap_img">
-                            <img src="https://via.placeholder.com/150" alt="" />
+                    </dl>
+                </div>;
+            case 'circle':
+                return <div className="container circle">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title={info['groupName']} subTitle="サークル紹介"/>
+                    <dl>
+                        <Group status="あｓｄふぁｓｄ" hideDd={true} hideDt={true} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <div className="toTimetable">
+                            <span>その他のイベントタイムスケジュールへ</span>
+                            <div className="btn_toTimetable"><FontAwesomeIcon style={this.iconStyle} icon={faClock}></FontAwesomeIcon></div>
                         </div>
-                        <dt className="w-100"></dt>
-                        <dd className="links">
-                            <div>掲載LINK 
-                                <a href={info['onAirLink']} target="_blank">Watch!!</a>
-                            </div>
-                        </dd>
+                    </dl>
+                </div>;
+            case 'easter':
+                return <div className="container easter">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title={info['title']} subTitle="イースターエッグ"/>
+                    <dl>
+                        <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                    </dl>
+                </div>;
+            case 'photo':
+                return <div className="container easter">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title={info['title']} subTitle="フォトライブラリー"/>
+                    <dl>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <Introduction introduction={info['introduction']}></Introduction>
                     </dl>
                 </div>;
             default:
@@ -243,7 +222,7 @@ export const _Modal = styled.div<_ModalProps>`
         padding: 20px;
         display: grid;
         row-gap: 10px;
-        grid-template-rows: 4rem calc(80vh - 4rem);
+        grid-template-rows: 4rem calc(80vh - 5rem);
         .back{
             position: absolute;
             z-index: -1;
@@ -277,86 +256,14 @@ export const _Modal = styled.div<_ModalProps>`
         }
         dl{
             display: flex;
+            align-items: center;
             flex-wrap: wrap;
             dt, dd, div{
                 margin-bottom: 10px;
             }
-            dt{
-                width: 30%;
-            }
             dd{
-                width: 70%;
-                margin: 0;
-                font-size: 120%;
-                font-weight: 600;
-                p{
-                    font-size: 80%;
-                }
-            }
-            .w-100{
-                width: 100%;
-            }
-            .wrap_groupe{
-                display: grid;
-                grid-template-columns: 1fr 80px;
-                grid-template-rows: repeat(2, 1fr);
-                width: 100%;
-                dt{
-                    grid-row: 1/2;
-                }
-                dd{
-                    grid-row: 2/3;
-                    border-bottom: solid 1px ${Color.WHITE};
-                    padding-bottom: 10px;
-                }
-                .sns{
-                    grid-row: 1/3;
-                    align-items: center;
-                    display: flex;
-                    a{
-                        display: inline-block;
-                        &:first-child{
-                            margin-right: 10px;
-                        }
-                    }
-                }
-            }
-            .wrap_img{
-                width: 100%;
-                text-align: center;
-                img{
-                    max-width: ${200*1.5}px;
-                    width: 80%;
-                    height: ${150*1.5}px;
-                    object-fit: cover;
-                }
-            }
-            .links{
-                width: 100%;
-                text-align: center;
-                div{
-                    display: grid;
-                    grid-template-columns: 1fr 50%;
-                    column-gap: 10px;
-                    text-align: right;
-                    align-items: center;
-                    a{
-                        display: inline-block;
-                        text-align: left;
-                        width: 40%;
-                        height: 1rem;
-                        background: ${Color.WHITE};
-                        transition: ${Other.TRANSITION};
-                        color: rgba(0,0,0,0);
-                        font-weight: 400;
-                        font-size: 80%;
-                        padding: 0 5px;
-                        &:hover{
-                            width: 50%;
-                            color: ${Color.BLACK};
-                        }
-                    }
-                }
+                text-align: left;
+                margin-left: 20px;
             }
             .toTimetable{
                 display: grid;

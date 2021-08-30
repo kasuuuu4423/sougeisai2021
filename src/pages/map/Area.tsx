@@ -169,9 +169,7 @@ class Area extends React.Component<AreaProps, AreaState>{
             events.forEach((event)=>{
                 if( typeof event["coord"] == "string" &&
                     typeof event["type"] == "string" &&
-                    typeof event["introduction"] == "string" &&
-                    typeof event["onAir_link"] == "string" &&
-                    typeof event["group"] == "object"
+                    typeof event["introduction"] == "string"
                 ){
                     let coord = event["coord"].split(",");
                     let x = parseInt(coord[0]);
@@ -180,6 +178,8 @@ class Area extends React.Component<AreaProps, AreaState>{
                     let title: string = "";
                     let onAirAt: string = "";
                     let offAirAt: string = "";
+                    let group = {};
+                    let link = "";
                     if(typeof event["archive_link"] == "string"){
                         archiveLink = event["archive_link"];
                     }
@@ -195,17 +195,24 @@ class Area extends React.Component<AreaProps, AreaState>{
                         onAirAt = event["onAir_at"];
                         offAirAt = event["offAir_at"];
                     }
+                    if(typeof event["group"] == "object"){
+                        group = event["group"]
+                    }
+                    if(typeof event["onAir_link"] == "string"){
+                        link = event["onAir_link"];
+                    }
                     elmEvent.push(
                         <Plan type={event["type"]}
                             title={title}
                             introduction={event["introduction"]} 
                             onAirAt={onAirAt}
                             offAirAt={offAirAt}
-                            onAirLink={event["onAir_link"]}
+                            onAirLink={link}
                             archiveLink={archiveLink}
-                            group={event["group"]}
+                            group={group}
                             x={this.props.x + x}
                             y={this.props.y + y}
+                            imageUrl={imageUrl}
                             handleOpenModal={this.props.handleOpenModal}
                             onMouseEnter={this.props.onMouseEnter}
                             onMouseLeave={this.props.onMouseLeave}
