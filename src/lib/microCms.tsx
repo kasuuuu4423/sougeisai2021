@@ -64,4 +64,21 @@ export default class MicroCms{
                 return error;
             });
     }
+
+    public static getSiteInfo = (callback=(res: {})=>{}) =>{
+        const url = "https://sougeisai2021.microcms.io/api/v1/siteinfo";
+        const queries = {};
+        const headers = {
+            "X-API-KEY": XAPIKEY,
+        };
+        Axios
+            .get<GetEvent>(url, {params: queries, headers: headers})
+            .then(res => {
+                callback(res["data"]);
+                return res;
+            })
+            .catch(error => {
+                return error;
+            });
+    }
 }

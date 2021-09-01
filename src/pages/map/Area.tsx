@@ -73,18 +73,19 @@ class Area extends React.Component<AreaProps, AreaState>{
             isHover: false,
         };
         let images = this.state.images != null ? this.state.images : [];
-        this.props.images.forEach((path)=>{
-            Util.getHTMLImage(path, (image: HTMLImageElement)=>{
-                images.push(image);
+        Util.getHTMLImage(this.props.images, (image: HTMLImageElement | HTMLImageElement[])=>{
+            if(Array.isArray(image)){
                 this.setState({
-                    images: images,
+                    images: image,
                 });
-            });
+            }
         });
-        Util.getHTMLImage(this.props.hoverImage, (image: HTMLImageElement)=>{
-            this.setState({
-                hoverImage: image,
-            });
+        Util.getHTMLImage(this.props.hoverImage, (image: HTMLImageElement | HTMLImageElement[])=>{
+            if(!Array.isArray(image)){
+                this.setState({
+                    hoverImage: image,
+                });
+            }
         });
     }
 
@@ -202,7 +203,8 @@ class Area extends React.Component<AreaProps, AreaState>{
                         link = event["onAir_link"];
                     }
                     elmEvent.push(
-                        <Plan type={event["type"]}
+                        <Plan key={title}
+                            type={event["type"]}
                             title={title}
                             introduction={event["introduction"]} 
                             onAirAt={onAirAt}

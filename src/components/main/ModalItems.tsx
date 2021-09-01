@@ -4,6 +4,7 @@ import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
 import React from "react";
 import styled, {css} from "styled-components";
 import Color from "../../assets/cssVars/Color";
+import Other from "../../assets/cssVars/Other";
 
 const iconStyle: React.CSSProperties = { fontSize: "2rem" };
 
@@ -241,12 +242,38 @@ type LinksProps = {
     title: string,
     Links: {[key: string]: string},
     time: string,
+    hideTitle: boolean,
 };
 
 const _Links = styled.div`
     width: 100%;
     dd{
         margin-left: 0 !important;
+        &.links{
+            div.link{
+                display: grid;
+                grid-template-columns: .4fr 0.6fr;
+                div{
+                    display: block;
+                    width: 100%;
+                    grid-column: 1 / 2;
+                    margin: auto;
+                }
+                a{
+                    display: block;
+                    grid-column: 2 / 3;
+                    width: 40%;
+                    height: 20px;
+                    padding-left: 5px;
+                    background: ${Color.WHITE};
+                    transition: ${Other.TRANSITION};
+                    &:hover{
+                        width: 50%;
+                        color: ${Color.BLACK};
+                    }
+                }
+            }
+        }
     }
 `;
 
@@ -258,17 +285,19 @@ export class Links extends React.Component<LinksProps>{
     static defaultProps: LinksProps = {
         title: '配信時間',
         time: '',
+        hideTitle: false,
         Links: {},
     };
 
     render(){
         return(
             <_Links>
-                <dt className="w-100">{this.props.title + "："} {this.props.time != '' ? this.props.time : ""}</dt>
+                {!this.props.hideTitle && <dt className="w-100">{this.props.title + "："} {this.props.time != '' ? this.props.time : ""}</dt>}
                 <dd className="links">
                     {Object.keys(this.props.Links).map((value, index) => {
                         return(
-                            <div>{value}
+                            <div className="link">
+                                <div>{value}</div>
                                 <a href={this.props.Links[value]} target="_blank">Watch!!</a>
                             </div>
                         );

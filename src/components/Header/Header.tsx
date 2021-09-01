@@ -7,6 +7,7 @@ import Nav from "./Nav";
 
 type HeaderProps = {
     handleOpenTImetable: ()=>void,
+    handleOpenModal: (info: {[key: string]: string})=>void,
 };
 
 type HeaderState = {
@@ -34,7 +35,7 @@ class Header extends React.Component<HeaderProps, HeaderState>{
         let status = this.state.status != null ? this.state.status : false;
         return(
             <_Header isOpen={status} >
-                <Nav itemOnClick={this.toggleStatus} handleOpenTImetable={this.toggleStatusAndOpenTimetable} status={this.state.status} ></Nav>
+                <Nav handleOpenModal={this.props.handleOpenModal} itemOnClick={this.toggleStatus} handleOpenTImetable={this.toggleStatusAndOpenTimetable} status={this.state.status} ></Nav>
                 <Hamburger status={this.state.status} toggleState={this.toggleStatus} ></Hamburger>
             </_Header>
         );

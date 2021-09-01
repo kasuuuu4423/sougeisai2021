@@ -13,42 +13,50 @@ type NavProps = {
     status?: boolean,
     handleOpenTImetable: ()=>void,
     itemOnClick: ()=>void,
+    handleOpenModal: (info: {[key: string]: string})=>void,
 };
 
 class Nav extends React.Component<NavProps, NavState> {
     data: {
         text: string | ReactElement,
         link: string,
+        type: string,
         onClick: ()=>void,
     }[] = [
         {
             text: 'サイトについて',
             link: '#',
+            type: 'about',
             onClick: this.props.itemOnClick
         },
         {
             text: '桑芸祭2021とは？',
             link: '#',
+            type: 'whats',
             onClick: this.props.itemOnClick
         },
         {
             text: 'サイトの歩き方',
             link: '#',
+            type: 'howToWalk',
             onClick: this.props.itemOnClick
         },
         {
             text: 'イベントタイムテーブル',
             link: '#',
+            type: '',
             onClick: this.props.handleOpenTImetable,
         },
         {
             text: 'アートマーケット',
             link: '#',
+            type: '',
             onClick: this.props.itemOnClick
         },
         {
             text: <img src="" alt="" />,
             link: 'https://www.scu.ac.jp/',
+            type: '',
             onClick: this.props.itemOnClick
         }
     ];
@@ -63,7 +71,7 @@ class Nav extends React.Component<NavProps, NavState> {
         let status = this.props.status != null ? this.props.status : false;
         let list: JSX.Element[] = [];
         for(let i in this.data){
-            list.push(<NavItem onClick={this.data[i].onClick} target={i === "5" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}></NavItem>);
+            list.push(<NavItem type={this.data[i].type} handleOpenModal={this.props.handleOpenModal} onClick={this.data[i].onClick} target={i === "5" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}></NavItem>);
         }
         return(
             <WrapNav isOpen={status}>

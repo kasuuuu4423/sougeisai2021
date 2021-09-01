@@ -67,7 +67,7 @@ class Site extends React.Component<{}, SiteState> {
     let isZoom = Util.checkAndGetUndifined(this.state.isZoom);
     return (
       <Container className="container">
-        {!Util.checkAndGetUndifined(this.state.isZoom) && <Header handleOpenTImetable={this.handleOpenTimetable}></Header>}
+        {!Util.checkAndGetUndifined(this.state.isZoom) && <Header handleOpenModal={this.handleOpenModal} handleOpenTImetable={this.handleOpenTimetable}></Header>}
         <Main modalIsOpen={this.state.modalIsOpen} modalInfo={this.state.modalInfo} handleCloseModal={this.handleCloseModal} handleOpenModal={this.handleOpenModal} timetableIsOpen={this.state.timetableIsOpen} handleOpenTimetalbe={this.handleOpenTimetable} handleCloseTimetalbe={this.handleClsoeTimetable} isZoom={isZoom} handleIsZoom={this.handleIsZoom} handleIsZoomout={this.handleIsZoomout}></Main>
       </Container>
     );

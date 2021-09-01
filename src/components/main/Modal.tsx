@@ -131,7 +131,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        <Links title="" Links={{
+                        <Links hideTitle={true} title="" Links={{
                             '掲載LINK': info['onAirLink'],
                         }}/>
                         <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
@@ -167,6 +167,35 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
                         <Introduction introduction={info['introduction']}></Introduction>
+                    </dl>
+                </div>;
+            case 'about':
+                return <div className="container static about">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title="サイトについて"/>
+                    <dl>
+                        <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
+                    </dl>
+                </div>;
+            case 'whats':
+                return <div className="container static whats">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title="桑芸祭2021 とは？"/>
+                    <dl>
+                        <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                    </dl>
+                </div>;
+            case 'howToWalk':
+                return <div className="container static howToWalk">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title="サイトの歩き方"/>
+                    <dl>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
                     </dl>
                 </div>;
             default:
@@ -230,6 +259,36 @@ export const _Modal = styled.div<_ModalProps>`
         display: grid;
         row-gap: 10px;
         grid-template-rows: 4rem calc(80vh - 5rem);
+        &.static{
+            dl{
+                overflow: unset;
+                justify-content: center;
+                dd{
+                    text-align: center;
+                    width: 100%;
+                    margin: auto;
+                }
+                p{
+                    text-align: center;
+                }
+            }
+            &.whats{
+                dl{
+                    .wrap_img{
+                        background: ${Color.WHITE};
+                        border: 4px solid ${Color.DARKBLUEGREEN};
+                        border-radius: 10px;
+                        padding: 20px;
+                        width: calc(100% - 48px);
+                        img{
+                            width: 30%;
+                            height: auto;
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+        }
         .back{
             position: absolute;
             z-index: -1;

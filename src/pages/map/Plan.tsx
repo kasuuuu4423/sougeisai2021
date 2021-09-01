@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { ReactElement } from "react";
 import { Image } from "react-konva";
 import Util from "../../lib/Util";
@@ -47,40 +48,63 @@ class Plan extends React.Component<EventProps, EventState>{
             easterIcon: new window.Image(),
         };
         Util.getHTMLImage("main/modal/icons/event.png", (image)=>{
-            this.setState({eventIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({eventIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/showcase.png", (image)=>{
-            this.setState({showcaseIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({showcaseIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/cm.png", (image)=>{
-            this.setState({cmIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({cmIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/market.png", (image)=>{
-            this.setState({marketIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({marketIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/alt.png", (image)=>{
-            this.setState({altIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({altIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/circle.png", (image)=>{
-            this.setState({circleIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({circleIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/lab.png", (image)=>{
-            this.setState({labIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({labIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/photo.png", (image)=>{
-            this.setState({photoIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({photoIcon: image});
+            }
         });
         Util.getHTMLImage("main/modal/icons/easter.png", (image)=>{
-            this.setState({easterIcon: image});
+            if(!Array.isArray(image)){
+                this.setState({easterIcon: image});
+            }
         });
     }
 
     handleClick = () =>{
+        let onAirAt = this.props.onAirAt;
+        if(onAirAt != null){
+            let momentOnAir = moment(onAirAt);
+            onAirAt = momentOnAir.format('h:mm')
+        }
         let data = {
             type: this.props.type,
             title: this.props.title,
             introduction: this.props.introduction,
-            onAirAt: this.props.onAirAt,
+            onAirAt: onAirAt,
             offAirAt: this.props.offAirAt,
             onAirLink: this.props.onAirLink,
             archiveLink: this.props.archiveLink,
@@ -113,7 +137,7 @@ class Plan extends React.Component<EventProps, EventState>{
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
-            <Image onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onClick={this.handleClick} image={image}  x={this.props.x} y={this.props.y} width={13} height={13} ></Image>
+            <Image image={image} onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onClick={this.handleClick}  x={this.props.x} y={this.props.y} width={18} height={18} ></Image>
         );
     }
 }

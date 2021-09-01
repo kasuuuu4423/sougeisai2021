@@ -49,11 +49,18 @@ type CloudState = {};
 
 class Cloud extends React.Component<CloudProps, CloudState>{
     private path: string  = "";
+    private size: number;
+    private start: number;
+    private duration: number;
 
     constructor(props: CloudProps){
         super(props);
 
         this.path = Util.getImgPath() + "/main/cloud";
+
+        this.size = Cloud.getRandomArbitrary(150, 280);
+        this.start = Cloud.getRandomArbitrary(0, 3);
+        this.duration = Cloud.getRandomArbitrary(3, 7);
     }
     
     static defaultProps: CloudProps = {
@@ -65,19 +72,17 @@ class Cloud extends React.Component<CloudProps, CloudState>{
         isZoom: false,
     };
 
+    private static getRandomArbitrary = (min: number, max: number) =>{
+        return Math.random() * (max - min) + min;
+    }
+
     render(){
         let src = this.path + this.props.cloudNum + ".png";
-        function getRandomArbitrary(min: number, max: number) {
-            return Math.random() * (max - min) + min;
-        }
-        let size = getRandomArbitrary(150, 280);
-        let start = getRandomArbitrary(0, 3);
-        let duration = getRandomArbitrary(3, 7);
 
         let isZoom = Util.checkAndGetUndifined(this.props.isZoom);
         return(
             <div>
-                {!isZoom && <_Cloud duration={duration} start={start} size={size} right={this.props.right} left={this.props.left} top={this.props.top} bottom={this.props.bottom} src={src} alt="雲" />}
+                {!isZoom && <_Cloud duration={this.duration} start={this.start} size={this.size} right={this.props.right} left={this.props.left} top={this.props.top} bottom={this.props.bottom} src={src} alt="雲" />}
             </div>
         );
     }

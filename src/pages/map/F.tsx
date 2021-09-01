@@ -19,8 +19,11 @@ class Floor extends React.Component<FloorProps, FloorState>{
     }
 
     render(){
+        let placeholder = new window.Image();
+        placeholder.src = "img/top/loading.gif";
+        let image = this.props.image != null ? this.props.image : placeholder;
         return(
-            <Image image={this.props.image} offsetX={this.props.ofX} offsetY={this.props.ofY} x={this.props.x} y={this.props.y} width={this.props.width} height={this.props.height} />
+            <Image image={image} offsetX={this.props.ofX} offsetY={this.props.ofY} x={this.props.x} y={this.props.y} width={this.props.width} height={this.props.height} />
         );
     }
 }
