@@ -48,6 +48,22 @@ export default class MicroCms{
             });
     }
 
+    public static getAreaInfo = (id: string, callback=(res: {})=>{}) =>{
+        const url = "https://sougeisai2021.microcms.io/api/v1/area/"+id;
+        const headers = {
+            "X-API-KEY": XAPIKEY,
+        };
+        Axios
+            .get<GetEvent>(url, {headers: headers})
+            .then(res => {
+                callback(res["data"]);
+                return res;
+            })
+            .catch(error => {
+                return error;
+            });
+    }
+
     public static getEventsEvent = (callback=(res: {})=>{}) =>{
         const url = "https://sougeisai2021.microcms.io/api/v1/event";
         const queries = { filters: 'type[equals]event'};

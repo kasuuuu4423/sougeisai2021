@@ -34,6 +34,7 @@ type AreaProps = {
     nowArea: number,
     maxLevel: number,
     handleOpenModal: (info: {[key: string]: string})=>void,
+    handleOpenIntroduction: (info: {"name": string, "introduction": string})=>void,
 };
 
 type AreaState = {
@@ -41,6 +42,8 @@ type AreaState = {
     hoverImage?: HTMLImageElement,
     events?: {[key: string]: string | {[key: string]: string}}[][],
     isHover?: boolean,
+    name?: string,
+    introduction?: string,
 };
 
 class Area extends React.Component<AreaProps, AreaState>{
@@ -49,6 +52,13 @@ class Area extends React.Component<AreaProps, AreaState>{
     constructor(props: AreaProps){
         super(props);
         this.image = new Konva.Image({image: undefined});
+
+        MicroCms.getAreaInfo(this.props.areaId, (res: {[key: string]: string})=>{
+            this.setState({
+                name: res["title"],
+                introduction: res["description"],
+            });
+        })
 
         let eventData: {[key: string]: string | {[key: string]: string}}[][] = [];
         let res = MicroCms.getEventsByAreaId(this.props.areaId, (res: {[key: string]: {[key: string]: string | {[key: string]: string}}[]})=>{
@@ -112,10 +122,16 @@ class Area extends React.Component<AreaProps, AreaState>{
         nowArea: 0,
         maxLevel: 1,
         handleOpenModal: ()=>{},
+        handleOpenIntroduction: ()=>{},
     };
 
     handleClick = () =>{
         this.props.onClick(this.props.width, this.props.height, this.props.x, this.props.y, this.props.areaNum);
+        let info = {
+            "name": Util.checkAndGetUndifined(this.state.name),
+            "introduction": Util.checkAndGetUndifined(this.state.introduction),
+        }
+        this.props.handleOpenIntroduction(info);
     }
 
     handleHover = () =>{

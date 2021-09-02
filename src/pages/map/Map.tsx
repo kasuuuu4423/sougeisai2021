@@ -8,6 +8,7 @@ import { ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinus
 import MicroCms from "../../lib/microCms";
 import Util from "../../lib/Util";
 import { throws } from "assert";
+import AreaIntroduction from "./AreaIntroduction";
 
 //ToDo
 /*
@@ -46,6 +47,7 @@ type MapState = {
     maxLevel?: number,
     area?: number,
     areas?: number[][],
+    areaInfo?: {"name": string, "introduction": string},
 
     tmp?: number,
 };
@@ -132,6 +134,10 @@ class Map extends React.Component<MapProps, MapState>{
             area: 0,
             maxLevel: 0,
             areas: areas,
+            areaInfo: {
+                "name": "",
+                "introduction": "",
+            },
 
             tmp: 0,
         };
@@ -271,6 +277,23 @@ class Map extends React.Component<MapProps, MapState>{
         }
     }
 
+    handleOpenIntroduction = (info: {"name": string, "introduction": string}) =>{
+        this.setState({
+            areaInfo: info,
+        });
+    }
+
+    handleClickAt = () =>{
+        MicroCms.getSiteInfo((res: {[key: string]: {[key: string]: string | {[key: string]: string}}[]})=>{
+            const info = res["contents"][0];
+            this.props.handleOpenModal({
+                "type": "whats",
+                'introduction': typeof info["whats"] == 'string' ? info["whats"] : "",
+                "imageUrl": typeof info["logo"] != 'string' ? info["logo"]["url"] : "",
+            });
+        });
+    }
+
     moveStageTo = (x: number, y: number) =>{
         this.setState({x: x, y: y});
     }
@@ -292,6 +315,9 @@ class Map extends React.Component<MapProps, MapState>{
         let isZoom = this.state.isZoom != null ? this.state.isZoom : false;
         let level = Util.checkAndGetUndifined(this.state.level);
         let maxLevel = Util.checkAndGetUndifined(this.state.maxLevel);
+
+        const areaName = Util.checkAndGetUndifined(this.state.areaInfo)["name"];
+        const areaIntro =  Util.checkAndGetUndifined(this.state.areaInfo)["introduction"];
         return(
             <Background>
                 <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
@@ -302,10 +328,11 @@ class Map extends React.Component<MapProps, MapState>{
                         </Layer>
                         {
                             areas.map((area: number[], i)=>
-                                <Area handleOpenModal={this.props.handleOpenModal} areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
+                                <Area handleOpenIntroduction={this.handleOpenIntroduction} handleOpenModal={this.props.handleOpenModal} areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
                                     width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
                             )
                         }
+                        <Area onClick={this.handleClickAt} width={90} height={100} x={this.getRelativePostion(555, "x")} y={this.getRelativePostion(250, "y")} />
                 </Stage>
                 {isZoom && <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>}
                 {/* <InfoBtn isZoom={isZoom}>?</InfoBtn> */}
@@ -315,6 +342,7 @@ class Map extends React.Component<MapProps, MapState>{
                 {isZoom && <BtnLabelArea isZoom={isZoom}>area</BtnLabelArea>}
                 {isZoom && <AreaMovePlusBtn onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>}
                 {isZoom && <AreaMoveMinusBtn onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>}
+                {isZoom && <AreaIntroduction name={areaName} introduction={areaIntro} />}
             </Background>
         );
     }
