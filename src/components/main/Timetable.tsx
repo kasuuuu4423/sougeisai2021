@@ -1,10 +1,18 @@
 import React, { ReactElement } from "react";
 import styled, {css, CSSProperties} from "styled-components";
 import {_Modal} from "./Modal";
+import { Links  } from "./ModalItems";
 import MicroCms from "../../lib/microCms";
 import moment from "moment";
 import Color from "../../assets/cssVars/Color";
 import Util from "../../lib/Util";
+
+const startHour = 0;
+const StartMin = 0;
+const start = startHour + ":" + StartMin;
+const endHour = 24;
+const endMin = 0;
+const end = startHour + ":" + StartMin;
 
 type TimetableProps = {
     handleOpenModal: (info: {[key: string]: string})=>void,
@@ -42,8 +50,8 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                 let end = moment(content['offAir_at']).toObject();
                 let diff = moment({'hour': start.hours, 'minute': start.minutes}).diff(moment({'hour': end.hours, 'minute': end.minutes}), 'minute');
                 eventsInfo.push({
-                    start: start.hours.toString() + " : " + (start.minutes.toString() != '0' ? start.minutes.toString() : '00'),
-                    end: end.hours.toString() + " : " + (end.minutes.toString() != '0' ? end.minutes.toString() : '00'),
+                    start: start.hours.toString() + ":" + (start.minutes.toString() != '0' ? start.minutes.toString() : '00'),
+                    end: end.hours.toString() + ":" + (end.minutes.toString() != '0' ? end.minutes.toString() : '00'),
                     startHour: start.hours.toString(),
                     startMin: start.minutes.toString(),
                     endHour: end.hours.toString(),
@@ -133,6 +141,13 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
 
     render(){
         let items = this.state.tableItems != null ? this.state.tableItems : [];
+        const borders: ReactElement[] = [];
+        for(let i = 0; i < endHour; i++){
+            const isEnd = i == endHour -  1 ? true : false;
+            borders.push(
+                <Border isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
+            );
+        }
         return(
             <_Modal isOpen={this.props.isOpen}>
                 <div className="container">
@@ -140,9 +155,14 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                     <div onClick={this.props.handleCloseTimetable} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <div>
                         <h1>イベントタイムテーブル</h1>
-                        <div>配信先LINK <a href=""></a></div>
+                        <Links hideTitle={true} Links={{
+                            '配信先LINK→': 'https://youtube.com',
+                        }}/>
                     </div>
                     <_Timetable>
+                        <Borders className="borders">
+                            {borders}
+                        </Borders>
                         {items}
                     </_Timetable>
                 </div>
@@ -153,11 +173,67 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
 
 export default Timetable;
 
+const Borders = styled.div`
+    position: relative;
+`;
+
+type BorderProps = {
+    start: string,
+    end: string,
+    isEnd: boolean,
+};
+const Border = styled.div<BorderProps>`
+    height: 40px;
+    width: 80%;
+    margin: 0;
+    margin-left: calc(3rem + 10px);
+    position: relative;
+    &::before, &::after{
+        position: absolute;
+        padding-right: 10px;
+    }
+    ${(props) => !props.isEnd
+    ? css`
+        height: 39px;
+        border-bottom: 1px ${Color.LIGHTGRAY} solid;
+    ` : ""}
+    &::before{
+        content: "${(props) => props.start ? props.start : ""}";
+        top: 0;
+        left: 0;
+        transform: translate(-100%, -50%);
+    }
+    ${(props) => props.isEnd && props.end
+    ? css`
+        &::after{
+            content: "${props.end}";
+            bottom: 0;
+            transform: translate(-100%, 50%);
+        }
+    ` : ""}
+`;
+
+type TimetableBorderProps = {};
+
+class TimetableBorder extends React.Component<TimetableBorderProps>{
+    constructor(props: TimetableBorderProps){
+        super(props);
+    }
+
+    render(){
+        return(
+            <div></div>
+        );
+    }
+}
+
 type _TimetableProps = {};
 
-const _Timetable = styled.ul<_TimetableProps>`
-    overflow-y: scroll;
+const _Timetable = styled.div<_TimetableProps>`
     padding: 10px 0;
+    position: relative;
+    top: 0;
+    overflow-y: scroll;
 `;
 
 type TimetableItemProps = {
@@ -186,17 +262,6 @@ class TimetableItem extends React.Component<TimetableItemProps, TimetableItemSta
 
     handleClick = () =>{
         let data = this.props.data;
-        // type: info['type'],
-        // title: info['title'],
-        // introduction: info['introduction'],
-        // onAirAt: info['onAirAt'],
-        // offAirAt: info['offAirAt'],
-        // onAirLink: info['onAirLink'],
-        // archiveLink: info['archiveLink'],
-        // groupName: info['groupName'],
-        // groupPlace: info['actAt'],
-        // groupTwitter: info['twitter'],
-        // groupInstagram: info['instagram'],
         let group: {[key: string]: string} = {};
         if(typeof data['group'] != 'string'){
             group = {
@@ -224,9 +289,21 @@ class TimetableItem extends React.Component<TimetableItemProps, TimetableItemSta
             title = this.props.data["title"];
         }
         const itemHeight = this.props.diff != null ? parseInt(this.props.diff) : 1;
+        const originStart = moment().set('hour', startHour);
+        originStart.set('minute', StartMin);
+        const eventStart =  moment().set('hour', parseInt(this.props.startHour));
+        eventStart.set('minute', parseInt(this.props.startMin));
+        const diff = Util.millisToHour(eventStart.diff(originStart));
+        const top = diff*40;
+
+        const eventEnd = moment().set('hour', parseInt(this.props.endHour));
+        eventEnd.set('minute', parseInt(this.props.endMin));
+        const duration = Util.millisToHour(eventEnd.diff(eventStart));
+        console.log(duration);
+        //timetableItemの開始と終了の差（イベントの時間）で1時間につき40pxの高さに
         return(
-            <_TimetableItem onClick={this.handleClick} itemHeight={itemHeight} start={this.props.start} end={this.props.end} isEnd={this.props.isEnd}>
-                {title}
+            <_TimetableItem duration={duration} top={top} onClick={this.handleClick} start={this.props.start} end={this.props.end} isEnd={this.props.isEnd}>
+                {title + ' ' + this.props.start + ' 〜 ' + this.props.end}
             </_TimetableItem>
         );
     }
@@ -234,33 +311,38 @@ class TimetableItem extends React.Component<TimetableItemProps, TimetableItemSta
 
 
 type _TimatableItemProps = {
-    itemHeight: number,
     start: string,
     end: string,
     isEnd: boolean,
+    top: number,
+    duration: number,
 };
 
-const _TimetableItem = styled.li<_TimatableItemProps>`
+const _TimetableItem = styled.div<_TimatableItemProps>`
     display: flex;
     align-items: center;
-    height: ${props => props.itemHeight ? props.itemHeight * -0.04 *  20 + 'px' : 'auto'};
-    position: relative;
-    padding: 5px;
+    height: ${props => props.duration ? props.duration * 40 + 'px' : 'auto'};
+    position: absolute;
+    top: ${(props) => props.top ? props.top + 10 : 0}px;
+    left: calc(4rem + 20px);
+    padding-left: 5px;
+    width: calc(74% - 5px);
+    cursor: pointer;
     &:nth-child(2n-1){
         background: ${Color.DARKBLUEGREEN};
     }
     &:nth-child(2n){
         background: ${Color.MIDDLEBLUEGREEN};
     }
-    &::before{
+    /* &::before{
         content: "${props => props.start ? props.start : ''}";
         position: absolute;
         transform: translate(-100%, -50%);
         top: 0;
         display: block;
         padding-right: 10px;
-    }
-    ${(props) =>
+    } */
+    /* ${(props) =>
         props.isEnd && props.end
             ? css`
                 &::after{
@@ -272,5 +354,5 @@ const _TimetableItem = styled.li<_TimatableItemProps>`
                     padding-right: 10px;
                 }
             `
-    :''}
+    :''} */
 `;

@@ -65,6 +65,10 @@ class Util{
     public static checkType = (s: any, type: string) =>{
         return typeof s == type ? s : "";
     }
+
+    public static millisToHour = (millis: number) =>{
+        return millis/1000/60/60;
+    }
 }
 
 export default Util;
