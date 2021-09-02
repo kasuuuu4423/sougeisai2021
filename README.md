@@ -1,4 +1,4 @@
-# React App for SOUGEISAI2021 from SapproCityUniversity
+# React App for SOUGEISAI2021 from SapporoCityUniversity
 
 # Getting Started with Create React App
 
