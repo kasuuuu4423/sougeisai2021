@@ -21,7 +21,8 @@ type TimetableProps = {
     isOpen: boolean,
 };
 type TimetableState = {
-    tableItems?: ReactElement[],
+    tableItems?: ReactElement[][],
+    day?: number,
 };
 
 type modalData = {
@@ -39,8 +40,11 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
     constructor(props: TimetableProps){
         super(props);
         this.state = {
-            tableItems: [],
+            tableItems: [[], []],
+            day: 0,
         };
+
+        const Day = Util.checkAndGetUndifined(this.state.day);
 
         const res = MicroCms.getEventsEvent((res: {[key: string]: {[key: string]: string}[]})=>{
             const contents = res["contents"];
@@ -62,10 +66,11 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
             });
             eventsInfo = this.sortByTime(eventsInfo);
             
-            let tableItems: ReactElement[] = [];
+            let tableItems: ReactElement[][] = [[],[]];
             eventsInfo.forEach((info, i) => {
-                tableItems.push(
+                tableItems[typeof info["data"] != 'string' ? parseInt(info["data"]["day"]) : 0].push(
                     <TimetableItem
+                        day={Util.checkAndGetUndifined(this.state.day)}
                         handleOpenModal={this.handleOnClick}
                         start={typeof info["start"] == 'string' ? info["start"] : ""}
                         end={typeof info["end"] == 'string' ? info["end"] : ""}
@@ -121,6 +126,20 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
         const result: [{[key: string]: string | {[key: string]: string}}[], boolean] = [events, sortFlag];
         return result;
     }
+    
+    handleChangeDay = (day: number = 0) =>{
+        this.setState({
+            day: day,
+        });
+    }
+
+    handle1day = () =>{
+        this.handleChangeDay(0);
+    }
+
+    handle2day = () =>{
+        this.handleChangeDay(1);
+    }
 
     handleOnClick = (info: {[key: string]: string}) =>{
         this.props.handleOpenModal({
@@ -141,6 +160,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
 
     render(){
         let items = this.state.tableItems != null ? this.state.tableItems : [];
+        console.log(items);
         const borders: ReactElement[] = [];
         for(let i = 0; i < endHour; i++){
             const isEnd = i == endHour -  1 ? true : false;
@@ -148,10 +168,14 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                 <Border isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
             );
         }
+        
+        const Day = Util.checkAndGetUndifined(this.state.day);
         return(
-            <_Modal isOpen={this.props.isOpen}>
+            <_Modal className={ "day" + (parseInt(Day)+1)} isOpen={this.props.isOpen}>
                 <div className="container">
                     <div className="back"></div>
+                    <DayButton onClick={this.handle1day} day={0}>Day1</DayButton>
+                    <DayButton onClick={this.handle2day} day={1}>Day2</DayButton>
                     <div onClick={this.props.handleCloseTimetable} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <div>
                         <h1>イベントタイムテーブル</h1>
@@ -163,7 +187,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                         <Borders className="borders">
                             {borders}
                         </Borders>
-                        {items}
+                        {items[Day]}
                     </_Timetable>
                 </div>
             </_Modal>
@@ -213,26 +237,13 @@ const Border = styled.div<BorderProps>`
     ` : ""}
 `;
 
-type TimetableBorderProps = {};
-
-class TimetableBorder extends React.Component<TimetableBorderProps>{
-    constructor(props: TimetableBorderProps){
-        super(props);
-    }
-
-    render(){
-        return(
-            <div></div>
-        );
-    }
-}
-
 type _TimetableProps = {};
 
 const _Timetable = styled.div<_TimetableProps>`
     padding: 10px 0;
     position: relative;
     top: 0;
+    left: 20px;
     overflow-y: scroll;
 `;
 
@@ -244,6 +255,7 @@ type TimetableItemProps = {
     startMin: string,
     endHour: string,
     endMin: string,
+    day: number,
     diff: string,
     data: {[key: string]: string | {[key: string]: string}},
     handleOpenModal: (info: {[key: string]: string})=>void,
@@ -299,10 +311,9 @@ class TimetableItem extends React.Component<TimetableItemProps, TimetableItemSta
         const eventEnd = moment().set('hour', parseInt(this.props.endHour));
         eventEnd.set('minute', parseInt(this.props.endMin));
         const duration = Util.millisToHour(eventEnd.diff(eventStart));
-        console.log(duration);
         //timetableItemの開始と終了の差（イベントの時間）で1時間につき40pxの高さに
         return(
-            <_TimetableItem duration={duration} top={top} onClick={this.handleClick} start={this.props.start} end={this.props.end} isEnd={this.props.isEnd}>
+            <_TimetableItem day={this.props.day} duration={duration} top={top} onClick={this.handleClick} start={this.props.start} end={this.props.end} isEnd={this.props.isEnd}>
                 {title + ' ' + this.props.start + ' 〜 ' + this.props.end}
             </_TimetableItem>
         );
@@ -316,6 +327,7 @@ type _TimatableItemProps = {
     isEnd: boolean,
     top: number,
     duration: number,
+    day: number,
 };
 
 const _TimetableItem = styled.div<_TimatableItemProps>`
@@ -329,10 +341,10 @@ const _TimetableItem = styled.div<_TimatableItemProps>`
     width: calc(74% - 5px);
     cursor: pointer;
     &:nth-child(2n-1){
-        background: ${Color.DARKBLUEGREEN};
+        background: ${(props)=> props.day == 0 ? Color.DARKBLUEGREEN : Color.PURPLE};
     }
     &:nth-child(2n){
-        background: ${Color.MIDDLEBLUEGREEN};
+        background: ${(props)=> props.day == 0 ? Color.MIDDLEBLUEGREEN : Color.MIDDLEPURPLE};
     }
     /* &::before{
         content: "${props => props.start ? props.start : ''}";
@@ -355,4 +367,19 @@ const _TimetableItem = styled.div<_TimatableItemProps>`
                 }
             `
     :''} */
+`;
+
+type DayButtonProps = {
+    day: number,
+};
+
+const DayButton = styled.div<DayButtonProps>`
+    position: absolute;
+    top: ${(props) => props.day == 0 ? "100px" : "160px"};
+    left: 0px;
+    writing-mode: vertical-lr;
+    background: rgb(195,135,134);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 0 50% 50% 0;
 `;

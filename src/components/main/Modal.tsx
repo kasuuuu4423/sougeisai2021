@@ -246,6 +246,12 @@ export const _Modal = styled.div<_ModalProps>`
     &.lab{
         background: ${Color.LAB};
     }
+    &.day1{
+        background: ${Color.BLUEGREEN};
+    }
+    &.day2{
+        background: ${Color.LIGHTPURPLE};
+    }
     a{
         color: ${Color.WHITE};
         text-decoration: none;

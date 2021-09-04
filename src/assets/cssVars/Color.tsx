@@ -1,3 +1,5 @@
+import { RGB } from "konva/lib/filters/RGB";
+
 export default {
     BLACK: '#333333',
     LIGHTGRAY: 'rgb(230, 229, 230)',
@@ -10,4 +12,7 @@ export default {
     MARKET: 'rgb(237,228,158)',
     PHOTO: 'rgb(125,179,200)',
     LAB: 'rgb(113,129,197)',
+    LIGHTPURPLE: "RGB(158,180,225)",
+    PURPLE: "rgb(152,129,229)",
+    MIDDLEPURPLE: "rgb(152,171,229)",
 }
