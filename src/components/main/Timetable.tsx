@@ -21,7 +21,7 @@ type TimetableProps = {
     isOpen: boolean,
 };
 type TimetableState = {
-    tableItems?: ReactElement[][],
+    tableItems?: eventItem[][],
     day?: number,
 };
 
@@ -34,6 +34,20 @@ type modalData = {
     onAir_link: string,
     archive_link: string,
     group: {[key: string]: string}
+};
+
+type eventItem = {
+    "day": number,
+    "handleOpenModal": (info: {[key: string]: string})=>void,
+    "start": string,
+    "end": string,
+    "startHour": string,
+    "startMin": string,
+    "endHour": string,
+    "endMin": string,
+    "diff": string,
+    "data": {[key: string]: string},
+    "isEnd": boolean,
 };
 
 class Timetable extends React.Component<TimetableProps, TimetableState>{
@@ -66,22 +80,22 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
             });
             eventsInfo = this.sortByTime(eventsInfo);
             
-            let tableItems: ReactElement[][] = [[],[]];
+            let tableItems: eventItem[][] = [[],[]];
             eventsInfo.forEach((info, i) => {
                 tableItems[typeof info["data"] != 'string' ? parseInt(info["data"]["day"]) : 0].push(
-                    <TimetableItem
-                        day={Util.checkAndGetUndifined(this.state.day)}
-                        handleOpenModal={this.handleOnClick}
-                        start={typeof info["start"] == 'string' ? info["start"] : ""}
-                        end={typeof info["end"] == 'string' ? info["end"] : ""}
-                        startHour={typeof info["startHour"] == 'string' ? info["startHour"] : ""}
-                        startMin={typeof info["startMin"] == 'string' ? info["startMin"] : ""}
-                        endHour={typeof info["endHour"] == 'string' ? info["endHour"] : ""}
-                        endMin={typeof info["endMin"] == 'string' ? info["endMin"] : ""}
-                        diff={typeof info["diff"] == 'string' ? info["diff"] : ""}
-                        data={typeof info["data"] != 'string' ? info["data"] : {}}
-                        isEnd={i == eventsInfo.length-1 ? true : false}
-                    />
+                    {
+                        "day": Util.checkAndGetUndifined(this.state.day),
+                        "handleOpenModal": this.handleOnClick,
+                        "start": typeof info["start"] == 'string' ? info["start"] : "",
+                        "end": typeof info["end"] == 'string' ? info["end"] : "",
+                        "startHour": typeof info["startHour"] == 'string' ? info["startHour"] : "",
+                        "startMin": typeof info["startMin"] == 'string' ? info["startMin"] : "",
+                        "endHour": typeof info["endHour"] == 'string' ? info["endHour"] : "",
+                        "endMin": typeof info["endMin"] == 'string' ? info["endMin"] : "",
+                        "diff": typeof info["diff"] == 'string' ? info["diff"] : "",
+                        "data": typeof info["data"] != 'string' ? info["data"] : {},
+                        "isEnd": i == eventsInfo.length-1 ? true : false,
+                    }
                 );
             });
             this.setState({
@@ -159,8 +173,24 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
     }
 
     render(){
-        let items = this.state.tableItems != null ? this.state.tableItems : [];
-        console.log(items);
+        const Day = Util.checkAndGetUndifined(this.state.day);
+        const items = this.state.tableItems != null ? this.state.tableItems : [];
+        const itemsElm: ReactElement[] = items[Day].map(item =>
+            <TimetableItem
+                start={item["start"]}
+                end={item["end"]}
+                isEnd={item["isEnd"]}
+                startHour={item["startHour"]}
+                startMin={item["startMin"]}
+                endHour={item["endHour"]}
+                endMin={item["endMin"]}
+                day={Day}
+                diff={item["diff"]}
+                data={item["data"]}
+                handleOpenModal={item["handleOpenModal"]}
+            />
+        );
+
         const borders: ReactElement[] = [];
         for(let i = 0; i < endHour; i++){
             const isEnd = i == endHour -  1 ? true : false;
@@ -169,7 +199,6 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
             );
         }
         
-        const Day = Util.checkAndGetUndifined(this.state.day);
         return(
             <_Modal className={ "day" + (parseInt(Day)+1)} isOpen={this.props.isOpen}>
                 <div className="container">
@@ -187,7 +216,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                         <Borders className="borders">
                             {borders}
                         </Borders>
-                        {items[Day]}
+                        {itemsElm}
                     </_Timetable>
                 </div>
             </_Modal>

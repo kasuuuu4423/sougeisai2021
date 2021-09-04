@@ -51,7 +51,6 @@ class NavItem extends React.Component<NavItemProps>{
         let siteInfo: {[key: string]: string} = {};
         MicroCms.getSiteInfo((res: {[key: string]: {[key: string]: string | {[key: string]: string}}[]})=>{
             const info = res["contents"][0];
-            console.log(info);
             switch(this.props.type){
                 case 'about':
                     siteInfo = {
