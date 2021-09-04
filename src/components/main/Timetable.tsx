@@ -6,6 +6,7 @@ import MicroCms from "../../lib/microCms";
 import moment from "moment";
 import Color from "../../assets/cssVars/Color";
 import Util from "../../lib/Util";
+import Other from "../../assets/cssVars/Other";
 
 const startHour = 0;
 const StartMin = 0;
@@ -203,8 +204,8 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
             <_Modal className={ "day" + (parseInt(Day)+1)} isOpen={this.props.isOpen}>
                 <div className="container">
                     <div className="back"></div>
-                    <DayButton onClick={this.handle1day} day={0}>Day1</DayButton>
-                    <DayButton onClick={this.handle2day} day={1}>Day2</DayButton>
+                    <DayButton onClick={this.handle1day} day={0} nowDay={Day}>Day1</DayButton>
+                    <DayButton onClick={this.handle2day} day={1} nowDay={Day}>Day2</DayButton>
                     <div onClick={this.props.handleCloseTimetable} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <div>
                         <h1>イベントタイムテーブル</h1>
@@ -400,6 +401,7 @@ const _TimetableItem = styled.div<_TimatableItemProps>`
 
 type DayButtonProps = {
     day: number,
+    nowDay: number,
 };
 
 const DayButton = styled.div<DayButtonProps>`
@@ -407,8 +409,10 @@ const DayButton = styled.div<DayButtonProps>`
     top: ${(props) => props.day == 0 ? "100px" : "160px"};
     left: 0px;
     writing-mode: vertical-lr;
-    background: rgb(195,135,134);
     padding: 10px;
+    padding-left: ${(props) => props.day == props.nowDay ? "8px" : "15px"};
+    background: ${(props) => props.day == props.nowDay ? "#936665" : "rgb(195,135,134)"};
     cursor: pointer;
     border-radius: 0 50% 50% 0;
+    transition: ${Other.TRANSITION};
 `;
