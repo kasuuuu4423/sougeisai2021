@@ -19,6 +19,8 @@ const btn = styled.div<BtnProps>`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Roboto Condensed', "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;;
+    font-weight: 700;
     @media screen and (max-width: 750px){
         font-size: 15px;
     }
@@ -33,7 +35,7 @@ const btn = styled.div<BtnProps>`
 
 export const ZoomoutBtn = styled(btn)`
     position: absolute;
-    bottom: 460px;
+    bottom: 400px;
     left: 25px;
 `;
 
