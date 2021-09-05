@@ -31,6 +31,7 @@ export default class MicroCms{
                 return error;
             });
     }
+
     public static getEventsByAreaId = (areaId: string, callback=(res: {})=>{}) =>{
         const url = "https://sougeisai2021.microcms.io/api/v1/event";
         const queries = { filters: 'area_id[equals]'+areaId };

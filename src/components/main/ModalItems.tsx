@@ -201,6 +201,7 @@ export class Introduction extends React.Component<IntroductionProps>{
 
 type ImageProps = {
     imagePath: string,
+    isContain: boolean,
 };
 
 const _Image = styled.div`
@@ -215,6 +216,11 @@ const _Image = styled.div`
             height: ${150*1.5}px;
             object-fit: cover;
         }
+        &.contain{
+            img{
+                object-fit: contain;
+            }
+        }
     }
 `;
 
@@ -225,14 +231,17 @@ export class Image extends React.Component<ImageProps>{
 
     static defaultProps: ImageProps = {
         imagePath: '',
+        isContain: false,
     };
 
     render(){
         return( 
             <_Image>
-                {this.props.imagePath != '' && <div className="wrap_img">
-                    <img src={this.props.imagePath} alt="" />
-                </div>}
+                {this.props.imagePath != '' && 
+                    <div className={this.props.isContain ? "wrap_img contain" : "wrap_img"}>
+                        <img src={this.props.imagePath} alt="" />
+                    </div>
+                }
             </_Image>
         );
     }

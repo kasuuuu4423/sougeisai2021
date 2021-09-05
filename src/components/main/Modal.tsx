@@ -189,13 +189,15 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     </dl>
                 </div>;
             case 'howToWalk':
-                return <div className="container static howToWalk">
+                return <div className="container howToWalk">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title="サイトの歩き方"/>
                     <dl>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
+                        {info['imageUrl0'] != "" && <Image isContain={true} imagePath={info['imageUrl0']}/>}
+                        <Introduction hideTitle={true} introduction={info['introduction0']}></Introduction>
+                        {info['imageUrl1'] != "" && <Image isContain={true} imagePath={info['imageUrl1']}/>}
+                        <Introduction hideTitle={true} introduction={info['introduction1']}></Introduction>
                     </dl>
                 </div>;
             default:

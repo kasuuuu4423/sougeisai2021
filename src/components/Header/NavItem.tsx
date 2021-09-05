@@ -47,7 +47,6 @@ class NavItem extends React.Component<NavItemProps>{
     }
 
     handleClick = () =>{
-        this.props.onClick();
         let siteInfo: {[key: string]: string} = {};
         MicroCms.getSiteInfo((res: {[key: string]: {[key: string]: string | {[key: string]: string}}[]})=>{
             const info = res["contents"][0];
@@ -70,13 +69,16 @@ class NavItem extends React.Component<NavItemProps>{
                 case 'howToWalk':
                     siteInfo = {
                         'type': 'howToWalk',
-                        'introduction': typeof info["how_to_walk1"] == 'string' ? info["how_to_walk1"] : "",
-                        'imageUrl': typeof info["how_to_walk1_image"] != 'string'? info["how_to_walk1_image"]["url"] : "",
+                        'introduction0': typeof info["how_to_walk0"] == 'string' ? info["how_to_walk0"] : "",
+                        'imageUrl0': typeof info["how_to_walk0_img"] != 'string'? info["how_to_walk0_img"]["url"] : "",
+                        'introduction1': typeof info["how_to_walk1"] == 'string' ? info["how_to_walk1"] : "",
+                        'imageUrl1': typeof info["how_to_walk1_img"] != 'string'? info["how_to_walk1_img"]["url"] : "",
                     };
                     this.props.handleOpenModal(siteInfo);
                     break;
             }
         });
+        this.props.onClick();
     }
 
     render(){
