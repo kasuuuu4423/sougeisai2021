@@ -8,6 +8,7 @@ type TopProps = {};
 type TopState = {
     loadStatus?: boolean,
     enter?: boolean,
+    display?: string,
 };
 
 class Top extends React.Component<TopProps, TopState>{
@@ -17,6 +18,7 @@ class Top extends React.Component<TopProps, TopState>{
         this.state = {
             loadStatus: false,
             enter: false,
+            display: "block",
         };
     }
 
@@ -32,25 +34,31 @@ class Top extends React.Component<TopProps, TopState>{
         this.setState({
             enter: true,
         });
+        setTimeout(()=>{
+            this.setState({
+                display: "none",
+            });
+        }, 200);
     }
 
     render(){
         let loadPath = window.location.origin+"/img/top/loading.gif";
         let logoPath = window.location.origin+"/img/top/logo.png";
         let scuLogoPath = window.location.origin+"/img/nav/scu.png";
-        let CloudPath1 = window.location.origin+"/img/nav/scu.png";
-        let CloudPath2 = window.location.origin+"/img/nav/scu.png";
+        let CloudPath1 = window.location.origin+"/img/top/cloud_L.png";
+        let CloudPath2 = window.location.origin+"/img/top/cloud_R.png";
         let loadStatus = this.state.loadStatus != null ? this.state.loadStatus : false;
         const enter = Util.checkAndGetUndifined(this.state.enter);
+        const display = Util.checkAndGetUndifined(this.state.display);
         return(
-            <Container>
-                <Cloud enter={enter} didMount={loadStatus} src={CloudPath1}/>
-                <Cloud2 enter={enter} didMount={loadStatus} src={CloudPath2}/>
-                <Logo enter={enter} didMount={loadStatus} src={logoPath} alt="桑芸祭 ロゴ" />
-                <ScuLogo enter={enter} didMount={loadStatus} src={scuLogoPath} alt="桑芸祭 ロゴ" />
-                <Enter onClick={this.handleClickEnter} enter={enter} didMount={loadStatus}>ENTER</Enter>
-                <Back enter={enter} didMount={loadStatus} />
-                <Loading enter={enter} didMount={loadStatus} src={loadPath} alt="" />
+            <Container display={display} enter={enter} didMount={loadStatus}>
+                <Cloud display={display} className="cloud" enter={enter} didMount={loadStatus} src={CloudPath1}/>
+                <Cloud2 display={display} className="cloud" enter={enter} didMount={loadStatus} src={CloudPath2}/>
+                <Logo display={display} className="logo" enter={enter} didMount={loadStatus} src={logoPath} alt="桑芸祭 ロゴ" />
+                <ScuLogo display={display} className="scu" enter={enter} didMount={loadStatus} src={scuLogoPath} alt="桑芸祭 ロゴ" />
+                <Enter display={display} className="enter" onClick={this.handleClickEnter} enter={enter} didMount={loadStatus}>ENTER</Enter>
+                <Back display={display} className="back" enter={enter} didMount={loadStatus} />
+                <Loading display={display} className="load" enter={enter} didMount={loadStatus} src={loadPath} alt="" />
             </Container>
         );
     }
@@ -61,16 +69,27 @@ export default Top;
 type didMount = {
     didMount: boolean,
     enter: boolean,
+    display: string,
 };
 
 
-const Container = styled.div`
+const Container = styled.div<didMount>`
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 100;
+    visibility: visible;
+    opacity: 1;
+    transition: 1s cubic-bezier(0.97, 0, 1, 0.4);
+    ${(props) =>
+        props.enter
+            ? css`
+                visibility: hidden;
+                opacity: 0;
+            `
+    :''}
 `;
 
 const Back = styled.div<didMount>`
@@ -80,10 +99,15 @@ const Back = styled.div<didMount>`
     width: 100%;
     height: 100%;
     background: ${Color.WHITE};
+    visibility: visible;
+    opacity: 1;
+    transition: ${Other.TRANSITION};
+    //display: ${(props)=> props.display ? props.display : "block"};
     ${(props) =>
         props.didMount
             ? css`
-                display: none;
+                visibility: hidden;
+                opacity: 0;
             `
     :''}
 `;
@@ -93,9 +117,9 @@ const Cloud = styled.img<didMount>`
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    transition: 1.5s;
-    width: 60%;
-    height: 100%;
+    transition: 1s cubic-bezier(0.5, 0.07, 0.69, 0.98);
+    width: 70%;
+    min-height: 100%;
     ${(props) =>
         props.enter
             ? css`
@@ -139,10 +163,12 @@ const Logo = styled.img<didMount>`
     height: auto;
     transition: ${Other.TRANSITION};
     opacity: 0;
+    transition: ${Other.TRANSITION};
     ${(props) =>
         props.didMount
             ? css`
                 opacity: 1;
+                visibility: visible;
             top: 45%;
             `
     :''}
@@ -150,6 +176,7 @@ const Logo = styled.img<didMount>`
         props.enter
             ? css`
                 opacity: 0;
+                visibility: hidden;
             `
     :''}
 `;
@@ -170,6 +197,7 @@ const Enter = styled.div<didMount>`
     transition: ${Other.TRANSITION};
     opacity: 0;
     font-size: 20px;
+    cursor: pointer;
     ${(props) =>
         props.didMount
             ? css`
