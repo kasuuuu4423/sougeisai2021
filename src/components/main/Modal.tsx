@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
 import Other from "../../assets/cssVars/Other";
-import {Title, Group, Introduction, Image, Links, ToTimetable} from "./ModalItems";
+import {Title, Group, Introduction, Image, Links, ToTimetable, LabLink, WrapLabLink} from "./ModalItems";
+import MicroCms from "../../lib/microCms";
 
 type ModalProps = {
     isOpen: boolean,
@@ -27,13 +28,22 @@ type ModalProps = {
     */
 };
 
-type ModalState = {};
+type ModalState = {
+    labs: {"name": string, "youtube_id": string}[],
+};
 
 class Modal extends React.Component<ModalProps, ModalState>{
     private iconStyle: React.CSSProperties = { fontSize: "2rem" };
 
     constructor(props: ModalProps){
         super(props);
+        MicroCms.getLabs((res: {[key: string]: {[key: string]: string}[]})=>{
+            console.log(res["contents"]);
+            const labs = res["contents"].map(lab => ({"name": lab["name"], "youtube_id": lab["youtube_id"]}));
+            this.setState({
+                labs: labs,
+            });
+        });
     }
 
     static defaultProps: ModalProps = {
@@ -200,6 +210,20 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Introduction hideTitle={true} introduction={info['introduction1']}></Introduction>
                     </dl>
                 </div>;
+            case 'lab':
+                const labs = this.state.labs != null ? this.state.labs : [];
+                console.log(info);
+                return <div className="container howToWalk">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title="研究室紹介"/>
+                    <WrapLabLink>
+                        <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
+                        {labs.map(lab =>
+                            <LabLink name={lab["name"]} youtube_id={lab["youtube_id"]} />
+                        )}
+                    </WrapLabLink>
+                </div>;
             default:
                 return <div></div>;
         }
@@ -271,6 +295,7 @@ export const _Modal = styled.div<_ModalProps>`
             dl{
                 overflow: unset;
                 justify-content: center;
+                padding-right: 0;
                 dd{
                     text-align: center;
                     width: 100%;
@@ -320,6 +345,7 @@ export const _Modal = styled.div<_ModalProps>`
         }
         dl{
             overflow-y: scroll;
+            padding-right: 20px;
             height: 100%;
             margin: 0;
         }

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
-import React from "react";
+import React, { ReactElement } from "react";
 import styled, {css} from "styled-components";
 import Color from "../../assets/cssVars/Color";
 import Other from "../../assets/cssVars/Other";
@@ -187,7 +187,7 @@ export class Introduction extends React.Component<IntroductionProps>{
 
     render(){
         return(
-            <_Introduction>
+            <_Introduction className="introduction">
                 {!this.props.hideTitle && <dt>説明</dt>}
                 <dd>
                     <p>
@@ -354,3 +354,63 @@ export class ToTimetable extends React.Component<ToTimetableProps>{
         );
     }
 }
+
+
+type LabLinkProps = {
+    name: string,
+    youtube_id: string,
+};
+
+const _LabLink = styled.div`
+`;
+
+export class LabLink extends React.Component<LabLinkProps>{
+    constructor(props: LabLinkProps){
+        super(props);
+    }
+
+    static defaultProps: LabLinkProps = {
+        name: "",
+        youtube_id: "",
+    };
+
+    render(){
+        return(
+            <_LabLink className="labLink">
+                <a target="_blank" href={"https://www.youtube.com/watch?v=" + this.props.youtube_id}>
+                    <div className="wrap_img">
+                        <img src={"http://img.youtube.com/vi/" + this.props.youtube_id + "/mqdefault.jpg"} alt="" />
+                    </div>
+                    <div className="name">{this.props.name}</div>
+                </a>
+            </_LabLink>
+        );
+    }
+}
+
+
+export const WrapLabLink = styled.div`
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
+    gap: 30px 20px;
+    .introduction{
+        grid-column: 1/3;
+        dd{
+            padding: 0;
+            margin: 0;
+        }
+    }
+    .labLink{
+        width: 100%;
+        .wrap_img{
+            width: 100%;
+            img{
+                width: 100%;
+            }
+        }
+        .name{
+            text-align: center;
+            font-weight: 700;
+        }
+    }
+`;

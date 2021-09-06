@@ -48,7 +48,7 @@ class Main extends React.Component<MainProps, MainState>{
         const timetableIsOpen = this.props.timetableIsOpen != null ? this.props.timetableIsOpen : false;
         return(
             <_Main>
-                <Top></Top>
+                {/* <Top/> */}
                 <Map modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
                 <Modal handleOpenTimetable={this.props.handleOpenTimetalbe} handleCloseModal={this.props.handleCloseModal} info={this.props.modalInfo} isOpen={modalIsOpen}></Modal>
                 <Timetable handleCloseTimetable={this.props.handleCloseTimetalbe} isOpen={timetableIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal}></Timetable>
