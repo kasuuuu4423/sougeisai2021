@@ -24,6 +24,7 @@ type TimetableProps = {
 type TimetableState = {
     tableItems?: eventItem[][],
     day?: number,
+    now?: moment.Moment,
 };
 
 type modalData = {
@@ -57,6 +58,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
         this.state = {
             tableItems: [[], []],
             day: 0,
+            now: moment(),
         };
 
         const Day = Util.checkAndGetUndifined(this.state.day);
@@ -174,6 +176,15 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
     }
 
     render(){
+        setTimeout(()=>{
+            this.setState({
+                now: moment(),
+            });
+        }, 60000);
+        const Now = this.state.now != null ? this.state.now : moment();
+        const Start = moment({'hour': startHour, 'minute': StartMin});
+        const NowDiff = Util.millisToHour(Now.diff(Start));
+
         const Day = Util.checkAndGetUndifined(this.state.day);
         const items = this.state.tableItems != null ? this.state.tableItems : [];
         const itemsElm: ReactElement[] = items[Day].map(item =>
@@ -218,6 +229,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                             {borders}
                         </Borders>
                         {itemsElm}
+                        <NowBorder top={NowDiff}/>
                     </_Timetable>
                 </div>
             </_Modal>
@@ -226,6 +238,20 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
 }
 
 export default Timetable;
+
+
+type NowBorderProps = {
+    top: number,
+};
+const NowBorder = styled.div<NowBorderProps>`
+    position: absolute;
+    border-radius: 5px;
+    width: 80%;
+    height: 3px;
+    background: ${Color.PINK};
+    top: ${(props) => props.top ? (props.top)*40 : 0}px;
+    left: 57px;
+`;
 
 const Borders = styled.div`
     position: relative;
@@ -411,7 +437,7 @@ const DayButton = styled.div<DayButtonProps>`
     writing-mode: vertical-lr;
     padding: 10px;
     padding-left: ${(props) => props.day == props.nowDay ? "8px" : "15px"};
-    background: ${(props) => props.day == props.nowDay ? "#936665" : "rgb(195,135,134)"};
+    background: ${(props) => props.day == props.nowDay ? "#936665" : Color.PINK};
     cursor: pointer;
     border-radius: 0 50% 50% 0;
     transition: ${Other.TRANSITION};
