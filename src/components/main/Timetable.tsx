@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import styled, {css, CSSProperties} from "styled-components";
 import {_Modal} from "./Modal";
-import { Links  } from "./ModalItems";
+import { Links, Title  } from "./ModalItems";
 import MicroCms from "../../lib/microCms";
 import moment from "moment";
 import Color from "../../assets/cssVars/Color";
@@ -219,7 +219,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                     <DayButton onClick={this.handle2day} day={1} nowDay={Day}>Day2</DayButton>
                     <div onClick={this.props.handleCloseTimetable} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <div>
-                        <h1>イベントタイムテーブル</h1>
+                        <Title title="イベントタイムテーブル"/>
                         <Links hideTitle={true} Links={{
                             '配信先LINK→': 'https://youtube.com',
                         }}/>
@@ -251,6 +251,9 @@ const NowBorder = styled.div<NowBorderProps>`
     background: ${Color.PINK};
     top: ${(props) => props.top ? props.top * 40 + 10 : 0}px;
     left: 57px;
+    @media screen and (max-width: 750px){
+        left: calc(2rem + 10px);
+    }
 `;
 
 const Borders = styled.div`
@@ -266,11 +269,14 @@ const Border = styled.div<BorderProps>`
     height: 40px;
     width: 80%;
     margin: 0;
-    margin-left: calc(3rem + 10px);
+    margin-left: calc(2rem + 10px);
     position: relative;
     &::before, &::after{
         position: absolute;
         padding-right: 10px;
+    }
+    @media screen and (max-width: 750px){
+        width: calc(100% - 2rem - 10px);
     }
     ${(props) => !props.isEnd
     ? css`
@@ -300,7 +306,11 @@ const _Timetable = styled.div<_TimetableProps>`
     position: relative;
     top: 0;
     left: 20px;
+    width: calc(100% - 20px);
     overflow-y: scroll;
+    @media screen and (max-width: 750px){
+        overflow-x: hidden;
+    }
 `;
 
 type TimetableItemProps = {
@@ -392,7 +402,7 @@ const _TimetableItem = styled.div<_TimatableItemProps>`
     height: ${props => props.duration ? props.duration * 40 + 'px' : 'auto'};
     position: absolute;
     top: ${(props) => props.top ? props.top + 10 : 0}px;
-    left: calc(4rem + 20px);
+    left: calc(4rem + 4px);
     padding-left: 5px;
     width: calc(74% - 5px);
     cursor: pointer;
@@ -420,4 +430,7 @@ const DayButton = styled.div<DayButtonProps>`
     cursor: pointer;
     border-radius: 0 50% 50% 0;
     transition: ${Other.TRANSITION};
+    @media screen and (max-width: 750px){
+    padding-left: ${(props) => props.day == props.nowDay ? "5px" : "8px"};
+    }
 `;

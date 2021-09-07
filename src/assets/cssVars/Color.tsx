@@ -9,7 +9,7 @@ export default {
     MIDDLEBLUEGREEN: '#1AABB0',
     CIRCLE: 'rgb(90, 143, 168)',
     EASTER: 'rgb(115,108,118)',
-    MARKET: 'rgb(237,228,158)',
+    MARKET: '#cfc554',
     PHOTO: 'rgb(125,179,200)',
     LAB: 'rgb(113,129,197)',
     LIGHTPURPLE: "RGB(158,180,225)",

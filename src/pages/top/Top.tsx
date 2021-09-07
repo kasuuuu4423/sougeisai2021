@@ -120,23 +120,29 @@ const Back = styled.div<didMount>`
 
 const Cloud = styled.img<didMount>`
     position: fixed;
-    left: 0;
+    right: 5%;
     top: 50%;
     transform: translateY(-50%);
     transition: 1s cubic-bezier(0.5, 0.07, 0.69, 0.98);
-    width: 70%;
-    min-height: 100%;
+    width: 95%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right;
     ${(props) =>
         props.enter
             ? css`
                 transform: translate(-100%, -50%);
             `
     :''}
+    @media screen and (max-width: 750px){
+        
+    }
 `;
 
 const Cloud2 = styled(Cloud)`
-    left: auto;
-    right: 0;
+    left: 5%;
+    right: auto;
+    object-position: left;
     ${(props) =>
         props.enter
             ? css`
@@ -158,6 +164,9 @@ const Loading = styled.img<didMount>`
                 display: none;
             `
     :''}
+    @media screen and (max-width: 750px){
+        width: 150px;
+    }
 `;
 
 const Logo = styled.img<didMount>`

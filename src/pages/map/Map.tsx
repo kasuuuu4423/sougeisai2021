@@ -4,7 +4,7 @@ import { Layer, Rect, Stage, Image } from "react-konva";
 import Konva from "konva";
 import Place from "./Place";
 import Area from "./Area";
-import { ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn, BtnLabelArea, BtnLabelFloor, InfoBtn } from "./buttons";
+import { WrapButtons, ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn, BtnLabelArea, BtnLabelFloor, InfoBtn } from "./buttons";
 import MicroCms from "../../lib/microCms";
 import Util from "../../lib/Util";
 import { throws } from "assert";
@@ -21,8 +21,13 @@ const Test = styled.div`
     font-size: 50px;
 `;
 
-const Background = styled.div`
+type BackgroundProps = {
+    brightness: number,
+};
+const Background = styled.div<BackgroundProps>`
     background: #319EA7;
+    /* filter: ${(props) => props.brightness ? props.brightness : ""}; */
+    filter: brightness(${(props) => props.brightness != null ? props.brightness : 1});
 `;
 
 type MapProps = {
@@ -31,6 +36,7 @@ type MapProps = {
     handleOpenModal: (info: {[key: string]: string})=>void,
     handleCloseModal: ()=>void,
     modalIsOpen: boolean,
+    brightness: number,
 };
 type MapState = {
     width?: number,
@@ -318,8 +324,9 @@ class Map extends React.Component<MapProps, MapState>{
 
         const areaName = Util.checkAndGetUndifined(this.state.areaInfo)["name"];
         const areaIntro =  Util.checkAndGetUndifined(this.state.areaInfo)["introduction"];
+        console.log(this.props.brightness);
         return(
-            <Background>
+            <Background brightness={this.props.brightness}>
                 <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
                     x={this.state.x} y={this.state.y}width={document.documentElement.clientWidth} height={document.documentElement.clientHeight}>
                         <Layer>
@@ -332,17 +339,19 @@ class Map extends React.Component<MapProps, MapState>{
                                     width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
                             )
                         }
-                        <Area onClick={this.handleClickAt} width={90} height={100} x={this.getRelativePostion(555, "x")} y={this.getRelativePostion(250, "y")} />
+                        <Area onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave} onClick={this.handleClickAt} width={90} height={100} x={this.getRelativePostion(555, "x")} y={this.getRelativePostion(250, "y")} />
                 </Stage>
-                {isZoom && <ZoomoutBtn isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>}
-                {/* <InfoBtn isZoom={isZoom}>?</InfoBtn> */}
-                {isZoom && <BtnLabelFloor isZoom={isZoom}>floor</BtnLabelFloor>}
-                {isZoom && level > 0 && <LevelPlusBtn onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
-                {isZoom && maxLevel-1 > level && <LevelMinusBtn onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
-                {isZoom && <BtnLabelArea isZoom={isZoom}>area</BtnLabelArea>}
-                {isZoom && <AreaMovePlusBtn onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>}
-                {isZoom && <AreaMoveMinusBtn onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>}
-                {isZoom && <AreaIntroduction name={areaName} introduction={areaIntro} />}
+                <WrapButtons>
+                    {isZoom && <ZoomoutBtn hidden={false} isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>}
+                    {/* <InfoBtn isZoom={isZoom}>?</InfoBtn> */}
+                    {isZoom && <BtnLabelFloor hidden={false} isZoom={isZoom}>floor</BtnLabelFloor>}
+                    {isZoom && <LevelPlusBtn hidden={!(level > 0)} onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
+                    {isZoom && <LevelMinusBtn hidden={!(maxLevel-1 > level)} onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}
+                    {isZoom && <BtnLabelArea hidden={false} isZoom={isZoom}>area</BtnLabelArea>}
+                    {isZoom && <AreaMovePlusBtn hidden={false} onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>}
+                    {isZoom && <AreaMoveMinusBtn hidden={false} onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>}
+                    {isZoom && <AreaIntroduction name={areaName} introduction={areaIntro} />}
+                </WrapButtons>
             </Background>
         );
     }

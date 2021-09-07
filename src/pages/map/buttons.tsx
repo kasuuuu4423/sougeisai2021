@@ -2,8 +2,16 @@ import React from "react";
 import styled, {css, CSSProperties} from "styled-components";
 import Other from "../../assets/cssVars/Other";
 
+
+export const WrapButtons = styled.div`
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+`;
+
 type BtnProps = {
     isZoom: boolean,
+    hidden: boolean,
 };
 
 const btn = styled.div<BtnProps>`
@@ -21,8 +29,12 @@ const btn = styled.div<BtnProps>`
     align-items: center;
     font-family: 'Roboto Condensed', "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;;
     font-weight: 700;
+    visibility: visible;
+    margin-bottom: 10px;
     @media screen and (max-width: 750px){
         font-size: 15px;
+        width: 40px;
+        height: 40px;
     }
     ${(props) =>
         props.isZoom
@@ -30,57 +42,39 @@ const btn = styled.div<BtnProps>`
                 opacity: 1;
             `
     :''}
+    ${(props) =>
+        props.hidden
+            ? css`
+                visibility: hidden;
+                opacity: 0;
+            `
+    :''}
 `;
 
-
 export const ZoomoutBtn = styled(btn)`
-    position: absolute;
-    bottom: 400px;
-    left: 25px;
 `;
 
 export const InfoBtn = styled(btn)`
-    position: absolute;
-    bottom: 400px;
-    left: 25px;
 `;
 
 export const BtnLabelFloor = styled(btn)`
     height: auto;
-    position: absolute;
-    bottom: 340px;
-    left: 25px;
 `;
 
 export const LevelPlusBtn = styled(btn)`
-    position: absolute;
-    bottom: 280px;
-    left: 25px;
 `;
 
 export const LevelMinusBtn = styled(btn)`
-    position: absolute;
-    bottom: 220px;
-    left: 25px;
 `;
 
 export const BtnLabelArea = styled(btn)`
     height: auto;
-    position: absolute;
-    bottom: 160px;
-    left: 25px;
 `;
 
 export const AreaMovePlusBtn = styled(btn)`
-    position: absolute;
-    bottom: 100px;
-    left: 25px;
 `;
 
 export const AreaMoveMinusBtn = styled(btn)`
-    position: absolute;
-    bottom: 40px;
-    left: 25px;
 `;
 
 

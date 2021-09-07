@@ -23,6 +23,7 @@ type MainProps = {
     handleCloseModal: ()=>void,
     modalIsOpen?: boolean,
     modalInfo?: {[key: string]: string},
+    mapBrightness: number,
 };
 type MainState = {
 };
@@ -34,7 +35,6 @@ class Main extends React.Component<MainProps, MainState>{
         super(props);
 
         this.state = {
-            modalIsOpen: false,
         };
     }
 
@@ -49,7 +49,7 @@ class Main extends React.Component<MainProps, MainState>{
         return(
             <_Main>
                 <Top/>
-                <Map modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
+                <Map brightness={this.props.mapBrightness} modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
                 <Modal handleOpenTimetable={this.props.handleOpenTimetalbe} handleCloseModal={this.props.handleCloseModal} info={this.props.modalInfo} isOpen={modalIsOpen}></Modal>
                 <Timetable handleCloseTimetable={this.props.handleCloseTimetalbe} isOpen={timetableIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal}/>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[0].toString() + "px"} top={this.cloud_y[0].toString() + "px"} ></Cloud>

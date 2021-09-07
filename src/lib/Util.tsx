@@ -69,6 +69,12 @@ class Util{
     public static millisToHour = (millis: number) =>{
         return millis/1000/60/60;
     }
+
+    public static ifSp = (callback: ()=>void) =>{
+        if(document.documentElement.clientWidth < 750){
+            callback();
+        }
+    }
 }
 
 export default Util;

@@ -30,6 +30,7 @@ const Introduction = styled.div`
     position: fixed;
     top: 20px;
     left: 0;
+    max-width: 100%;
     h2, .introduction{
         background: ${Color.WHITE};
         padding: 20px;
@@ -44,5 +45,12 @@ const Introduction = styled.div`
         min-width: 200px;
         width: fit-content;
         border-radius: 0 2rem 1.5rem 0;
+        max-width: calc(100% - 40px);
+        line-break: anywhere;
+    }
+    @media screen and (max-width: 750px){
+        h2, .introduction{
+            padding: 10px;
+        }
     }
 `;

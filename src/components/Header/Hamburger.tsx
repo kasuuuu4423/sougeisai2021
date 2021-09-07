@@ -57,6 +57,9 @@ const WrapHam = styled.div`
     height: 20px;
     margin: ${Margin.M};
     cursor: pointer;
+    @media screen and (max-width: 750px){
+        top: 10px;
+    }
     &::before{
         content: "";
         background-image: url("${window.location.origin}/img/nav/cloud_ham.png");
@@ -68,6 +71,9 @@ const WrapHam = styled.div`
         height: 80px;
         left: -10px;
         top: 77px;
+    @media screen and (max-width: 750px){
+        top: 14px;
+    }
     }
 `;
 

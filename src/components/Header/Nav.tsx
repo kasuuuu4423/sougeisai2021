@@ -97,6 +97,10 @@ const WrapNav = styled.nav<WrapNavProps>`
     margin-top: 122px;
     border-radius: 0 10px 0 0;
     background: ${Color.LIGHTGRAY};
+    @media screen and (max-width: 750px){
+        height: calc(100vh - 66px);
+        margin-top: 66px;
+    }
     ${(props) =>
         props.isOpen
             ? css`

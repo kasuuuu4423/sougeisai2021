@@ -244,9 +244,12 @@ export const _Modal = styled.div<_ModalProps>`
     color: ${Color.WHITE};
     max-width: 500px;
     max-height: 90vh;
-    width: calc(100% - 50px);
+    width: calc(100% - 60px);
     border-radius: 10px;
     transition: ${Other.TRANSITION};
+    @media screen and (max-width: 750px){
+        top: calc(50% + 30px);
+    }
     ${(props) =>
         props.isOpen
             ? css`
@@ -290,6 +293,9 @@ export const _Modal = styled.div<_ModalProps>`
         display: grid;
         row-gap: 10px;
         grid-template-rows: 4rem calc(80vh - 5rem);
+    @media screen and (max-width: 750px){
+        grid-template-rows: 4rem calc(65vh - 4rem);
+    }
         &.static{
             dl{
                 overflow: unset;
@@ -341,6 +347,10 @@ export const _Modal = styled.div<_ModalProps>`
             img{
                 width: 100%;
             }
+            @media screen and (max-width: 750px){
+                width: 100px;
+                left: 20px;
+            }
         }
         dl{
             overflow-y: scroll;
@@ -362,6 +372,9 @@ export const _Modal = styled.div<_ModalProps>`
             }
             dt{
                 font-size: ${FontSize.LM};
+                @media screen and (max-width: 750px){
+                    font-size: ${FontSize.M};
+                }
             }
             dd{
                 text-align: left;

@@ -14,6 +14,7 @@ type SiteState = {
   timetableIsOpen: boolean,
   modalIsOpen?: boolean,
   modalInfo?: {[key: string]: string},
+  mapBrightness: number,
 };
 
 class Site extends React.Component<{}, SiteState> {
@@ -23,6 +24,7 @@ class Site extends React.Component<{}, SiteState> {
     this.state = {
       isZoom: false,
       timetableIsOpen: false,
+      mapBrightness: 1,
     };
   }
 
@@ -31,11 +33,21 @@ class Site extends React.Component<{}, SiteState> {
       modalIsOpen: true,
       modalInfo: info,
     });
+    Util.ifSp(()=>{
+      this.setState({
+        mapBrightness: 0.5,
+      });
+    });
   }
 
   handleCloseModal = () =>{
     this.setState({
       modalIsOpen: false,
+    });
+    Util.ifSp(()=>{
+      this.setState({
+        mapBrightness: 1,
+      });
     });
   }
 
@@ -55,20 +67,34 @@ class Site extends React.Component<{}, SiteState> {
     this.setState({
       timetableIsOpen: true,
     });
+    Util.ifSp(()=>{
+      this.setState({
+        mapBrightness: 0.5,
+      });
+    });
   }
 
   handleClsoeTimetable = () =>{
     this.setState({
       timetableIsOpen: false,
     });
+    Util.ifSp(()=>{
+      this.setState({
+        mapBrightness: 1,
+      });
+    });
+  }
+
+  handleMapGrayout = () =>{
   }
 
   render() {
     let isZoom = Util.checkAndGetUndifined(this.state.isZoom);
+    const mapBrightness = Util.checkAndGetUndifined(this.state.mapBrightness);
     return (
       <Container className="container">
         {!Util.checkAndGetUndifined(this.state.isZoom) && <Header handleOpenModal={this.handleOpenModal} handleOpenTImetable={this.handleOpenTimetable}></Header>}
-        <Main modalIsOpen={this.state.modalIsOpen} modalInfo={this.state.modalInfo} handleCloseModal={this.handleCloseModal} handleOpenModal={this.handleOpenModal} timetableIsOpen={this.state.timetableIsOpen} handleOpenTimetalbe={this.handleOpenTimetable} handleCloseTimetalbe={this.handleClsoeTimetable} isZoom={isZoom} handleIsZoom={this.handleIsZoom} handleIsZoomout={this.handleIsZoomout}></Main>
+        <Main mapBrightness={mapBrightness} modalIsOpen={this.state.modalIsOpen} modalInfo={this.state.modalInfo} handleCloseModal={this.handleCloseModal} handleOpenModal={this.handleOpenModal} timetableIsOpen={this.state.timetableIsOpen} handleOpenTimetalbe={this.handleOpenTimetable} handleCloseTimetalbe={this.handleClsoeTimetable} isZoom={isZoom} handleIsZoom={this.handleIsZoom} handleIsZoomout={this.handleIsZoomout}></Main>
       </Container>
     );
   }

@@ -23,6 +23,11 @@ const _Title = styled.div`
     h1{
         width: 100%;
     }
+    @media screen and (max-width: 750px){
+        h1{
+            font-size: 1.2rem;
+        }
+    }
 `;
 
 export class Title extends React.Component<TitleProps>{
@@ -77,6 +82,9 @@ const _Group = styled.div<_GroupProps>`
         font-size: 2rem;
         width: calc(100% - 5rem);
         margin-bottom: 0;
+        @media screen and (max-width: 750px){
+            font-size: 1.2rem;
+        }
         ${(props) =>
             props.hideDt
                 ? css`
@@ -284,6 +292,7 @@ const _Links = styled.div`
                     span{
                         display: inline-block;
                         margin-right: 5px;
+                        font-size: ${FontSize.MS};
                     }
                 }
                 a{
