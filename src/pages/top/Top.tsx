@@ -30,7 +30,9 @@ class Top extends React.Component<TopProps, TopState>{
             if(window.sessionStorage.getItem('isSkip') == 'true'){
                 this.handleClickEnter();
             }
-            window.sessionStorage.setItem('isSkip', 'true');
+            else{
+                window.sessionStorage.setItem('isSkip', 'true');
+            }
         }, 2499);
     }
 
