@@ -5,6 +5,7 @@ import React, { ReactElement } from "react";
 import styled, {css} from "styled-components";
 import Color from "../../assets/cssVars/Color";
 import Other from "../../assets/cssVars/Other";
+import FontSize from "../../assets/cssVars/FontSize";
 
 const iconStyle: React.CSSProperties = { fontSize: "2rem" };
 
@@ -97,6 +98,9 @@ const _Group = styled.div<_GroupProps>`
     .status{
         width: 100%;
     }
+    .place{
+        font-size: ${FontSize.LM};
+    }
     .sns{
         align-items: center;
         display: flex;
@@ -149,7 +153,7 @@ export class Group extends React.Component<GroupProps>{
                     <dd><p>{this.props.introduction}</p></dd>
                 </div>}
                 <dt>活動場所</dt>
-                <dd>{this.props.place}</dd>
+                <dd className="place">{this.props.place}</dd>
                 {this.props.status != '' && <div className="status">
                     <dt>現在の活動状況</dt>
                     <dd>{this.props.status}</dd>
@@ -162,15 +166,22 @@ export class Group extends React.Component<GroupProps>{
 type IntroductionProps = {
     introduction: string,
     hideTitle: boolean,
+    textAlign: string,
+    lineHeight: number,
 };
 
-const _Introduction = styled.div`
+const _Introduction = styled.div<{
+    textAlign: string,
+    lineHeight: number,
+    }>`
     display: flex;
     dd{
         margin-left: 20px;
         p{
             margin: 0;
             white-space: pre-wrap;
+            text-align: ${(props) => props.textAlign ? props.textAlign : "left"};
+            line-height: ${(props) => props.lineHeight ? props.lineHeight : 1}rem;
         }
     }
 `;
@@ -183,11 +194,13 @@ export class Introduction extends React.Component<IntroductionProps>{
     static defaultProps: IntroductionProps = {
         introduction: '',
         hideTitle: false,
+        textAlign: "left",
+        lineHeight: 1,
     };
 
     render(){
         return(
-            <_Introduction className="introduction">
+            <_Introduction lineHeight={this.props.lineHeight} textAlign={this.props.textAlign} className="introduction">
                 {!this.props.hideTitle && <dt>説明</dt>}
                 <dd>
                     <p>
@@ -267,6 +280,11 @@ const _Links = styled.div`
                     width: 100%;
                     grid-column: 1 / 2;
                     margin: auto;
+                    text-align: right;
+                    span{
+                        display: inline-block;
+                        margin-right: 5px;
+                    }
                 }
                 a{
                     display: block;
@@ -301,12 +319,12 @@ export class Links extends React.Component<LinksProps>{
     render(){
         return(
             <_Links>
-                {!this.props.hideTitle && <dt className="w-100">{this.props.title + "："} {this.props.time != '' ? this.props.time : ""}</dt>}
+                {!this.props.hideTitle && <dt className="w-100">{this.props.title + "："} {this.props.time != '' ? this.props.time : ""}〜</dt>}
                 <dd className="links">
                     {Object.keys(this.props.Links).map((value, index) => {
                         return(
                             <div className="link">
-                                <div>{value}</div>
+                                <div><span>{value}</span></div>
                                 <a href={this.props.Links[value]} target="_blank">Watch!!</a>
                             </div>
                         );
@@ -328,6 +346,7 @@ const _ToTimetable = styled.div`
     column-gap: 10px;
     align-items: center;
     width: 100%;
+    cursor: pointer;
     span{
         text-align: right;
     }
@@ -400,6 +419,7 @@ export const WrapLabLink = styled.div`
     display: grid;
     grid-template-columns: 0.5fr 0.5fr;
     gap: 30px 20px;
+    overflow-y: scroll;
     .introduction{
         grid-column: 1/3;
         dd{

@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import styled, {css, CSSProperties} from "styled-components";
 import Color from "../../assets/cssVars/Color";
+import FontSize from "../../assets/cssVars/FontSize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
@@ -124,7 +125,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        <Links title="配信時間" time={info['onAirAt']} Links={{
+                        <Links title="" hideTitle={true} Links={{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>
@@ -164,7 +165,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title={info['title']} subTitle="イースターエッグ"/>
                     <dl>
-                        <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
+                        <Introduction lineHeight={2} textAlign="center" hideTitle={true} introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
                     </dl>
                 </div>;
@@ -241,7 +242,7 @@ export const _Modal = styled.div<_ModalProps>`
     background: ${Color.BLUEGREEN};
     z-index: 1;
     color: ${Color.WHITE};
-    max-width: 450px;
+    max-width: 500px;
     max-height: 90vh;
     width: calc(100% - 50px);
     border-radius: 10px;
@@ -358,6 +359,9 @@ export const _Modal = styled.div<_ModalProps>`
             flex-wrap: wrap;
             dt, dd, div{
                 margin-bottom: 10px;
+            }
+            dt{
+                font-size: ${FontSize.LM};
             }
             dd{
                 text-align: left;
