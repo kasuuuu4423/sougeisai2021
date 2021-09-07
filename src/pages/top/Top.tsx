@@ -58,12 +58,12 @@ class Top extends React.Component<TopProps, TopState>{
         const display = Util.checkAndGetUndifined(this.state.display);
         return(
             <Container display={display} enter={enter} didMount={loadStatus}>
+                <Back display={display} className="back" enter={enter} didMount={loadStatus} />
                 <Cloud display={display} className="cloud" enter={enter} didMount={loadStatus} src={CloudPath1}/>
                 <Cloud2 display={display} className="cloud" enter={enter} didMount={loadStatus} src={CloudPath2}/>
                 <Logo display={display} className="logo" enter={enter} didMount={loadStatus} src={logoPath} alt="桑芸祭 ロゴ" />
                 <ScuLogo display={display} className="scu" enter={enter} didMount={loadStatus} src={scuLogoPath} alt="桑芸祭 ロゴ" />
                 <Enter display={display} className="enter" onClick={this.handleClickEnter} enter={enter} didMount={loadStatus}>ENTER</Enter>
-                <Back display={display} className="back" enter={enter} didMount={loadStatus} />
                 <Loading display={display} className="load" enter={enter} didMount={loadStatus} src={loadPath} alt="" />
             </Container>
         );
