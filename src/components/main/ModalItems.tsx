@@ -319,6 +319,7 @@ export class Links extends React.Component<LinksProps>{
 
 type ToTimetableProps = {
     handleOpenTimetable: ()=>void,
+    handleCloseModal: ()=>void,
 };
 
 const _ToTimetable = styled.div`
@@ -343,11 +344,17 @@ export class ToTimetable extends React.Component<ToTimetableProps>{
 
     static defaultProps: ToTimetableProps = {
         handleOpenTimetable: ()=>{},
+        handleCloseModal: ()=>{},
     };
+
+    handleClick = () =>{
+        this.props.handleCloseModal();
+        this.props.handleOpenTimetable();
+    }
 
     render(){
         return(
-            <_ToTimetable onClick={this.props.handleOpenTimetable}>
+            <_ToTimetable onClick={this.handleClick}>
                 <span>その他のイベントタイムスケジュールへ</span>
                 <div className="btn_toTimetable"><FontAwesomeIcon style={iconStyle} icon={faClock}></FontAwesomeIcon></div>
             </_ToTimetable>

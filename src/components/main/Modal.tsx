@@ -38,7 +38,6 @@ class Modal extends React.Component<ModalProps, ModalState>{
     constructor(props: ModalProps){
         super(props);
         MicroCms.getLabs((res: {[key: string]: {[key: string]: string}[]})=>{
-            console.log(res["contents"]);
             const labs = res["contents"].map(lab => ({"name": lab["name"], "youtube_id": lab["youtube_id"]}));
             this.setState({
                 labs: labs,
@@ -83,7 +82,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>
-                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
+                        <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'showcase':
@@ -99,7 +98,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>
-                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
+                        <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'market':
@@ -129,7 +128,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>
-                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
+                        <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'alt':
@@ -144,7 +143,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Links hideTitle={true} title="" Links={{
                             '掲載LINK': info['onAirLink'],
                         }}/>
-                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
+                        <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'circle':
@@ -156,7 +155,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Group status="あｓｄふぁｓｄ" hideDd={true} hideDt={true} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        <ToTimetable handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
+                        <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
             case 'easter':
@@ -212,7 +211,6 @@ class Modal extends React.Component<ModalProps, ModalState>{
                 </div>;
             case 'lab':
                 const labs = this.state.labs != null ? this.state.labs : [];
-                console.log(info);
                 return <div className="container howToWalk">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
