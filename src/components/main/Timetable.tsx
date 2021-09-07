@@ -249,7 +249,7 @@ const NowBorder = styled.div<NowBorderProps>`
     width: 80%;
     height: 3px;
     background: ${Color.PINK};
-    top: ${(props) => props.top ? (props.top)*40 : 0}px;
+    top: ${(props) => props.top ? props.top * 40 + 10 : 0}px;
     left: 57px;
 `;
 
