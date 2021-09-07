@@ -402,27 +402,6 @@ const _TimetableItem = styled.div<_TimatableItemProps>`
     &:nth-child(2n){
         background: ${(props)=> props.day == 0 ? Color.MIDDLEBLUEGREEN : Color.MIDDLEPURPLE};
     }
-    /* &::before{
-        content: "${props => props.start ? props.start : ''}";
-        position: absolute;
-        transform: translate(-100%, -50%);
-        top: 0;
-        display: block;
-        padding-right: 10px;
-    } */
-    /* ${(props) =>
-        props.isEnd && props.end
-            ? css`
-                &::after{
-                    content: "${props.end}";
-                    position: absolute;
-                    transform: translate(-100%, 50%);
-                    bottom: 0;
-                    display: block;
-                    padding-right: 10px;
-                }
-            `
-    :''} */
 `;
 
 type DayButtonProps = {
