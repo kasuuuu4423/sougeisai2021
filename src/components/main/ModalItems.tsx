@@ -184,7 +184,7 @@ type IntroductionProps = {
 const _Introduction = styled.div<{
     textAlign: string,
     lineHeight: number,
-    }>`
+}>`
     display: flex;
     dd{
         margin-left: 20px;
@@ -193,6 +193,13 @@ const _Introduction = styled.div<{
             white-space: pre-wrap;
             text-align: ${(props) => props.textAlign ? props.textAlign : "left"};
             line-height: ${(props) => props.lineHeight ? props.lineHeight : 1}rem;
+        }
+    }
+    @media screen and (max-width: 750px){
+        flex-wrap: wrap;
+        dd{
+            margin-left: 0 !important;
+            width: 100%;
         }
     }
 `;
@@ -332,7 +339,7 @@ export class Links extends React.Component<LinksProps>{
     render(){
         return(
             <_Links>
-                {!this.props.hideTitle && <dt className="w-100">{this.props.title + "："} {this.props.time != '' ? this.props.time : ""}〜</dt>}
+                {!this.props.hideTitle && <dt className="w-100">{this.props.title} {this.props.time != '' ? "：" + this.props.time + "〜" : ""}</dt>}
                 <dd className="links">
                     {Object.keys(this.props.Links).map((value, index) => {
                         return(

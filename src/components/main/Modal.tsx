@@ -367,6 +367,7 @@ export const _Modal = styled.div<_ModalProps>`
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            justify-content: center;
             dt, dd, div{
                 margin-bottom: 10px;
             }
