@@ -354,7 +354,7 @@ export const _Modal = styled.div<_ModalProps>`
         }
         dl{
             overflow-y: scroll;
-            padding-right: 20px;
+            padding: 0 10px;
             height: 100%;
             margin: 0;
         }

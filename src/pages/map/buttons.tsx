@@ -22,7 +22,7 @@ const btn = styled.div<BtnProps>`
     font-size: 20px;
     cursor: pointer;
     opacity: 0;
-    transition: ${Other.TRANSITION};
+    //transition: ${Other.TRANSITION};
     background: #fff;
     display: flex;
     justify-content: center;
