@@ -76,7 +76,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title="イベント"></Title>
                     <dl>
-                        <Group hideDt={true} name={info['title']} place={info['groupPlace']}></Group>
+                        <Group hideDt={true} name={info['title']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
                         <Links title="配信時間" time={info['onAirAt']} Links={{
@@ -90,9 +90,9 @@ class Modal extends React.Component<ModalProps, ModalState>{
                 return <div className="container showcase">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
-                    <Title title={info['title']}></Title>
+                    <Title title="ショーケース"></Title>
                     <dl>
-                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction="演劇"></Group>
+                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
                         <Links title="配信時間" time={info['onAirAt']} Links={{
@@ -108,7 +108,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                         <Title title="アートマーケット"></Title>
                     <dl>
-                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction="演劇"></Group>
+                        <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
                         <Links title="オンライン販売先" Links={{
@@ -153,8 +153,8 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title={info['groupName']} subTitle="サークル紹介"/>
                     <dl>
-                        <Group status="あｓｄふぁｓｄ" hideDd={true} hideDt={true} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
-                        <Introduction introduction={info['introduction']}></Introduction>
+                        <Group hideDd={true} hideDt={true} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}/>
+                        {info['introduction'] != "" && <Introduction title="活動状況" introduction={info['introduction']}/>}
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
                         <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>

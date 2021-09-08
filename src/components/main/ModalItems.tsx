@@ -160,8 +160,10 @@ export class Group extends React.Component<GroupProps>{
                     <dt>活動内容</dt>
                     <dd><p>{this.props.introduction}</p></dd>
                 </div>}
-                <dt>活動場所</dt>
-                <dd className="place">{this.props.place}</dd>
+                {this.props.place != "" && <div>
+                    <dt>活動場所</dt>
+                    <dd className="place">{this.props.place}</dd>
+                </div>}
                 {this.props.status != '' && <div className="status">
                     <dt>現在の活動状況</dt>
                     <dd>{this.props.status}</dd>
@@ -176,6 +178,7 @@ type IntroductionProps = {
     hideTitle: boolean,
     textAlign: string,
     lineHeight: number,
+    title: string,
 };
 
 const _Introduction = styled.div<{
@@ -204,12 +207,13 @@ export class Introduction extends React.Component<IntroductionProps>{
         hideTitle: false,
         textAlign: "left",
         lineHeight: 1,
+        title: "説明",
     };
 
     render(){
         return(
             <_Introduction lineHeight={this.props.lineHeight} textAlign={this.props.textAlign} className="introduction">
-                {!this.props.hideTitle && <dt>説明</dt>}
+                {!this.props.hideTitle && <dt>{this.props.title}</dt>}
                 <dd>
                     <p>
                         {this.props.introduction}

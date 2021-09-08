@@ -47,6 +47,7 @@ const Introduction = styled.div`
         border-radius: 0 2rem 1.5rem 0;
         max-width: calc(100% - 40px);
         line-break: anywhere;
+        white-space: pre-wrap;
     }
     @media screen and (max-width: 750px){
         h2, .introduction{

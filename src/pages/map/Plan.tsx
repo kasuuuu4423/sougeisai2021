@@ -115,6 +115,7 @@ class Plan extends React.Component<EventProps, EventState>{
             group = {
                 groupName: this.props.group['name'],
                 groupPlace: this.props.group['act_at'],
+                groupIntroduction: this.props.group['introduction'],
                 groupTwitter: this.props.group['twitter'],
                 groupInstagram: this.props.group['instagram'],
             };
@@ -137,7 +138,7 @@ class Plan extends React.Component<EventProps, EventState>{
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
-            <Image image={image} onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick} onClick={this.handleClick}  x={this.props.x} y={this.props.y} width={20} height={20} ></Image>
+            <Image image={image} onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick} onClick={this.handleClick}  x={this.props.x} y={this.props.y} width={13} height={13} ></Image>
         );
     }
 }

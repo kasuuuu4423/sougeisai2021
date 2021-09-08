@@ -185,8 +185,7 @@ class Area extends React.Component<AreaProps, AreaState>{
             let events = this.state.events[this.props.level];
             events.forEach((event)=>{
                 if( typeof event["coord"] == "string" &&
-                    typeof event["type"] == "string" &&
-                    typeof event["introduction"] == "string"
+                    typeof event["type"] == "string"
                 ){
                     let coord = event["coord"].split(",");
                     let x = parseInt(coord[0]);
@@ -197,6 +196,10 @@ class Area extends React.Component<AreaProps, AreaState>{
                     let offAirAt: string = "";
                     let group = {};
                     let link = "";
+                    let introduction = "";
+                    if(typeof event["introduction"] == "string"){
+                        introduction = event["introduction"];
+                    }
                     if(typeof event["archive_link"] == "string"){
                         archiveLink = event["archive_link"];
                     }
@@ -222,7 +225,7 @@ class Area extends React.Component<AreaProps, AreaState>{
                         <Plan key={title}
                             type={event["type"]}
                             title={title}
-                            introduction={event["introduction"]} 
+                            introduction={introduction} 
                             onAirAt={onAirAt}
                             offAirAt={offAirAt}
                             onAirLink={link}
