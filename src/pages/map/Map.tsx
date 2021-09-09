@@ -127,8 +127,11 @@ class Map extends React.Component<MapProps, MapState>{
 
     private backgroundColor: string = this.dayColor;
 
+    private stage: Konva.Stage | null;
+
     constructor(props: MapProps){
         super(props);
+        this.stage = null;
 
         let areas: number[][] = [];
         Map.AreaPos.forEach((pos: number[]) =>{
@@ -236,28 +239,41 @@ class Map extends React.Component<MapProps, MapState>{
         if(!this.state.isZoom){
             let zoomMag = this._magRate;
             this.setState({
-                scale: zoomMag,
-                x: -x*zoomMag + document.documentElement.clientWidth/2,
-                y: -y*zoomMag + document.documentElement.clientHeight/2,
                 isZoom: true,
                 area: areaNum,
                 maxLevel: Map.AreaPaths[areaNum].length,
             });
             this.props.handleIsZoom();
         }
+        if(this.stage != null){
+            let zoomMag = this._magRate;
+            this.stage.to({
+                scaleX: zoomMag,
+                scaleY: zoomMag,
+                x: -x*zoomMag + document.documentElement.clientWidth/2,
+                y: -y*zoomMag + document.documentElement.clientHeight/2,
+                duration: 0.2,
+            });
+        }
     }
 
     handleZoomout = () =>{
         if(this.state.isZoom){
             this.setState({
-                scale: 1,
-                x: 0,
-                y: 0,
                 level: 0,
                 isZoom: false,
             });
             this.props.handleIsZoomout();
             this.props.handleCloseModal();
+        }
+        if(this.stage != null){
+            this.stage.to({
+                scaleX: 1,
+                scaleY: 1,
+                x: 0,
+                y: 0,
+                duration: 0.2,
+            });
         }
     }
 
@@ -284,9 +300,6 @@ class Map extends React.Component<MapProps, MapState>{
         let name: string = areaInfo['name'];
         let introduction: string = areaInfo['introduction'];
         this.setState({
-            scale: zoomMag,
-            x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
-            y: -area[3]*zoomMag + document.documentElement.clientHeight/2,
             area: nextArea,
             level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
@@ -305,6 +318,15 @@ class Map extends React.Component<MapProps, MapState>{
                 },
             });
         });
+        if(this.stage != null){
+            this.stage.to({
+            scaleX: zoomMag,
+            scaleY: zoomMag,
+            x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
+            y: -area[3]*zoomMag + document.documentElement.clientHeight/2,
+                duration: 0.2,
+            });
+        }
     }
 
     handleAreaMoveMinus = () =>{
@@ -313,9 +335,6 @@ class Map extends React.Component<MapProps, MapState>{
         let zoomMag = this._magRate;
 
         this.setState({
-            scale: zoomMag,
-            x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
-            y: -area[3]*zoomMag + document.documentElement.clientHeight/2,
             area: nextArea,
             level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
@@ -330,6 +349,15 @@ class Map extends React.Component<MapProps, MapState>{
                 },
             });
         });
+        if(this.stage != null){
+            this.stage.to({
+            scaleX: zoomMag,
+            scaleY: zoomMag,
+            x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
+            y: -area[3]*zoomMag + document.documentElement.clientHeight/2,
+                duration: 0.2,
+            });
+        }
     }
 
     handleClickStage = () =>{
@@ -390,7 +418,7 @@ class Map extends React.Component<MapProps, MapState>{
         const areaIntro = Util.checkAndGetUndifined(this.state.areaInfo)["introduction"];
         return(
             <Background background={this.backgroundColor} brightness={this.props.brightness}>
-                <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
+                <Stage ref={node => {this.stage = node}} scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
                     x={this.state.x} y={this.state.y}width={document.documentElement.clientWidth} height={document.documentElement.clientHeight}>
                         <Layer>
                             <Image image={this.state.image} offsetX={tmpX} offsetY={this._mapHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={this._mapHeight} />
