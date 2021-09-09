@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ElementRef, LegacyRef, ReactElement, Ref } from "react";
 import styled, {css, CSSProperties} from "styled-components";
 import { Layer, Rect, Stage, Image } from "react-konva";
 import Konva from "konva";
@@ -7,7 +7,6 @@ import Area from "./Area";
 import { WrapButtons, ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn, BtnLabelArea, BtnLabelFloor, InfoBtn } from "./buttons";
 import MicroCms from "../../lib/microCms";
 import Util from "../../lib/Util";
-import { throws } from "assert";
 import AreaIntroduction from "./AreaIntroduction";
 
 //ToDo
@@ -116,6 +115,8 @@ class Map extends React.Component<MapProps, MapState>{
     private _magRate: number = Map.MagRate['pc'];
     private _mapHeight: number = Map.MapHeight['pc'];
 
+    private areaDirect = 0;
+
     constructor(props: MapProps){
         super(props);
 
@@ -168,6 +169,17 @@ class Map extends React.Component<MapProps, MapState>{
         }
 
         Konva.hitOnDragEnabled = true;
+    }
+
+    getNowAreaInfo = () =>{
+        let name: string = "";
+        let introduction: string = "";
+        if(this.areaRef && this.areaRef.current != null){
+            const info = this.areaRef.current.getInfo();
+            name = info["name"];
+            introduction = info["introduction"];
+        }
+        return {'name': name, 'introduction': introduction};
     }
 
     handleResizeWindow = () =>{
@@ -253,6 +265,11 @@ class Map extends React.Component<MapProps, MapState>{
         let nextArea = Util.checkAndGetUndifined(this.state.areas).length-1 == Util.checkAndGetUndifined(this.state.area) ? 0 : Util.checkAndGetUndifined(this.state.area)+1;
         let area = this.state.areas != null ? this.state.areas[nextArea] : [];
         let zoomMag = this._magRate;
+
+        const areaInfo = this.getNowAreaInfo();
+        let name: string = areaInfo['name'];
+        let introduction: string = areaInfo['introduction'];
+        this.areaDirect = 1;
         this.setState({
             scale: zoomMag,
             x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
@@ -260,6 +277,21 @@ class Map extends React.Component<MapProps, MapState>{
             area: nextArea,
             level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
+            areaInfo: {
+                "name": name,
+                "introduction": introduction,
+            },
+        }, ()=>{
+            const areaInfo = this.getNowAreaInfo();
+            let name: string = areaInfo['name'];
+            let introduction: string = areaInfo['introduction'];
+            this.areaDirect = -1;
+            this.setState({
+                areaInfo: {
+                    "name": name,
+                    "introduction": introduction,
+                },
+            });
         });
     }
 
@@ -267,6 +299,7 @@ class Map extends React.Component<MapProps, MapState>{
         let nextArea = 0 == Util.checkAndGetUndifined(this.state.area) ? Util.checkAndGetUndifined(this.state.areas).length-1 : Util.checkAndGetUndifined(this.state.area)-1;
         let area = this.state.areas != null ? this.state.areas[nextArea] : [];
         let zoomMag = this._magRate;
+
         this.setState({
             scale: zoomMag,
             x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
@@ -274,6 +307,17 @@ class Map extends React.Component<MapProps, MapState>{
             area: nextArea,
             level: 0,
             maxLevel: Map.AreaPaths[nextArea].length,
+        }, ()=>{
+            const areaInfo = this.getNowAreaInfo();
+            let name: string = areaInfo['name'];
+            let introduction: string = areaInfo['introduction'];
+            this.areaDirect = -1;
+            this.setState({
+                areaInfo: {
+                    "name": name,
+                    "introduction": introduction,
+                },
+            });
         });
     }
 
@@ -314,17 +358,25 @@ class Map extends React.Component<MapProps, MapState>{
         return 0;
     }
 
+    private areaRef: React.RefObject<Area> = React.createRef<Area>();
+
     render(){
-        let width = this.state.image != null ? this._mapHeight*this.state.image.width/this.state.image.height : 0;
-        let tmpX = this.state.image != null ? width / 2 : 0;
-        let areas: number[][] = Util.checkAndGetUndifined(this.state.areas);
-        let isZoom = this.state.isZoom != null ? this.state.isZoom : false;
-        let level = Util.checkAndGetUndifined(this.state.level);
-        let maxLevel = Util.checkAndGetUndifined(this.state.maxLevel);
+        const width = this.state.image != null ? this._mapHeight*this.state.image.width/this.state.image.height : 0;
+        const tmpX = this.state.image != null ? width / 2 : 0;
+        const isZoom = this.state.isZoom != null ? this.state.isZoom : false;
+        const level = Util.checkAndGetUndifined(this.state.level);
+        const maxLevel = Util.checkAndGetUndifined(this.state.maxLevel);
+
+        const areasPos: number[][] = Util.checkAndGetUndifined(this.state.areas);
+        let areaNum = Util.checkAndGetUndifined(this.state.area);
+        areaNum = areaNum == -1 ? areasPos.length - 1 : areaNum;
+        const areas = areasPos.map((area: number[], i)=>
+            <Area ref={i == areaNum ? this.areaRef : React.createRef()} handleOpenIntroduction={this.handleOpenIntroduction} handleOpenModal={this.props.handleOpenModal} areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
+                width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
+        );
 
         const areaName = Util.checkAndGetUndifined(this.state.areaInfo)["name"];
-        const areaIntro =  Util.checkAndGetUndifined(this.state.areaInfo)["introduction"];
-        console.log(this.props.brightness);
+        const areaIntro = Util.checkAndGetUndifined(this.state.areaInfo)["introduction"];
         return(
             <Background brightness={this.props.brightness}>
                 <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
@@ -334,10 +386,7 @@ class Map extends React.Component<MapProps, MapState>{
                             {isZoom && <Rect onClick={this.handleClickStage} opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={document.documentElement.clientHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={document.documentElement.clientHeight} />}
                         </Layer>
                         {
-                            areas.map((area: number[], i)=>
-                                <Area handleOpenIntroduction={this.handleOpenIntroduction} handleOpenModal={this.props.handleOpenModal} areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
-                                    width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
-                            )
+                            areas
                         }
                         <Area onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave} onClick={this.handleClickAt} width={90} height={100} x={this.getRelativePostion(555, "x")} y={this.getRelativePostion(250, "y")} />
                 </Stage>

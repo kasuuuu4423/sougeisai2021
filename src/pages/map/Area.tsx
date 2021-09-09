@@ -134,6 +134,13 @@ class Area extends React.Component<AreaProps, AreaState>{
         this.props.handleOpenIntroduction(info);
     }
 
+    getInfo = () =>{
+        return {
+            "name": Util.checkAndGetUndifined(this.state.name),
+            "introduction": Util.checkAndGetUndifined(this.state.introduction),
+        }
+    }
+
     handleHover = () =>{
         this.setState({
             isHover: true,
