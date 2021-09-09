@@ -72,6 +72,7 @@ class Map extends React.Component<MapProps, MapState>{
         /*GH棟*/ ["map/places/g_h/g_h_roof.png","map/places/g_h/g_h_3.png","map/places/g_h/g_h_2.png","map/places/g_h/g_h_1.png"],
         /*AB棟*/ ["map/places/a_b/a_b_4.png","map/places/a_b/a_b_3.png","map/places/a_b/a_b_2.png","map/places/a_b/a_b_1.png"],
         /*F専攻科棟*/ ["map/places/f_senkou/f_senkou_roof.png","map/places/f_senkou/f_senkou_f4.png","map/places/f_senkou/f_senkou_f3.png","map/places/f_senkou/f_senkou_f2.png","map/places/f_senkou/f_senkou_f1.png","map/places/f_senkou/f_senkou_fb1.png"],
+        /*船*/ ["map/places/ship/ship.png"],
     ];
 
     private static AreaHoverPaths = [
@@ -82,6 +83,7 @@ class Map extends React.Component<MapProps, MapState>{
         /*GH棟*/ "map/hovers/hover_g_h.png",
         /*AB棟*/ "map/hovers/hover_a_b.png",
         /*F専攻科棟*/ "map/hovers/hover_f.png",
+        /*船*/ "map/hovers/hover_ship.png",
     ];
 
     //縦幅でずれてしまうバグ
@@ -93,6 +95,7 @@ class Map extends React.Component<MapProps, MapState>{
         [125, 155, 52, -160],
         [190, 67, -108, -154],
         [124, 65, -265.8, -136],
+        [80, 114, -396, 151],
     ];
 
     private static AreaId = [
@@ -103,6 +106,7 @@ class Map extends React.Component<MapProps, MapState>{
         "area_gh",
         "area_ab",
         "area_ef",
+        "area_ship",
     ];
 
     private isSp: boolean = false;
