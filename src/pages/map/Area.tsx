@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useCallback } from "react";
 import styled, {css} from "styled-components";
 import { Layer, Rect, Stage, Image } from "react-konva";
 import Konva from "konva";
@@ -124,6 +124,32 @@ class Area extends React.Component<AreaProps, AreaState>{
         handleOpenModal: ()=>{},
         handleOpenIntroduction: ()=>{},
     };
+
+    componentDidMount(){
+        let promise = new Promise((resolve)=>{
+            setTimeout(()=>{
+                if(this.image != null){
+                    this.image.to({
+                        opacity: 1,
+                        duration: 0.1,
+                        onFinish: ()=>{
+                            resolve("");
+                        }
+                    });
+                }
+            }, 4000);
+        })
+        .then(()=>{
+            setTimeout(()=>{
+                if(this.image != null){
+                    this.image.to({
+                        opacity: 0,
+                        duration: 0.1,
+                    });
+                }
+            }, 300);
+        });
+    }
 
     handleClick = () =>{
         this.props.onClick(this.props.width, this.props.height, this.props.x, this.props.y, this.props.areaNum);
