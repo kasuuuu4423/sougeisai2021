@@ -344,6 +344,7 @@ export const _Modal = styled.div<_ModalProps>`
             left: 0;
             width: 120px;
             transform: translate(-50%, -50%);
+            cursor: pointer;
             img{
                 width: 100%;
             }
