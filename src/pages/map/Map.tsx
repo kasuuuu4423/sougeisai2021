@@ -22,12 +22,17 @@ const Test = styled.div`
 
 type BackgroundProps = {
     brightness: number,
+    background: string,
 };
 const Background = styled.div<BackgroundProps>`
-    background: #319EA7;
+    background: ${(props) => props.background != null ? props.background : ""};
     /* filter: ${(props) => props.brightness ? props.brightness : ""}; */
     filter: brightness(${(props) => props.brightness != null ? props.brightness : 1});
 `;
+Background.defaultProps = {
+    background: "#319EA7",
+    brightness: 1,
+};
 
 type MapProps = {
     handleIsZoom: ()=>void,
@@ -112,10 +117,15 @@ class Map extends React.Component<MapProps, MapState>{
         'sp': 1.7,
     };
 
+    private static nightTime = [18,0];
+
     private _magRate: number = Map.MagRate['pc'];
     private _mapHeight: number = Map.MapHeight['pc'];
 
-    private areaDirect = 0;
+    private dayColor = "#319EA7";
+    private nightColor = "#004676";
+
+    private backgroundColor: string = this.dayColor;
 
     constructor(props: MapProps){
         super(props);
@@ -152,6 +162,10 @@ class Map extends React.Component<MapProps, MapState>{
 
         let image = new window.Image();
         image.src = window.location.origin+"/img/map/back.png";
+        if(Util.pastThisTime(Map.nightTime[0], Map.nightTime[1])){
+            image.src = window.location.origin+"/img/map/back_night.png";
+            this.backgroundColor = this.nightColor;
+        }
         image.onload = () => {
             // setState will redraw layer
             // because "image" property is changed
@@ -269,7 +283,6 @@ class Map extends React.Component<MapProps, MapState>{
         const areaInfo = this.getNowAreaInfo();
         let name: string = areaInfo['name'];
         let introduction: string = areaInfo['introduction'];
-        this.areaDirect = 1;
         this.setState({
             scale: zoomMag,
             x: -area[2]*zoomMag + document.documentElement.clientWidth/2,
@@ -285,7 +298,6 @@ class Map extends React.Component<MapProps, MapState>{
             const areaInfo = this.getNowAreaInfo();
             let name: string = areaInfo['name'];
             let introduction: string = areaInfo['introduction'];
-            this.areaDirect = -1;
             this.setState({
                 areaInfo: {
                     "name": name,
@@ -311,7 +323,6 @@ class Map extends React.Component<MapProps, MapState>{
             const areaInfo = this.getNowAreaInfo();
             let name: string = areaInfo['name'];
             let introduction: string = areaInfo['introduction'];
-            this.areaDirect = -1;
             this.setState({
                 areaInfo: {
                     "name": name,
@@ -378,7 +389,7 @@ class Map extends React.Component<MapProps, MapState>{
         const areaName = Util.checkAndGetUndifined(this.state.areaInfo)["name"];
         const areaIntro = Util.checkAndGetUndifined(this.state.areaInfo)["introduction"];
         return(
-            <Background brightness={this.props.brightness}>
+            <Background background={this.backgroundColor} brightness={this.props.brightness}>
                 <Stage scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
                     x={this.state.x} y={this.state.y}width={document.documentElement.clientWidth} height={document.documentElement.clientHeight}>
                         <Layer>

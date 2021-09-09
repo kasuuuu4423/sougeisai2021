@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Type } from "typescript";
 
 class Util{
@@ -74,6 +75,16 @@ class Util{
         if(document.documentElement.clientWidth < 750){
             callback();
         }
+    }
+
+    public static pastThisTime(hour: number, min: number){
+        const thisTime = moment({'hour': hour, 'minute': min});
+        const now = moment();
+        const diff = now.diff(thisTime);
+        if(diff > 0){
+            return true;
+        }
+        return false;
     }
 }
 
