@@ -7,9 +7,25 @@ import Top from "../../pages/top/Top";
 import Util from "../../lib/Util";
 import Timetable from "./Timetable";
 import { time } from "console";
+import Color from "../../assets/cssVars/Color";
 
 const _Main = styled.main`
     overflow: hidden;
+`;
+
+const Title = styled.div`
+    text-align: center;
+    font-family: 'silom';
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 200%;
+    color: ${Color.WHITE};
+    text-shadow: 5px 5px 0 ${Color.DARKBLUE};
+    @media screen and (max-width: 750px){
+        font-size: 150%;
+    }
 `;
 
 type MainProps = {
@@ -63,6 +79,7 @@ class Main extends React.Component<MainProps, MainState>{
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[0].toString() + "px"} top={this.cloud_y[0].toString() + "px"} ></Cloud>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[1].toString() + "px"} bottom={this.cloud_y[1].toString() + "px"} ></Cloud>
                 {mediaQuery && <Cloud isZoom={this.props.isZoom} cloudNum={3} left={this.cloud_x[2].toString() + "px"} bottom={this.cloud_y[2].toString() + "px"} ></Cloud>}
+                <Title>SOUGEISAI 2021 "@"</Title>
             </_Main>
         );
     }

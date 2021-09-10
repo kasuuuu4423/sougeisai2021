@@ -17,4 +17,6 @@ export default {
     MIDDLEPURPLE: "rgb(152,171,229)",
     RED: "#dc2f2f",
     PINK: "rgb(216 130 133)",
+    PRESENT: "rgb(107 180 202)",
+    DARKBLUE: "rgb(29 74 124)"
 }
