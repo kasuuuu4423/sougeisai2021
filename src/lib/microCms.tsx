@@ -34,7 +34,10 @@ export default class MicroCms{
 
     public static getEventsByAreaId = (areaId: string, callback=(res: {})=>{}) =>{
         const url = "https://sougeisai2021.microcms.io/api/v1/event";
-        const queries = { filters: 'area_id[equals]'+areaId };
+        const queries = {
+            filters: 'area_id[equals]'+areaId,
+            limit: 100,
+        };
         const headers = {
             "X-API-KEY": XAPIKEY,
         };
@@ -67,7 +70,10 @@ export default class MicroCms{
 
     public static getEventsEvent = (callback=(res: {})=>{}) =>{
         const url = "https://sougeisai2021.microcms.io/api/v1/event";
-        const queries = { filters: 'type[equals]event'};
+        const queries = {
+            filters: 'type[equals]event[or]type[equals]showcase[or]type[equals]interactive',
+            limit: 100,
+        };
         const headers = {
             "X-API-KEY": XAPIKEY,
         };
