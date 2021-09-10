@@ -79,10 +79,25 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Group hideDt={true} name={info['title']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        <Links title="配信時間" time={info['onAirAt']} Links={{
+                        {info['onAirLink'] != "" && <Links title="配信時間" time={info['onAirAt']} Links={{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
-                        }}/>
+                        }}/>}
+                        <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
+                    </dl>
+                </div>;
+            case 'interactive':
+                return <div className="container event">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title="イベント"/>
+                    <dl>
+                        <Group hideDt={true} name={info['title']}></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['onAirLink'] != "" && <Links hideTitle={true} time={info['onAirAt']} Links={{
+                            'LINK': info['onAirLink'],
+                        }}/>}
                         <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
