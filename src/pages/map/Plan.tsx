@@ -105,7 +105,7 @@ class Plan extends React.Component<EventProps, EventState>{
         let onAirAt = this.props.onAirAt;
         if(onAirAt != null){
             let momentOnAir = moment(onAirAt);
-            onAirAt = momentOnAir.format('h:mm')
+            onAirAt = momentOnAir.format('H:mm')
         }
         let data = {
             type: this.props.type,
