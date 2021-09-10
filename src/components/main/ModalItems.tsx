@@ -74,12 +74,17 @@ const _Group = styled.div<_GroupProps>`
     p{
         margin: 0;
     }
+    dt, dd{
+        width: 100%;
+        margin-left: 0 !important;
+    }
     dt.name{
         width: 100% !important;
     }
     dd.name{
         margin-left: 0 !important;
-        font-size: 2rem;
+        font-size: 1.5rem;
+        font-weight: 700;
         width: calc(100% - 5rem);
         margin-bottom: 0;
         @media screen and (max-width: 750px){
@@ -97,17 +102,10 @@ const _Group = styled.div<_GroupProps>`
         width: 100%;
         height: 1px;
         border-bottom: solid 2px ${Color.WHITE};
-    }
-    .intro{
-        width: 100%;
-        display: flex;
-        justify-content: left;
+        margin-bottom: 20px !important;
     }
     .status{
         width: 100%;
-    }
-    .place{
-        font-size: ${FontSize.LM};
     }
     .sns{
         align-items: center;
@@ -126,6 +124,9 @@ const _Group = styled.div<_GroupProps>`
                 margin-right: 10px;
             }
         }
+    }
+    .intro, .place{
+        width: 100%;
     }
 `;
 
@@ -160,7 +161,7 @@ export class Group extends React.Component<GroupProps>{
                     <dt>活動内容</dt>
                     <dd><p>{this.props.introduction}</p></dd>
                 </div>}
-                {this.props.place != "" && <div>
+                {this.props.place != "" && <div className="place">
                     <dt>活動場所</dt>
                     <dd className="place">{this.props.place}</dd>
                 </div>}
@@ -185,20 +186,20 @@ const _Introduction = styled.div<{
     textAlign: string,
     lineHeight: number,
 }>`
-    display: flex;
+width: 100%;
     dd{
-        margin-left: 20px;
+        margin-left: 0 !important;
         p{
             margin: 0;
             white-space: pre-wrap;
             text-align: ${(props) => props.textAlign ? props.textAlign : "left"};
-            line-height: ${(props) => props.lineHeight ? props.lineHeight : 1}rem;
+            line-height: ${(props) => props.lineHeight ? props.lineHeight : 1.3}rem;
+            line-height: 1.3rem;
         }
     }
     @media screen and (max-width: 750px){
         flex-wrap: wrap;
         dd{
-            margin-left: 0 !important;
             width: 100%;
         }
     }
@@ -213,7 +214,7 @@ export class Introduction extends React.Component<IntroductionProps>{
         introduction: '',
         hideTitle: false,
         textAlign: "left",
-        lineHeight: 1,
+        lineHeight: 1.3,
         title: "説明",
     };
 
@@ -314,9 +315,10 @@ const _Links = styled.div`
                     padding-left: 5px;
                     background: ${Color.WHITE};
                     transition: ${Other.TRANSITION};
+                    color: ${Color.DARKGRAY};
+                    font-weight: 700;
                     &:hover{
                         width: 50%;
-                        color: ${Color.BLACK};
                     }
                 }
             }
@@ -342,12 +344,14 @@ export class Links extends React.Component<LinksProps>{
                 {!this.props.hideTitle && <dt className="w-100">{this.props.title} {this.props.time != '' ? "：" + this.props.time + "〜" : ""}</dt>}
                 <dd className="links">
                     {Object.keys(this.props.Links).map((value, index) => {
-                        return(
-                            <div className="link">
-                                <div><span>{value}</span></div>
-                                <a href={this.props.Links[value]} target="_blank">Watch!!</a>
-                            </div>
-                        );
+                        if(this.props.Links[value] != ""){
+                            return(
+                                <div className="link">
+                                    <div><span>{value}</span></div>
+                                    <a href={this.props.Links[value]} target="_blank">Watch!!</a>
+                                </div>
+                            );
+                        }
                     })}
                 </dd>
             </_Links>

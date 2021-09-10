@@ -2,6 +2,7 @@ import { RGB } from "konva/lib/filters/RGB";
 
 export default {
     BLACK: '#333333',
+    DARKGRAY: '#5e5e5e',
     LIGHTGRAY: 'rgb(230, 229, 230)',
     WHITE: '#ffffff',
     BLUEGREEN: '#6CB5AB',
