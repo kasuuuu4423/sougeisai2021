@@ -14,6 +14,7 @@ const start = startHour + ":" + StartMin;
 const endHour = 19;
 const endMin = 0;
 const end = startHour + ":" + StartMin;
+const day2 = 19;
 const size = 200;
 
 type TimetableProps = {
@@ -56,9 +57,11 @@ type eventItem = {
 class Timetable extends React.Component<TimetableProps, TimetableState>{
     constructor(props: TimetableProps){
         super(props);
+
+        const today = moment().get('date');
         this.state = {
             tableItems: [[], []],
-            day: 0,
+            day: today == day2 ? 1 : 0,
             now: moment(),
         };
 
@@ -185,7 +188,6 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
         const Now = this.state.now != null ? this.state.now : moment();
         const Start = moment({'hour': startHour, 'minute': StartMin});
         let NowDiff = Util.millisToHour(Now.diff(Start));
-        console.log(NowDiff);
         if(NowDiff > endHour - startHour){
             NowDiff = endHour - startHour;
         }
