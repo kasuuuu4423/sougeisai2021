@@ -112,7 +112,7 @@ const Back = styled.div<didMount>`
     transition: ${Other.TRANSITION};
     //display: ${(props)=> props.display ? props.display : "block"};
     ${(props) =>
-        props.didMount
+        props.enter
             ? css`
                 visibility: hidden;
                 opacity: 0;
@@ -126,7 +126,7 @@ const Cloud = styled.img<didMount>`
     top: 50%;
     transform: translateY(-50%);
     transition: 1s cubic-bezier(0.5, 0.07, 0.69, 0.98);
-    width: 95%;
+    width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: right;
