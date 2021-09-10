@@ -122,7 +122,7 @@ const Back = styled.div<didMount>`
 
 const Cloud = styled.img<didMount>`
     position: fixed;
-    right: 5%;
+    right: 0%;
     top: 50%;
     transform: translateY(-50%);
     transition: 1s cubic-bezier(0.5, 0.07, 0.69, 0.98);
@@ -142,7 +142,7 @@ const Cloud = styled.img<didMount>`
 `;
 
 const Cloud2 = styled(Cloud)`
-    left: 5%;
+    left: 0%;
     right: auto;
     object-position: left;
     ${(props) =>
