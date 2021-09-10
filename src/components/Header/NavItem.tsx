@@ -12,6 +12,7 @@ const Anker = styled.a`
     text-decoration: none;
     font-weight: 600;
     font-size: ${FontSize.M};
+    cursor: pointer;
     &::hover{
         color: ${Color.BLACK};
         opacity: 0.8;
@@ -84,9 +85,14 @@ class NavItem extends React.Component<NavItemProps>{
     render(){
         return(
             <ListItem>
+                {this.props.link != "" &&
                 <Anker onClick={this.handleClick} target={this.props.target} href={this.props.link}>
                     {this.props.text}
-                </Anker>
+                </Anker>}
+                {this.props.link == "" &&
+                <Anker onClick={this.handleClick} target={this.props.target}>
+                    {this.props.text}
+                </Anker>}
             </ListItem>
         );
     }
