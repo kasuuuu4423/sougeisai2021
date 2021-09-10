@@ -40,6 +40,7 @@ type MapProps = {
     handleOpenModal: (info: {[key: string]: string})=>void,
     handleCloseModal: ()=>void,
     handleMapDidMount: ()=>void,
+    mapDidMount: boolean,
     modalIsOpen: boolean,
     brightness: number,
 };
@@ -429,7 +430,7 @@ class Map extends React.Component<MapProps, MapState>{
                             <Image image={this.state.image} offsetX={tmpX} offsetY={this._mapHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={this._mapHeight} />
                             {isZoom && <Rect onClick={this.handleClickStage} opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={document.documentElement.clientHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={document.documentElement.clientHeight} />}
                         </Layer>
-                        {
+                        {this.props.mapDidMount &&
                             areas
                         }
                         <Area onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave} onClick={this.handleClickAt} width={90} height={100} x={this.getRelativePostion(555, "x")} y={this.getRelativePostion(250, "y")} />

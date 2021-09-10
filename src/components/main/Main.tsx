@@ -57,7 +57,7 @@ class Main extends React.Component<MainProps, MainState>{
         return(
             <_Main>
                 <Top mapDidMount={this.state.mapDidMount?this.state.mapDidMount:false}/>
-                <Map handleMapDidMount={this.mapDidMount} brightness={this.props.mapBrightness} modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
+                <Map mapDidMount={this.state.mapDidMount?this.state.mapDidMount:false} handleMapDidMount={this.mapDidMount} brightness={this.props.mapBrightness} modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
                 <Modal handleOpenTimetable={this.props.handleOpenTimetalbe} handleCloseModal={this.props.handleCloseModal} info={this.props.modalInfo} isOpen={modalIsOpen}></Modal>
                 <Timetable handleCloseTimetable={this.props.handleCloseTimetalbe} isOpen={timetableIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal}/>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[0].toString() + "px"} top={this.cloud_y[0].toString() + "px"} ></Cloud>
