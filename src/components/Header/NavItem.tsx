@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import Color from "../../assets/cssVars/Color";
 import FontSize from "../../assets/cssVars/FontSize";
 import Margin from "../../assets/cssVars/Margin";
@@ -35,10 +35,6 @@ type NavItemProps = {
 };
 
 class NavItem extends React.Component<NavItemProps>{
-    constructor(props: NavItemProps){
-        super(props);
-    }
-
     static defaultProps: NavItemProps = {
         target: "",
         type: "",
@@ -84,11 +80,11 @@ class NavItem extends React.Component<NavItemProps>{
     render(){
         return(
             <ListItem>
-                {this.props.link != "" &&
+                {this.props.link !== "" &&
                 <Anker onClick={this.handleClick} target={this.props.target} href={this.props.link}>
                     {this.props.text}
                 </Anker>}
-                {this.props.link == "" &&
+                {this.props.link === "" &&
                 <Anker onClick={this.handleClick} target={this.props.target}>
                     {this.props.text}
                 </Anker>}

@@ -48,8 +48,8 @@ type MapState = {
     height?: number,
     x?: number,
     y?: number,
-    ofX?: number | null,
-    ofY?: number | null,
+    ofX?: number,
+    ofY?: number,
     image?: HTMLImageElement,
     cursor?: CSSProperties,
     scale?: number,
@@ -147,8 +147,8 @@ class Map extends React.Component<MapProps, MapState>{
             height: document.documentElement.clientHeight,
             x: 0,
             y: 0,
-            ofX: null,
-            ofY: null,
+            ofX: 0,
+            ofY: 0,
             image: new window.Image(),
             cursor: {
                 cursor: "grab",
@@ -405,8 +405,8 @@ class Map extends React.Component<MapProps, MapState>{
     private areaRef: React.RefObject<Area> = React.createRef<Area>();
 
     render(){
-        const width = this.state.image != null ? this._mapHeight*this.state.image.width/this.state.image.height : 0;
-        const tmpX = this.state.image != null ? width / 2 : 0;
+        const width: number = this.state.image != null ? this._mapHeight*this.state.image.width/this.state.image.height : 0;
+        const tmpX: number = this.state.image != null ? width / 2 : 0;
         const isZoom = this.state.isZoom != null ? this.state.isZoom : false;
         const level = Util.checkAndGetUndifined(this.state.level);
         const maxLevel = Util.checkAndGetUndifined(this.state.maxLevel);
@@ -415,7 +415,7 @@ class Map extends React.Component<MapProps, MapState>{
         let areaNum = Util.checkAndGetUndifined(this.state.area);
         areaNum = areaNum == -1 ? areasPos.length - 1 : areaNum;
         const areas = areasPos.map((area: number[], i)=>
-            <Area ref={i == areaNum ? this.areaRef : React.createRef()} handleOpenIntroduction={this.handleOpenIntroduction} handleOpenModal={this.props.handleOpenModal} areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
+            <Area key={i} ref={i == areaNum ? this.areaRef : React.createRef()} handleOpenIntroduction={this.handleOpenIntroduction} handleOpenModal={this.props.handleOpenModal} areaId={Map.AreaId[i]} nowArea={this.state.area} areaNum={i} isZoom={isZoom} level={this.state.level} images={Map.AreaPaths[i]} hoverImage={Map.AreaHoverPaths[i]} id={i} onClick={this.handleAreaClick} onMouseEnter={this.handlePlaceEnter} onMouseLeave={this.handlePlaceLeave}
                 width={area[0]} height={area[1]} x={area[2]} y={area[3]} maxLevel={Map.AreaPaths[i].length} />
         );
 
@@ -424,7 +424,7 @@ class Map extends React.Component<MapProps, MapState>{
         return(
             <Background background={this.backgroundColor} brightness={this.props.brightness}>
                 <Stage ref={node => {this.stage = node}} scaleX={this.state.scale} scaleY={this.state.scale} style={this.state.cursor} onMouseDown={this.handleDraging} onMouseUp={this.handleDraged} draggable={true}
-                    x={this.state.x} y={this.state.y}width={document.documentElement.clientWidth} height={document.documentElement.clientHeight}>
+                    x={this.state.x?this.state.x:0} y={this.state.y?this.state.y:0}width={document.documentElement.clientWidth} height={document.documentElement.clientHeight}>
                         <Layer>
                             <Image image={this.state.image} offsetX={tmpX} offsetY={this._mapHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={this._mapHeight} />
                             {isZoom && <Rect onClick={this.handleClickStage} opacity={0.34} fill="#095B80" offsetX={tmpX} offsetY={document.documentElement.clientHeight / 2} x={document.documentElement.clientWidth / 2} y={document.documentElement.clientHeight / 2} width={width} height={document.documentElement.clientHeight} />}
@@ -436,7 +436,6 @@ class Map extends React.Component<MapProps, MapState>{
                 </Stage>
                 <WrapButtons>
                     {isZoom && <ZoomoutBtn hidden={false} isZoom={isZoom} onClick={this.handleZoomout}>Back</ZoomoutBtn>}
-                    {/* <InfoBtn isZoom={isZoom}>?</InfoBtn> */}
                     {isZoom && <BtnLabelFloor hidden={false} isZoom={isZoom}>floor</BtnLabelFloor>}
                     {isZoom && <LevelPlusBtn hidden={!(level > 0)} onClick={this.handleLavelPlus} isZoom={isZoom}>＋</LevelPlusBtn>}
                     {isZoom && <LevelMinusBtn hidden={!(maxLevel-1 > level)} onClick={this.handleLavelMinus} isZoom={isZoom}>ー</LevelMinusBtn>}

@@ -70,7 +70,7 @@ class Nav extends React.Component<NavProps, NavState> {
         let status = this.props.status != null ? this.props.status : false;
         let list: JSX.Element[] = [];
         for(let i in this.data){
-            list.push(<NavItem type={this.data[i].type} handleOpenModal={this.props.handleOpenModal} onClick={this.data[i].onClick} target={i === "5" || i === "4" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}/>);
+            list.push(<NavItem key={i} type={this.data[i].type} handleOpenModal={this.props.handleOpenModal} onClick={this.data[i].onClick} target={i === "5" || i === "4" ? "_blank" : ""} link={typeof this.data[i].link == 'string' ? this.data[i].link : ""} text={this.data[i].text}/>);
         }
         return(
             <WrapNav isOpen={status}>

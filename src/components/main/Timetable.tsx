@@ -197,8 +197,9 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
 
         const Day = Util.checkAndGetUndifined(this.state.day);
         const items = this.state.tableItems != null ? this.state.tableItems : [];
-        const itemsElm: ReactElement[] = items[Day].map(item =>
+        const itemsElm: ReactElement[] = items[Day].map((item, i) =>
             <TimetableItem
+                key={i}
                 start={item["start"]}
                 end={item["end"]}
                 isEnd={item["isEnd"]}
@@ -218,7 +219,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
             const isEnd = i == endHour - 1 ? true : false;
             const isStart = i == startHour ? true : false;
             borders.push(
-                <Border isStart={isStart} isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
+                <Border key={i} isStart={isStart} isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
             );
         }
         

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
-import React, { ReactElement } from "react";
+import React from "react";
 import styled, {css} from "styled-components";
 import Color from "../../assets/cssVars/Color";
 import Other from "../../assets/cssVars/Other";
@@ -31,10 +31,6 @@ const _Title = styled.div`
 `;
 
 export class Title extends React.Component<TitleProps>{
-    constructor(props: TitleProps){
-        super(props);
-    }
-
     static defaultProps: TitleProps = {
         subTitle: "",
         title: "",
@@ -131,10 +127,6 @@ const _Group = styled.div<_GroupProps>`
 `;
 
 export class Group extends React.Component<GroupProps>{
-    constructor(props: GroupProps){
-        super(props);
-    }
-
     static defaultProps: GroupProps = {
         name: '',
         instagram: '',
@@ -153,19 +145,19 @@ export class Group extends React.Component<GroupProps>{
                 {!this.props.hideDt && <dt className="name">企画団体</dt>}
                 {!this.props.hideDd && <dd className="name">{this.props.name}</dd>}
                 {!this.props.hideSNS && <div className="sns">
-                    {this.props.twitter != "" && <a href={this.props.twitter} target="_blank"><FontAwesomeIcon style={iconStyle} icon={faTwitter}></FontAwesomeIcon></a>}
-                    {this.props.instagram != "" && <a href={this.props.instagram} target="_blank"><FontAwesomeIcon style={iconStyle} icon={faInstagram}></FontAwesomeIcon></a>}
+                    {this.props.twitter !== "" && <a rel="noreferrer" href={this.props.twitter} target="_blank"><FontAwesomeIcon style={iconStyle} icon={faTwitter}></FontAwesomeIcon></a>}
+                    {this.props.instagram !== "" && <a rel="noreferrer" href={this.props.instagram} target="_blank"><FontAwesomeIcon style={iconStyle} icon={faInstagram}></FontAwesomeIcon></a>}
                 </div>}
                 <div className="border"></div>
-                {this.props.introduction!= "" && <div className="intro">
+                {this.props.introduction!== "" && <div className="intro">
                     <dt>活動内容</dt>
                     <dd><p>{this.props.introduction}</p></dd>
                 </div>}
-                {this.props.place != "" && <div className="place">
+                {this.props.place !== "" && <div className="place">
                     <dt>活動場所</dt>
                     <dd className="place">{this.props.place}</dd>
                 </div>}
-                {this.props.status != '' && <div className="status">
+                {this.props.status !== '' && <div className="status">
                     <dt>現在の活動状況</dt>
                     <dd>{this.props.status}</dd>
                 </div>}
@@ -206,10 +198,6 @@ width: 100%;
 `;
 
 export class Introduction extends React.Component<IntroductionProps>{
-    constructor(props: IntroductionProps){
-        super(props);
-    }
-
     static defaultProps: IntroductionProps = {
         introduction: '',
         hideTitle: false,
@@ -258,10 +246,6 @@ const _Image = styled.div`
 `;
 
 export class Image extends React.Component<ImageProps>{
-    constructor(props: ImageProps){
-        super(props);
-    }
-
     static defaultProps: ImageProps = {
         imagePath: '',
         isContain: false,
@@ -270,7 +254,7 @@ export class Image extends React.Component<ImageProps>{
     render(){
         return( 
             <_Image>
-                {this.props.imagePath != '' && 
+                {this.props.imagePath !== '' && 
                     <div className={this.props.isContain ? "wrap_img contain" : "wrap_img"}>
                         <img src={this.props.imagePath} alt="" />
                     </div>
@@ -327,10 +311,6 @@ const _Links = styled.div`
 `;
 
 export class Links extends React.Component<LinksProps>{
-    constructor(props: LinksProps){
-        super(props);
-    }
-
     static defaultProps: LinksProps = {
         title: '配信時間',
         time: '',
@@ -341,17 +321,18 @@ export class Links extends React.Component<LinksProps>{
     render(){
         return(
             <_Links>
-                {!this.props.hideTitle && <dt className="w-100">{this.props.title} {this.props.time != '' ? "：" + this.props.time + "〜" : ""}</dt>}
+                {!this.props.hideTitle && <dt className="w-100">{this.props.title} {this.props.time !== '' ? "：" + this.props.time + "〜" : ""}</dt>}
                 <dd className="links">
                     {Object.keys(this.props.Links).map((value, index) => {
-                        if(this.props.Links[value] != ""){
+                        if(this.props.Links[value] !== ""){
                             return(
-                                <div className="link">
+                                <div key={index} className="link">
                                     <div><span>{value}</span></div>
-                                    <a href={this.props.Links[value]} target="_blank">Watch!!</a>
+                                    <a rel="noreferrer" href={this.props.Links[value]} target="_blank">Watch!!</a>
                                 </div>
                             );
                         }
+                        return <div key={index}></div>;
                     })}
                 </dd>
             </_Links>
@@ -381,10 +362,6 @@ const _ToTimetable = styled.div`
 `;
 
 export class ToTimetable extends React.Component<ToTimetableProps>{
-    constructor(props: ToTimetableProps){
-        super(props);
-    }
-
     static defaultProps: ToTimetableProps = {
         handleOpenTimetable: ()=>{},
         handleCloseModal: ()=>{},
@@ -415,10 +392,6 @@ const _LabLink = styled.div`
 `;
 
 export class LabLink extends React.Component<LabLinkProps>{
-    constructor(props: LabLinkProps){
-        super(props);
-    }
-
     static defaultProps: LabLinkProps = {
         name: "",
         youtube_id: "",

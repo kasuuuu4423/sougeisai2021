@@ -1,6 +1,4 @@
-import { RGB } from "konva/lib/filters/RGB";
-
-export default {
+const Color = {
     BLACK: '#333333',
     DARKGRAY: '#5e5e5e',
     LIGHTGRAY: 'rgb(230, 229, 230)',
@@ -21,3 +19,4 @@ export default {
     PRESENT: "rgb(107 180 202)",
     DARKBLUE: "rgb(29 74 124)"
 }
+export default Color;

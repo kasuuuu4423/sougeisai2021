@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import styled, {css, CSSProperties} from "styled-components";
+import styled, {css} from "styled-components";
 import Color from "../../assets/cssVars/Color";
 import FontSize from "../../assets/cssVars/FontSize";
 import Other from "../../assets/cssVars/Other";
@@ -75,8 +75,8 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group hideDt={true} name={info['title']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        {info['onAirLink'] != "" && <Links title="配信時間" time={info['onAirAt']} Links={{
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['onAirLink'] !== "" && <Links title="配信時間" time={info['onAirAt']} Links={{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
                         }}/>}
@@ -91,8 +91,8 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group hideDt={true} name={info['title']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        {info['onAirLink'] != "" && <Links hideTitle={true} time={info['onAirAt']} Links={{
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['onAirLink'] !== "" && <Links hideTitle={true} time={info['onAirAt']} Links={{
                             'LINK': info['onAirLink'],
                         }}/>}
                         <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
@@ -106,8 +106,8 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group hideDt={true} name={info['title']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
-                        {info['onAirLink'] != "" && <Links hideTitle={true} time={info['onAirAt']} Links={{
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['onAirLink'] !== "" && <Links hideTitle={true} time={info['onAirAt']} Links={{
                             'LINK': info['onAirLink'],
                         }}/>}
                         <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
@@ -121,7 +121,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                         <Links title="配信時間" time={info['onAirAt']} Links={{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
@@ -137,7 +137,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                         <Links title="オンライン販売先" Links={{
                             'BASE': info['onAirLink'],
                         }}/>
@@ -151,7 +151,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                         <Links title="" hideTitle={true} Links={{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
@@ -167,7 +167,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction=""></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                         <Links hideTitle={true} title="" Links={{
                             '掲載LINK': info['onAirLink'],
                         }}/>
@@ -181,8 +181,8 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <Title title={info['groupName']} subTitle="サークル紹介"/>
                     <dl>
                         <Group hideDd={true} hideDt={true} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}/>
-                        {info['introduction'] != "" && <Introduction title="活動状況" introduction={info['introduction']}/>}
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['introduction'] !== "" && <Introduction title="活動状況" introduction={info['introduction']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                         <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
@@ -193,7 +193,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <Title title={info['title']} subTitle="イースターエッグ"/>
                     <dl>
                         <Introduction lineHeight={2} textAlign="center" hideTitle={true} introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                     </dl>
                 </div>;
             case 'deer':
@@ -203,7 +203,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <Title title={info['title']} subTitle="イースターエッグ"/>
                     <dl>
                         <Introduction lineHeight={2} textAlign="center" hideTitle={true} introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                     </dl>
                 </div>;
             case 'bear':
@@ -213,7 +213,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <Title title={info['title']} subTitle="イースターエッグ"/>
                     <dl>
                         <Introduction lineHeight={2} textAlign="center" hideTitle={true} introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                     </dl>
                 </div>;
             case 'photo':
@@ -222,7 +222,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title={info['title']} subTitle="フォトライブラリー"/>
                     <dl>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                         <Introduction introduction={info['introduction']}></Introduction>
                     </dl>
                 </div>;
@@ -242,7 +242,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <Title title="桑芸祭2021 とは？"/>
                     <dl>
                         <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
                     </dl>
                 </div>;
             case 'howToWalk':
@@ -251,9 +251,9 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title="サイトの歩き方"/>
                     <dl>
-                        {info['imageUrl0'] != "" && <Image isContain={true} imagePath={info['imageUrl0']}/>}
+                        {info['imageUrl0'] !== "" && <Image isContain={true} imagePath={info['imageUrl0']}/>}
                         <Introduction hideTitle={true} introduction={info['introduction0']}></Introduction>
-                        {info['imageUrl1'] != "" && <Image isContain={true} imagePath={info['imageUrl1']}/>}
+                        {info['imageUrl1'] !== "" && <Image isContain={true} imagePath={info['imageUrl1']}/>}
                         <Introduction hideTitle={true} introduction={info['introduction1']}></Introduction>
                     </dl>
                 </div>;

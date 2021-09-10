@@ -203,7 +203,7 @@ class Area extends React.Component<AreaProps, AreaState>{
 
         let tmpHoverImage = this.state.hoverImage != null ? this.state.hoverImage : new window.Image();
         let height = this.props.height;
-        let width = height*tmpHoverImage.width/tmpHoverImage.height;
+        let width: number = height*tmpHoverImage.width/tmpHoverImage.height;
         let hoverImage = <Image ref={node=>{this.image = node}} opacity={0} image={tmpHoverImage} offsetX={width/2} offsetY={this.props.height/2} x={this.props.x} y={this.props.y} width={width} height={height} />;
 
         let elmEvent: ReactElement[] = [];

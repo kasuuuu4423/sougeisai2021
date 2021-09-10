@@ -96,7 +96,7 @@ class Hamburger extends React.Component<HamProps, HamState>{
         let status = this.props.status != null ? this.props.status : false;
         return (
             <WrapHam onClick={()=>{
-                let func = this.props.toggleState != undefined ? this.props.toggleState : ()=>{};
+                let func = this.props.toggleState !== undefined ? this.props.toggleState : ()=>{};
                 func();
             }}>
                 <LineTop isOpen={status} />

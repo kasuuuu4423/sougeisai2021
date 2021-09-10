@@ -2,10 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 class Unsupported extends React.Component{
-    constructor(props: {}){
-        super(props);
-    }
-
     render(){
         return(
             <_Unsupported>
@@ -16,7 +12,7 @@ class Unsupported extends React.Component{
                     あなたのブラウザも<br className="sp_only"/>対応したかった。<br/>
                     <span>当サイトはGoogleChrome，<br className="sp_only"/>Firefox等のモダンブラウザでの<br className="sp_only"/>使用しか想定できませんでした。</span>
                 </div>
-                <a target="_blank" href="https://www.scu.ac.jp/"><img src="/img/unsupported/toScu.png" alt="大学ホームページへ"/></a>
+                <a rel="noreferrer" target="_blank" href="https://www.scu.ac.jp/"><img src="/img/unsupported/toScu.png" alt="大学ホームページへ"/></a>
             </_Unsupported>
         );
     }
