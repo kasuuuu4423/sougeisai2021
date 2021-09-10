@@ -461,3 +461,113 @@ export const WrapLabLink = styled.div`
         }
     }
 `;
+
+
+type PresentProps = {
+};
+type PresentState = {
+    selected: string,
+};
+
+const _Present = styled.div`
+    grid-column: 1/3;
+    .switch{
+        width: 100%;
+        text-align: center;
+        div{
+            margin-bottom: 40px !important;
+            &.buttons{
+                margin: 0;
+                display: flex;
+                justify-content: space-around;
+                button{
+                    padding: 10px 30px;
+                    background-color: ${Color.WHITE};
+                    border: none;
+                    cursor: pointer;
+                    outline: none;
+                    appearance: none;
+                }
+            }
+        }
+    }
+    .example{
+        text-align: center;
+        margin-bottom: 40px!important;
+        img{
+            width: 40%;
+            margin-bottom: 20px;
+        }
+    }
+    .links{
+        text-align: center;
+        a{
+            font-weight: 700;
+        }
+    }
+`;
+
+export class Present extends React.Component<PresentProps, PresentState>{
+    constructor(props: LabLinkProps){
+        super(props);
+
+        this.state = {
+            selected: "",
+        };
+    }
+
+    static defaultProps: PresentProps = {
+    };
+
+    selectStudent = () =>{
+        this.setState({
+            selected: "student",
+        });
+    }
+
+    selectOthers = () =>{
+        this.setState({
+            selected: "others",
+        });
+    }
+
+    render(){
+        const selected = this.state.selected?this.state.selected:"";
+        return(
+            <_Present>
+                {selected == "" &&<div className="switch">
+                    <div>あなたは札幌市立大学の学生ですか</div>
+                    <div className="buttons">
+                        <button onClick={this.selectStudent}>YES</button>
+                        <button onClick={this.selectOthers}>NO</button>
+                    </div>
+                </div>}
+                {selected != "" &&
+                <div className="example">
+                    <div className="head">当たる商品例</div>
+                    <img src="img/main/modal/presentbox.png" alt="" />
+                    {selected == "student" && <div className="premium student">
+                        <div>学生用商品名</div>
+                        <div>商品名</div>
+                        <div>商品名</div>
+                        <div>商品名</div>
+                        <div>商品名</div>
+                        <div>などなど</div>
+                    </div>}
+                    {selected == "others" && <div className="premium others">
+                        <div>一般用商品名</div>
+                        <div>商品名</div>
+                        <div>商品名</div>
+                        <div>商品名</div>
+                        <div>商品名</div>
+                        <div>などなど</div>
+                    </div>}
+                </div>}
+                {selected != "" && <div className="links">
+                    {selected == "student" && <a className="student" href="">応募フォームはこちら</a>}
+                    {selected == "others" && <a className="others" href="">応募フォームはこちら</a>}
+                </div>}
+            </_Present>
+        );
+    }
+}

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faTwitter, faInstagram} from "@fortawesome/free-brands-svg-icons";
 import Other from "../../assets/cssVars/Other";
-import {Title, Group, Introduction, Image, Links, ToTimetable, LabLink, WrapLabLink} from "./ModalItems";
+import {Title, Group, Introduction, Image, Links, ToTimetable, LabLink, WrapLabLink, Present} from "./ModalItems";
 import MicroCms from "../../lib/microCms";
 
 type ModalProps = {
@@ -212,7 +212,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                 </div>;
             case 'lab':
                 const labs = this.state.labs != null ? this.state.labs : [];
-                return <div className="container howToWalk">
+                return <div className="container lab">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title="研究室紹介"/>
@@ -222,6 +222,16 @@ class Modal extends React.Component<ModalProps, ModalState>{
                             <LabLink name={lab["name"]} youtube_id={lab["youtube_id"]} />
                         )}
                     </WrapLabLink>
+                </div>;
+            case 'present':
+                return <div className="container present">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title="プレゼント企画"/>
+                    <dl>
+                        <Introduction hideTitle={true} introduction={info['introduction']} />
+                        <Present></Present>
+                    </dl>
                 </div>;
             default:
                 return <div></div>;
@@ -279,6 +289,20 @@ export const _Modal = styled.div<_ModalProps>`
     }
     &.day2{
         background: ${Color.LIGHTPURPLE};
+    }
+    &.present{
+        background: ${Color.PRESENT};
+        dl{
+            display: grid !important;
+            grid-template-rows: 3rem 1fr;
+            grid-template-columns: 1fr;
+            align-items: center;
+            justify-content: center;
+            .introduction{
+                width: 100%;
+                justify-content: center;
+            }
+        }
     }
     a{
         color: ${Color.WHITE};

@@ -29,6 +29,7 @@ type EventState = {
     labIcon?: HTMLImageElement,
     photoIcon?: HTMLImageElement,
     easterIcon?: HTMLImageElement,
+    presentIcon?: HTMLImageElement,
 };
 
 class Plan extends React.Component<EventProps, EventState>{
@@ -46,6 +47,7 @@ class Plan extends React.Component<EventProps, EventState>{
             labIcon: new window.Image(),
             photoIcon: new window.Image(),
             easterIcon: new window.Image(),
+            presentIcon: new window.Image(),
         };
         Util.getHTMLImage("main/modal/icons/event.png", (image)=>{
             if(!Array.isArray(image)){
@@ -92,6 +94,11 @@ class Plan extends React.Component<EventProps, EventState>{
                 this.setState({easterIcon: image});
             }
         });
+        Util.getHTMLImage("main/modal/icons/present.png", (image)=>{
+            if(!Array.isArray(image)){
+                this.setState({presentIcon: image});
+            }
+        });
     }
 
     handleClick = () =>{
@@ -135,6 +142,7 @@ class Plan extends React.Component<EventProps, EventState>{
             'lab': Util.checkAndGetUndifined(this.state.labIcon),
             'photo': Util.checkAndGetUndifined(this.state.photoIcon),
             'easter': Util.checkAndGetUndifined(this.state.easterIcon),
+            'present': Util.checkAndGetUndifined(this.state.presentIcon),
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
