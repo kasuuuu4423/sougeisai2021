@@ -30,6 +30,8 @@ type EventState = {
     photoIcon?: HTMLImageElement,
     easterIcon?: HTMLImageElement,
     presentIcon?: HTMLImageElement,
+    bearIcon?: HTMLImageElement,
+    deerIcon?: HTMLImageElement,
 };
 
 class Plan extends React.Component<EventProps, EventState>{
@@ -48,6 +50,8 @@ class Plan extends React.Component<EventProps, EventState>{
             photoIcon: new window.Image(),
             easterIcon: new window.Image(),
             presentIcon: new window.Image(),
+            bearIcon: new window.Image(),
+            deerIcon: new window.Image(),
         };
         Util.getHTMLImage("main/modal/icons/event.png", (image)=>{
             if(!Array.isArray(image)){
@@ -99,6 +103,16 @@ class Plan extends React.Component<EventProps, EventState>{
                 this.setState({presentIcon: image});
             }
         });
+        Util.getHTMLImage("main/modal/icons/deer.png", (image)=>{
+            if(!Array.isArray(image)){
+                this.setState({deerIcon: image});
+            }
+        });
+        Util.getHTMLImage("main/modal/icons/bear.png", (image)=>{
+            if(!Array.isArray(image)){
+                this.setState({bearIcon: image});
+            }
+        });
     }
 
     handleClick = () =>{
@@ -144,6 +158,8 @@ class Plan extends React.Component<EventProps, EventState>{
             'photo': Util.checkAndGetUndifined(this.state.photoIcon),
             'easter': Util.checkAndGetUndifined(this.state.easterIcon),
             'present': Util.checkAndGetUndifined(this.state.presentIcon),
+            'deer': Util.checkAndGetUndifined(this.state.deerIcon),
+            'bear': Util.checkAndGetUndifined(this.state.bearIcon),
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(

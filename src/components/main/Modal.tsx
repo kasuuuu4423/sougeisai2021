@@ -181,6 +181,26 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
                     </dl>
                 </div>;
+            case 'deer':
+                return <div className="container easter">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title={info['title']} subTitle="イースターエッグ"/>
+                    <dl>
+                        <Introduction lineHeight={2} textAlign="center" hideTitle={true} introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                    </dl>
+                </div>;
+            case 'bear':
+                return <div className="container easter">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title={info['title']} subTitle="イースターエッグ"/>
+                    <dl>
+                        <Introduction lineHeight={2} textAlign="center" hideTitle={true} introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                    </dl>
+                </div>;
             case 'photo':
                 return <div className="container easter">
                     <div className="back"></div>
