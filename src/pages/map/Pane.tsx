@@ -1,9 +1,7 @@
 import React from "react";
 import styled, {css} from "styled-components";
-import { Layer, Rect, Stage, Image } from "react-konva";
 import Color from "../../assets/cssVars/Color";
 import Other from "../../assets/cssVars/Other";
-import Konva from "konva";
 
 type _PaneProps = {
     isOpen: boolean | false,

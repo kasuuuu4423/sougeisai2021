@@ -1,10 +1,7 @@
 import React, { ReactElement, useCallback } from "react";
-import styled, {css} from "styled-components";
 import { Layer, Rect, Stage, Image } from "react-konva";
 import Konva from "konva";
 import Floor from "./F";
-import { JsxElement } from "typescript";
-import { throws } from "assert";
 import Util from "../../lib/Util";
 import MicroCms from "../../lib/microCms";
 import Plan from "./Plan";

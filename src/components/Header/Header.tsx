@@ -1,7 +1,5 @@
 import React from "react";
 import styled, {css} from "styled-components";
-import Margin from "../../assets/cssVars/Margin";
-import Color from "../../assets/cssVars/Color";
 import Hamburger from "./Hamburger";
 import Nav from "./Nav";
 

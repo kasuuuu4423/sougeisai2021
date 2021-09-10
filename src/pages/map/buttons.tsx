@@ -1,5 +1,4 @@
-import React from "react";
-import styled, {css, CSSProperties} from "styled-components";
+import styled, {css} from "styled-components";
 import Other from "../../assets/cssVars/Other";
 
 

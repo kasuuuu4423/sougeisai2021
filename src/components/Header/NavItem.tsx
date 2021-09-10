@@ -4,7 +4,6 @@ import Color from "../../assets/cssVars/Color";
 import FontSize from "../../assets/cssVars/FontSize";
 import Margin from "../../assets/cssVars/Margin";
 import MicroCms from "../../lib/microCms";
-import Util from "../../lib/Util";
 
 
 const Anker = styled.a`

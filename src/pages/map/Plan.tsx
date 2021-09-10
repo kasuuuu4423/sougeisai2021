@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { ReactElement } from "react";
+import React from "react";
 import { Image } from "react-konva";
 import Util from "../../lib/Util";
 

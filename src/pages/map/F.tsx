@@ -1,6 +1,5 @@
 import React from "react";
-import styled, {css} from "styled-components";
-import { Layer, Rect, Stage, Image } from "react-konva";
+import { Image } from "react-konva";
 
 type FloorProps = {
     image: HTMLImageElement,

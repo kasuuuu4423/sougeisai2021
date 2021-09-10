@@ -1,8 +1,7 @@
-import React, { ElementRef, LegacyRef, ReactElement, Ref } from "react";
-import styled, {css, CSSProperties} from "styled-components";
+import React from "react";
+import styled, {CSSProperties} from "styled-components";
 import { Layer, Rect, Stage, Image } from "react-konva";
 import Konva from "konva";
-import Place from "./Place";
 import Area from "./Area";
 import { WrapButtons, ZoomoutBtn, LevelPlusBtn, LevelMinusBtn, AreaMovePlusBtn, AreaMoveMinusBtn, BtnLabelArea, BtnLabelFloor, InfoBtn } from "./buttons";
 import MicroCms from "../../lib/microCms";

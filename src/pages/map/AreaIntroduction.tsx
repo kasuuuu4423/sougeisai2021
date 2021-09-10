@@ -1,5 +1,5 @@
 import React from "react";
-import styled, {css, CSSProperties} from "styled-components";
+import styled from "styled-components";
 import Color from "../../assets/cssVars/Color";
 
 type AreaIntroductionProps = {

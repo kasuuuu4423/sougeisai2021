@@ -4,7 +4,6 @@ import Margin from "../../assets/cssVars/Margin";
 import Color from "../../assets/cssVars/Color";
 import Other from "../../assets/cssVars/Other";
 import NavItem from "./NavItem";
-import Util from "../../lib/Util";
 
 type NavState = {
 };

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import styled from "styled-components";
 import Map from "../../pages/map/Map";
 import Cloud from "./Cloud";
@@ -6,7 +6,6 @@ import Modal from "./Modal";
 import Top from "../../pages/top/Top";
 import Util from "../../lib/Util";
 import Timetable from "./Timetable";
-import { time } from "console";
 import Color from "../../assets/cssVars/Color";
 
 const _Main = styled.main`

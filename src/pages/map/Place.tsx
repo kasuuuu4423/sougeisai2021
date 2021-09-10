@@ -1,7 +1,5 @@
 import React from "react";
-import styled, {css} from "styled-components";
-import { Layer, Rect, Stage, Image } from "react-konva";
-import Konva from "konva";
+import { Rect } from "react-konva";
 
 type PlaceProps = {
     id: number,
