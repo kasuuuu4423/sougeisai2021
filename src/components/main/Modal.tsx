@@ -98,6 +98,21 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
+            case 'paris':
+                return <div className="container event">
+                    <div className="back"></div>
+                    <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
+                    <Title title="イベント"/>
+                    <dl>
+                        <Group hideDt={true} name={info['title']}></Group>
+                        <Introduction introduction={info['introduction']}></Introduction>
+                        {info['imageUrl'] != "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['onAirLink'] != "" && <Links hideTitle={true} time={info['onAirAt']} Links={{
+                            'LINK': info['onAirLink'],
+                        }}/>}
+                        <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
+                    </dl>
+                </div>;
             case 'showcase':
                 return <div className="container showcase">
                     <div className="back"></div>

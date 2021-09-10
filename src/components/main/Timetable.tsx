@@ -1,19 +1,20 @@
 import React, { ReactElement } from "react";
 import styled, {css, CSSProperties} from "styled-components";
 import {_Modal} from "./Modal";
-import { Links, Title  } from "./ModalItems";
+import { Links, Title } from "./ModalItems";
 import MicroCms from "../../lib/microCms";
 import moment from "moment";
 import Color from "../../assets/cssVars/Color";
 import Util from "../../lib/Util";
 import Other from "../../assets/cssVars/Other";
 
-const startHour = 0;
+const startHour = 14;
 const StartMin = 0;
 const start = startHour + ":" + StartMin;
-const endHour = 24;
+const endHour = 19;
 const endMin = 0;
 const end = startHour + ":" + StartMin;
+const size = 200;
 
 type TimetableProps = {
     handleOpenModal: (info: {[key: string]: string})=>void,
@@ -183,7 +184,14 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
         }, 60000);
         const Now = this.state.now != null ? this.state.now : moment();
         const Start = moment({'hour': startHour, 'minute': StartMin});
-        const NowDiff = Util.millisToHour(Now.diff(Start));
+        let NowDiff = Util.millisToHour(Now.diff(Start));
+        console.log(NowDiff);
+        if(NowDiff > endHour - startHour){
+            NowDiff = endHour - startHour;
+        }
+        else if(NowDiff < 0){
+            NowDiff = 0;
+        }
 
         const Day = Util.checkAndGetUndifined(this.state.day);
         const items = this.state.tableItems != null ? this.state.tableItems : [];
@@ -204,10 +212,11 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
         );
 
         const borders: ReactElement[] = [];
-        for(let i = 0; i < endHour; i++){
-            const isEnd = i == endHour -  1 ? true : false;
+        for(let i = startHour; i < endHour; i++){
+            const isEnd = i == endHour - 1 ? true : false;
+            const isStart = i == startHour ? true : false;
             borders.push(
-                <Border isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
+                <Border isStart={isStart} isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
             );
         }
         
@@ -249,7 +258,7 @@ const NowBorder = styled.div<NowBorderProps>`
     width: 80%;
     height: 3px;
     background: ${Color.PINK};
-    top: ${(props) => props.top ? props.top * 40 + 10 : 0}px;
+    top: ${(props) => props.top ? props.top * size + 10 : 0}px;
     left: 57px;
     @media screen and (max-width: 750px){
         left: calc(2rem + 10px);
@@ -263,10 +272,11 @@ const Borders = styled.div`
 type BorderProps = {
     start: string,
     end: string,
+    isStart: boolean,
     isEnd: boolean,
 };
 const Border = styled.div<BorderProps>`
-    height: 40px;
+    height: ${size}px;
     width: 80%;
     margin: 0;
     margin-left: calc(2rem + 10px);
@@ -280,11 +290,11 @@ const Border = styled.div<BorderProps>`
     }
     ${(props) => !props.isEnd
     ? css`
-        height: 39px;
+        height: ${size - 1}px;
         border-bottom: 1px ${Color.LIGHTGRAY} solid;
     ` : ""}
     &::before{
-        content: "${(props) => props.start ? props.start : ""}";
+        content: "${(props) => props.isStart ? "〜" : ""}${(props) => props.start ? props.start : ""}";
         top: 0;
         left: 0;
         transform: translate(-100%, -50%);
@@ -292,7 +302,7 @@ const Border = styled.div<BorderProps>`
     ${(props) => props.isEnd && props.end
     ? css`
         &::after{
-            content: "${props.end}";
+            content: "${props.end + "〜"}";
             bottom: 0;
             transform: translate(-100%, 50%);
         }
@@ -303,6 +313,7 @@ type _TimetableProps = {};
 
 const _Timetable = styled.div<_TimetableProps>`
     padding: 10px 0;
+    padding-left: 20px;
     position: relative;
     top: 0;
     left: 20px;
@@ -372,11 +383,12 @@ class TimetableItem extends React.Component<TimetableItemProps, TimetableItemSta
         const eventStart =  moment().set('hour', parseInt(this.props.startHour));
         eventStart.set('minute', parseInt(this.props.startMin));
         const diff = Util.millisToHour(eventStart.diff(originStart));
-        const top = diff*40;
+        const top = (diff < 0 ? 0 : diff)*size;
 
         const eventEnd = moment().set('hour', parseInt(this.props.endHour));
         eventEnd.set('minute', parseInt(this.props.endMin));
-        const duration = Util.millisToHour(eventEnd.diff(eventStart));
+        let duration = Util.millisToHour(eventEnd.diff(eventStart));
+        duration = diff < 0 ? 1 : duration;
         //timetableItemの開始と終了の差（イベントの時間）で1時間につき40pxの高さに
         return(
             <_TimetableItem day={this.props.day} duration={duration} top={top} onClick={this.handleClick} start={this.props.start} end={this.props.end} isEnd={this.props.isEnd}>
@@ -399,7 +411,7 @@ type _TimatableItemProps = {
 const _TimetableItem = styled.div<_TimatableItemProps>`
     display: flex;
     align-items: center;
-    height: ${props => props.duration ? props.duration * 40 + 'px' : 'auto'};
+    height: ${props => props.duration ? props.duration * size + 'px' : 'auto'};
     position: absolute;
     top: ${(props) => props.top ? props.top + 10 : 0}px;
     left: calc(4rem + 4px);

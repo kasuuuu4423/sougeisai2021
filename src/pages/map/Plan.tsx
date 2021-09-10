@@ -148,6 +148,7 @@ class Plan extends React.Component<EventProps, EventState>{
     render(){
         let icons: {[key: string]: HTMLImageElement} = {
             'event': Util.checkAndGetUndifined(this.state.eventIcon),
+            'paris': Util.checkAndGetUndifined(this.state.eventIcon),
             'interactive': Util.checkAndGetUndifined(this.state.eventIcon),
             'showcase': Util.checkAndGetUndifined(this.state.showcaseIcon),
             'cm': Util.checkAndGetUndifined(this.state.cmIcon),
