@@ -352,7 +352,7 @@ class TimetableItem extends React.Component<TimetableItemProps, TimetableItemSta
     handleClick = () =>{
         let data = this.props.data;
         let group: {[key: string]: string} = {};
-        if(typeof data['group'] != 'string'){
+        if(typeof data['group'] != 'string' && Util.checkType(data['type'], "string") && data['type'] != "event" && data['type'] != "interactive"){
             group = {
                 'groupName': data['group']['name'],
                 'grouPlace': data['group']['actAt'],
