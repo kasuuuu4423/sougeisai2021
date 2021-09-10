@@ -49,6 +49,7 @@ class Site extends React.Component<{}, SiteState> {
   }
 
   handleOpenModal = (info: {[key: string]: string}) =>{
+    this.handleClsoeTimetable();
     this.setState({
       modalIsOpen: true,
       modalInfo: info,
@@ -84,6 +85,7 @@ class Site extends React.Component<{}, SiteState> {
   }
 
   handleOpenTimetable = () =>{
+    this.handleCloseModal();
     this.setState({
       timetableIsOpen: true,
     });
