@@ -5,10 +5,6 @@ import Floor from "./F";
 import Util from "../../lib/Util";
 import MicroCms from "../../lib/microCms";
 import Plan from "./Plan";
-import Other from "../../assets/cssVars/Other";
-//microCMSから情報を取得
-//stateに保存
-//階層を見て，適切なeventを表示
 
 type AreaProps = {
     id: number,
