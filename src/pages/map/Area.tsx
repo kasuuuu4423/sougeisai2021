@@ -137,7 +137,7 @@ class Area extends React.Component<AreaProps, AreaState>{
                         }
                     });
                 }
-            }, 4000);
+            }, 3500);
         })
         .then(()=>{
             setTimeout(()=>{
