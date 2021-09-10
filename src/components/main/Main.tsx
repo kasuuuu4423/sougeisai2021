@@ -26,6 +26,7 @@ type MainProps = {
     mapBrightness: number,
 };
 type MainState = {
+    mapDidMount?: boolean,
 };
 
 class Main extends React.Component<MainProps, MainState>{
@@ -35,10 +36,17 @@ class Main extends React.Component<MainProps, MainState>{
         super(props);
 
         this.state = {
+            mapDidMount: false,
         };
     }
 
     handleCloseTimetable = () =>{
+    }
+
+    mapDidMount = () =>{
+        this.setState({
+            mapDidMount: true,
+        });
     }
 
     render(){
@@ -48,8 +56,8 @@ class Main extends React.Component<MainProps, MainState>{
         const timetableIsOpen = this.props.timetableIsOpen != null ? this.props.timetableIsOpen : false;
         return(
             <_Main>
-                <Top/>
-                <Map brightness={this.props.mapBrightness} modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
+                <Top mapDidMount={this.state.mapDidMount?this.state.mapDidMount:false}/>
+                <Map handleMapDidMount={this.mapDidMount} brightness={this.props.mapBrightness} modalIsOpen={modalIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal} handleIsZoom={this.props.handleIsZoom} handleIsZoomout={this.props.handleIsZoomout}></Map>
                 <Modal handleOpenTimetable={this.props.handleOpenTimetalbe} handleCloseModal={this.props.handleCloseModal} info={this.props.modalInfo} isOpen={modalIsOpen}></Modal>
                 <Timetable handleCloseTimetable={this.props.handleCloseTimetalbe} isOpen={timetableIsOpen} handleOpenModal={this.props.handleOpenModal} handleCloseModal={this.props.handleCloseModal}/>
                 <Cloud isZoom={this.props.isZoom} cloudNum={1} right={this.cloud_x[0].toString() + "px"} top={this.cloud_y[0].toString() + "px"} ></Cloud>

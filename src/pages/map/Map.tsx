@@ -39,6 +39,7 @@ type MapProps = {
     handleIsZoomout: ()=>void,
     handleOpenModal: (info: {[key: string]: string})=>void,
     handleCloseModal: ()=>void,
+    handleMapDidMount: ()=>void,
     modalIsOpen: boolean,
     brightness: number,
 };
@@ -174,10 +175,10 @@ class Map extends React.Component<MapProps, MapState>{
             this.backgroundColor = this.nightColor;
         }
         image.onload = () => {
-            // setState will redraw layer
-            // because "image" property is changed
             this.setState({
                 image: image
+            }, ()=>{
+                this.props.handleMapDidMount();
             });
         };
 

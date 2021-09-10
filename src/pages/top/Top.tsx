@@ -4,7 +4,9 @@ import Color from "../../assets/cssVars/Color";
 import Other from "../../assets/cssVars/Other";
 import Util from "../../lib/Util";
 
-type TopProps = {};
+type TopProps = {
+    mapDidMount: boolean,
+};
 type TopState = {
     loadStatus?: boolean,
     enter?: boolean,
@@ -53,7 +55,7 @@ class Top extends React.Component<TopProps, TopState>{
         let scuLogoPath = window.location.origin+"/img/nav/scu.png";
         let CloudPath1 = window.location.origin+"/img/top/cloud_L.png";
         let CloudPath2 = window.location.origin+"/img/top/cloud_R.png";
-        let loadStatus = this.state.loadStatus != null ? this.state.loadStatus : false;
+        let loadStatus = this.props.mapDidMount && (this.state.loadStatus != null ? this.state.loadStatus : false);
         const enter = Util.checkAndGetUndifined(this.state.enter);
         const display = Util.checkAndGetUndifined(this.state.display);
         return(
