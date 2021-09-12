@@ -52,9 +52,12 @@ type eventItem = {
     "diff": string,
     "data": {[key: string]: string},
     "isEnd": boolean,
+    "top": number,
+    "duration": number,
 };
 
 class Timetable extends React.Component<TimetableProps, TimetableState>{
+    private offset = [0,0];
     constructor(props: TimetableProps){
         super(props);
 
@@ -89,6 +92,24 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
             
             let tableItems: eventItem[][] = [[],[]];
             eventsInfo.forEach((info, i) => {
+                const originStart = moment().set('hour', startHour);
+                originStart.set('minute', StartMin);
+                const eventStart =  moment().set('hour', parseInt(typeof info["startHour"] == 'string' ? info["startHour"] : ""));
+                eventStart.set('minute', parseInt(typeof info["startMin"] == 'string' ? info["startMin"] : ""));
+                const diff = Util.millisToHour(eventStart.diff(originStart));
+                let top = (diff < 0 ? 0 : diff)*size;
+                if(diff < 0){
+                    top = this.offset[typeof info["data"] != 'string' ? parseInt(info["data"]["day"]) : 0]*size/4;
+                    this.offset[typeof info["data"] != 'string' ? parseInt(info["data"]["day"]) : 0]++;
+                }
+    
+                const eventEnd = moment().set('hour', parseInt(typeof info["endHour"] == 'string' ? info["endHour"] : ""));
+                eventEnd.set('minute', parseInt(typeof info["endMin"] == 'string' ? info["endMin"] : ""));
+                let duration = Util.millisToHour(eventEnd.diff(eventStart));
+                duration = diff < 0 ? 1 : duration;
+                if(diff < 0){
+                    duration = 0.25;
+                }
                 tableItems[typeof info["data"] != 'string' ? parseInt(info["data"]["day"]) : 0].push(
                     {
                         "day": Util.checkAndGetUndifined(this.state.day),
@@ -102,6 +123,8 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                         "diff": typeof info["diff"] == 'string' ? info["diff"] : "",
                         "data": typeof info["data"] != 'string' ? info["data"] : {},
                         "isEnd": i == eventsInfo.length-1 ? true : false,
+                        "top": top,
+                        "duration": duration,
                     }
                 );
             });
@@ -197,29 +220,34 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
 
         const Day = Util.checkAndGetUndifined(this.state.day);
         const items = this.state.tableItems != null ? this.state.tableItems : [];
-        const itemsElm: ReactElement[] = items[Day].map((item, i) =>
-            <TimetableItem
-                key={i}
-                start={item["start"]}
-                end={item["end"]}
-                isEnd={item["isEnd"]}
-                startHour={item["startHour"]}
-                startMin={item["startMin"]}
-                endHour={item["endHour"]}
-                endMin={item["endMin"]}
-                day={Day}
-                diff={item["diff"]}
-                data={item["data"]}
-                handleOpenModal={item["handleOpenModal"]}
-            />
-        );
+        const itemsElm: ReactElement[] = items[Day].map((item, i) =>{
+            return(
+                <TimetableItem
+                    key={i}
+                    start={item["start"]}
+                    end={item["end"]}
+                    isEnd={item["isEnd"]}
+                    startHour={item["startHour"]}
+                    startMin={item["startMin"]}
+                    endHour={item["endHour"]}
+                    endMin={item["endMin"]}
+                    day={Day}
+                    diff={item["diff"]}
+                    data={item["data"]}
+                    top={item["top"]}
+                    duration={item["duration"]}
+                    handleOpenModal={item["handleOpenModal"]}
+                />
+            );
+        });
 
         const borders: ReactElement[] = [];
         for(let i = startHour; i < endHour; i++){
             const isEnd = i == endHour - 1 ? true : false;
             const isStart = i == startHour ? true : false;
+            const isSecond = i == startHour + 1 ? true : false;
             borders.push(
-                <Border key={i} isStart={isStart} isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
+                <Border key={i} isSecond={isSecond} isStart={isStart} isEnd={isEnd} start={i + ":00"} end={i + 1 + ":00"}></Border>
             );
         }
         
@@ -277,6 +305,7 @@ type BorderProps = {
     end: string,
     isStart: boolean,
     isEnd: boolean,
+    isSecond: boolean,
 };
 const Border = styled.div<BorderProps>`
     height: ${size}px;
@@ -297,7 +326,7 @@ const Border = styled.div<BorderProps>`
         border-bottom: 1px ${Color.LIGHTGRAY} solid;
     ` : ""}
     &::before{
-        content: "${(props) => props.isStart ? "〜" : ""}${(props) => props.start ? props.start : ""}";
+        content: "${(props) => props.isSecond ? "〜": ""}${(props) => !props.isStart && props.start ? props.start : ""}";
         top: 0;
         left: 0;
         transform: translate(-100%, -50%);
@@ -338,6 +367,8 @@ type TimetableItemProps = {
     day: number,
     diff: string,
     data: {[key: string]: string | {[key: string]: string}},
+    top: number,
+    duration: number,
     handleOpenModal: (info: {[key: string]: string})=>void,
 };
 type TimetableItemState = {
@@ -346,10 +377,6 @@ type TimetableItemState = {
 class TimetableItem extends React.Component<TimetableItemProps, TimetableItemState>{
     constructor(props: TimetableItemProps){
         super(props);
-
-        this.state = {
-            itemHeight: 1,
-        };
     }
 
     handleClick = () =>{
@@ -380,21 +407,9 @@ class TimetableItem extends React.Component<TimetableItemProps, TimetableItemSta
         if(this.props.data != null && typeof this.props.data["title"] == "string"){
             title = this.props.data["title"];
         }
-        const itemHeight = this.props.diff != null ? parseInt(this.props.diff) : 1;
-        const originStart = moment().set('hour', startHour);
-        originStart.set('minute', StartMin);
-        const eventStart =  moment().set('hour', parseInt(this.props.startHour));
-        eventStart.set('minute', parseInt(this.props.startMin));
-        const diff = Util.millisToHour(eventStart.diff(originStart));
-        const top = (diff < 0 ? 0 : diff)*size;
-
-        const eventEnd = moment().set('hour', parseInt(this.props.endHour));
-        eventEnd.set('minute', parseInt(this.props.endMin));
-        let duration = Util.millisToHour(eventEnd.diff(eventStart));
-        duration = diff < 0 ? 1 : duration;
         //timetableItemの開始と終了の差（イベントの時間）で1時間につき40pxの高さに
         return(
-            <_TimetableItem day={this.props.day} duration={duration} top={top} onClick={this.handleClick} start={this.props.start} end={this.props.end} isEnd={this.props.isEnd}>
+            <_TimetableItem  day={this.props.day} duration={this.props.duration} top={this.props.top} onClick={this.handleClick} start={this.props.start} end={this.props.end} isEnd={this.props.isEnd}>
                 {title + ' ' + this.props.start + ' 〜 ' + this.props.end}
             </_TimetableItem>
         );
