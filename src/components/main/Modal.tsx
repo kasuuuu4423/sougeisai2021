@@ -319,8 +319,12 @@ export const _Modal = styled.div<_ModalProps>`
     &.circle{
         background: ${Color.CIRCLE};
     }
-    &.easter{
+    &.easter, &.bear, &.deer{
         background: ${Color.EASTER};
+        dl{
+            align-content: center;
+            text-align: center;
+        }
     }
     &.market{
         background: ${Color.MARKET};

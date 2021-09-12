@@ -2,6 +2,7 @@ import moment from "moment";
 import React from "react";
 import { Image } from "react-konva";
 import Util from "../../lib/Util";
+import Konva from "konva";
 
 type EventProps = {
     x: number,
@@ -35,8 +36,11 @@ type EventState = {
 };
 
 class Plan extends React.Component<EventProps, EventState>{
+    private image: Konva.Image | null;
+    private static opacity = 0.1;
     constructor(props: EventProps){
         super(props);
+        this.image = new Konva.Image({image: undefined});
 
         this.state = {
             //企画　CM、アートマ、オルタナ
@@ -144,6 +148,24 @@ class Plan extends React.Component<EventProps, EventState>{
         Object.assign(data, group);
         this.props.handleOpenModal(data);
     }
+
+    handleHover = () =>{
+        if(this.props.type == "easter"){
+            this.image?.to({
+                opacity: 1,
+                duration: 0.1,
+            });
+        }
+    }
+
+    handleHoverOut = () =>{
+        if(this.props.type == "easter"){
+            this.image?.to({
+                opacity: Plan.opacity,
+                duration: 0.1,
+            });
+        }
+    }
     
     render(){
         let icons: {[key: string]: HTMLImageElement} = {
@@ -164,7 +186,7 @@ class Plan extends React.Component<EventProps, EventState>{
         };
         let image: HTMLImageElement = icons[this.props.type];
         return(
-            <Image image={image} onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick} onClick={this.handleClick}  x={this.props.x} y={this.props.y} width={13} height={13} ></Image>
+            <Image onMouseOver={this.handleHover} onMouseOut={this.handleHoverOut} opacity={this.props.type=="easter"?Plan.opacity:1} ref={node=>{this.image = node}} image={image} onMouseEnter={this.props.onMouseEnter} onMouseLeave={this.props.onMouseLeave} onTap={this.handleClick} onClick={this.handleClick}  x={this.props.x} y={this.props.y} width={13} height={13} ></Image>
         );
     }
 }
