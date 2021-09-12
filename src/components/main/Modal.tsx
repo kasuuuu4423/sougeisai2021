@@ -223,7 +223,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <Title title={info['title']} subTitle="フォトライブラリー"/>
                     <dl>
                         {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
-                        <Introduction introduction={info['introduction']}></Introduction>
+                        <Introduction textAlign={"center"} hideTitle={true} introduction={info['introduction']}></Introduction>
                     </dl>
                 </div>;
             case 'about':
@@ -327,6 +327,9 @@ export const _Modal = styled.div<_ModalProps>`
     }
     &.photo{
         background: ${Color.PHOTO};
+        dl{
+            align-content: center;
+        }
     }
     &.lab{
         background: ${Color.LAB};

@@ -236,6 +236,8 @@ const _Image = styled.div`
             width: 80%;
             height: ${150*1.5}px;
             object-fit: cover;
+            border: 3px solid ${Color.DARKBLUEGREEN};
+            border-radius: 3px;
         }
         &.contain{
             img{
@@ -513,7 +515,7 @@ export class Present extends React.Component<PresentProps, PresentState>{
         return(
             <_Present>
                 {selected == "" &&<div className="switch">
-                    <div>あなたは札幌市立大学の学生ですか</div>
+                    <div>あなたは札幌市立大学の学生ですか？</div>
                     <div className="buttons">
                         <button onClick={this.selectStudent}>YES</button>
                         <button onClick={this.selectOthers}>NO</button>
@@ -521,28 +523,22 @@ export class Present extends React.Component<PresentProps, PresentState>{
                 </div>}
                 {selected != "" &&
                 <div className="example">
-                    <div className="head">当たる商品例</div>
                     <img src="img/main/modal/presentbox.png" alt="" />
                     {selected == "student" && <div className="premium student">
-                        <div>学生用商品名</div>
-                        <div>商品名</div>
-                        <div>商品名</div>
-                        <div>商品名</div>
-                        <div>商品名</div>
-                        <div>などなど</div>
+                        <div>SCU生限定の特別なプレゼント企画です！<br />皆さん奮ってご参加ください！</div><br />
+                        <div>やっぱこれだね！<br/>Amazonギフト1000円分 80名</div>
+                        <div>レッツスマートライフ！<br/>Apple Watch Series 6 2名</div>
+                        <div>可能性は無限大！<br/>iPad Air 4　2名</div>
+                        <div>雑音を全てシャットアウト！<br/>AirPods Pro　2名</div>
+                        <div>Merci d'avoir traduit...<br/>PIERRE HERME PARIS マカロン6個セット</div>
                     </div>}
                     {selected == "others" && <div className="premium others">
-                        <div>一般用商品名</div>
-                        <div>商品名</div>
-                        <div>商品名</div>
-                        <div>商品名</div>
-                        <div>商品名</div>
-                        <div>などなど</div>
+                        <div>この度は桑芸祭にご参加いただき誠にありがとうございます！<br/>以下のアンケートにご協力していただいた方の中から抽選で25名様にAmazonギフト5000円分をプレゼントさせていただきます。 <br />※当選のご連絡はご回答いただいたメールアドレス宛にお送りさせていただきます。</div>
                     </div>}
                 </div>}
                 {selected != "" && <div className="links">
-                    {selected == "student" && <a className="student" href="">応募フォームはこちら</a>}
-                    {selected == "others" && <a className="others" href="">応募フォームはこちら</a>}
+                    {selected == "student" && <a target="_blank" ref="noreferrer" className="student" href="https://forms.gle/epefk1Yd3PsGzbCA6">応募フォームはこちら</a>}
+                    {selected == "others" && <a target="_blank" ref="noreferrer" className="others" href="https://forms.gle/GZeKtnHx3J4aHG3K7">応募フォームはこちら</a>}
                 </div>}
             </_Present>
         );
