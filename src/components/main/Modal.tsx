@@ -348,9 +348,9 @@ export const _Modal = styled.div<_ModalProps>`
         background: ${Color.PRESENT};
         dl{
             display: grid !important;
-            grid-template-rows: 3rem 1fr;
             grid-template-columns: 1fr;
             align-items: center;
+            align-content: center;
             justify-content: center;
             .introduction{
                 width: 100%;
