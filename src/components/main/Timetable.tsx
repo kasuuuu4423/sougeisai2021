@@ -8,7 +8,7 @@ import Color from "../../assets/cssVars/Color";
 import Util from "../../lib/Util";
 import Other from "../../assets/cssVars/Other";
 
-const startHour = 14;
+const startHour = 15;
 const StartMin = 0;
 const start = startHour + ":" + StartMin;
 const endHour = 19;
