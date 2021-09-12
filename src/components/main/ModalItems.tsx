@@ -238,10 +238,12 @@ const _Image = styled.div`
             object-fit: cover;
             border: 3px solid ${Color.DARKBLUEGREEN};
             border-radius: 3px;
+            background: ${Color.WHITE};
         }
         &.contain{
             img{
                 object-fit: contain;
+                height: auto;
             }
         }
     }

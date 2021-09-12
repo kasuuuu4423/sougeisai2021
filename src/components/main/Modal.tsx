@@ -121,7 +121,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <dl>
                         <Group name={info['groupName']} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}></Group>
                         <Introduction introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image isContain={true} imagePath={info['imageUrl']}/>}
                         <Links title="配信時間" time={info['onAirAt']} Links={{
                             'LIVE配信': info['onAirLink'],
                             '追いかけ視聴': info['archiveLink'],
@@ -227,7 +227,7 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     </dl>
                 </div>;
             case 'about':
-                return <div className="container static about">
+                return <div className="container about">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title="サイトについて"/>
@@ -236,13 +236,13 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     </dl>
                 </div>;
             case 'whats':
-                return <div className="container static whats">
+                return <div className="container whats">
                     <div className="back"></div>
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title="桑芸祭2021 とは？"/>
                     <dl>
                         <Introduction hideTitle={true} introduction={info['introduction']}></Introduction>
-                        {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
+                        {info['imageUrl'] !== "" && <Image isContain={true} imagePath={info['imageUrl']}/>}
                     </dl>
                 </div>;
             case 'howToWalk':
