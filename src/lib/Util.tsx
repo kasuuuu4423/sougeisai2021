@@ -86,6 +86,10 @@ class Util{
         }
         return false;
     }
+
+    public static isSkip = () =>{
+        return window.sessionStorage.getItem('isSkip') == 'true';
+    }
 }
 
 export default Util;
