@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import Main from "./components/main/Main";
 import Util from "./lib/Util";
 import Unsupported from "./components/Unsupported";
+import MicroCms from "./lib/microCms";
 
 const Container = styled.div`
 `;
@@ -45,6 +46,23 @@ class Site extends React.Component<{}, SiteState> {
         this.browser = "opera";
     } else {
       this.browser = "other";
+    }
+  }
+
+  componentDidMount(){
+    if(!Util.isSkip()){
+      let siteInfo: {[key: string]: string} = {};
+      MicroCms.getSiteInfo((res: {[key: string]: {[key: string]: string | {[key: string]: string}}[]})=>{
+          const info = res["contents"][0];
+          siteInfo = {
+              'type': 'howToWalk',
+              'introduction0': typeof info["how_to_walk0"] == 'string' ? info["how_to_walk0"] : "",
+              'imageUrl0': typeof info["how_to_walk0_img"] != 'string'? info["how_to_walk0_img"]["url"] : "",
+              'introduction1': typeof info["how_to_walk1"] == 'string' ? info["how_to_walk1"] : "",
+              'imageUrl1': typeof info["how_to_walk1_img"] != 'string'? info["how_to_walk1_img"]["url"] : "",
+          };
+          this.handleOpenModal(siteInfo);
+      });
     }
   }
 
