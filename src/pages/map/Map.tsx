@@ -110,6 +110,25 @@ class Map extends React.Component<MapProps, MapState>{
         "area_ship",
     ];
 
+    private static AreaLevelName = [
+        /*C棟*/
+        /*クローバー棟*/
+        /*エントランス棟*/
+        /*看護棟*/
+        /*GH棟*/
+        /*AB棟*/
+        /*F専攻科棟*/
+        /*船*/
+        ["屋根", "3F", "2F", "1F", "B1F", ],
+        ["屋根", "1F"],
+        ["屋根", "2F", "1F"],
+        ["屋根", "5F", "4F", "3F", "2F", "1F"],
+        ["屋根", "3F", "2F", "1F"],
+        ["屋根 / 空中", "2F / 屋根", "1F / 2F", "地中 / 1F"],
+        ["屋根", "4F", "3F", "2F", "1F", "B1F"],
+        ["海の上"],
+    ];
+
     private isSp: boolean = false;
 
     private static MapHeight: {[key: string]: number} = {
@@ -442,7 +461,7 @@ class Map extends React.Component<MapProps, MapState>{
                     {isZoom && <BtnLabelArea hidden={false} isZoom={isZoom}>area</BtnLabelArea>}
                     {isZoom && <AreaMovePlusBtn hidden={false} onClick={this.handleAreaMovePlus} isZoom={isZoom}>↑</AreaMovePlusBtn>}
                     {isZoom && <AreaMoveMinusBtn hidden={false} onClick={this.handleAreaMoveMinus} isZoom={isZoom}>↓</AreaMoveMinusBtn>}
-                    {isZoom && <AreaIntroduction name={areaName} introduction={areaIntro} />}
+                    {isZoom && <AreaIntroduction name={areaName + "：" + Map.AreaLevelName[areaNum][level]} introduction={areaIntro} />}
                 </WrapButtons>
             </Background>
         );
