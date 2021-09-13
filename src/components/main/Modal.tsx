@@ -251,10 +251,10 @@ class Modal extends React.Component<ModalProps, ModalState>{
                     <div onClick={this.props.handleCloseModal} className="x"><img src="/img/main/modal/x.png" alt="" /></div>
                     <Title title="サイトの歩き方"/>
                     <dl>
-                        {info['imageUrl0'] !== "" && <Image isContain={true} imagePath={info['imageUrl0']}/>}
                         <Introduction hideTitle={true} introduction={info['introduction0']}></Introduction>
-                        {info['imageUrl1'] !== "" && <Image isContain={true} imagePath={info['imageUrl1']}/>}
+                        {info['imageUrl0'] !== "" && <Image isContain={true} imagePath={info['imageUrl0']}/>}
                         <Introduction hideTitle={true} introduction={info['introduction1']}></Introduction>
+                        {info['imageUrl1'] !== "" && <Image isContain={true} imagePath={info['imageUrl1']}/>}
                     </dl>
                 </div>;
             case 'lab':
@@ -448,7 +448,9 @@ export const _Modal = styled.div<_ModalProps>`
             flex-wrap: wrap;
             justify-content: center;
             dt, dd, div{
-                margin-bottom: 10px;
+                &:not(:last-child){
+                    margin-bottom: 10px;
+                }
             }
             dt{
                 font-size: ${FontSize.LM};
