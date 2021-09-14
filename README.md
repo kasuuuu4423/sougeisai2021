@@ -19,9 +19,7 @@ __Produce / ArtDirection / Design__
 __TechnicalDirection / Engineering__  
   清水康志  
   
-__SpecialSupporter__  
-本HPは今年度入学したデザイン学部一年生がワークショップとして参加してくれてさまざまなアイデアを出してくれたおかげで完成に漕ぎ着けました。  
-ここに讃えます。  
+__SpecialSupporter__   
   櫻井真輝  
   田川善  
   拝野加奈  
