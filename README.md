@@ -13,10 +13,10 @@ web上で”大学施設エリアマップ”を駆使することで対面で�
 ---
 
 # Credit
-__Produce / ArtDirection / Design__  
+__Producer / ArtDirecter / Designer__  
   村川龍司  
   
-__TechnicalDirection / Engineering__  
+__TechnicalDirecter / Engineer__  
   清水康志  
   
 __SpecialSupporter__   
