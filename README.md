@@ -12,12 +12,13 @@ web上で”大学施設エリアマップ”を駆使することで対面で�
 
 # Credit
 __Produce / ArtDirection / Design__
+
   村川龍司
-
 __TechnicalDirection / Engineering__
-  清水康志
 
+  清水康志
 __SpecialSupporter__
+
 本HPは今年度入学したデザイン学部一年生がワークショップとして参加してくれてさまざまなアイデアを出してくれたおかげで完成に漕ぎ着けました。
 ここに讃えます。
   櫻井真輝
