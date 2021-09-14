@@ -7,6 +7,7 @@ import Main from "./components/main/Main";
 import Util from "./lib/Util";
 import Unsupported from "./components/Unsupported";
 import MicroCms from "./lib/microCms";
+import ReactGA from 'react-ga';
 
 const Container = styled.div`
 `;
@@ -30,6 +31,8 @@ class Site extends React.Component<{}, SiteState> {
       timetableIsOpen: false,
       mapBrightness: 1,
     };
+    ReactGA.initialize('G-5ED770BRG1');
+    ReactGA.pageview('Maps');
 
     const browser = window.navigator.userAgent.toLowerCase();
     if(browser.indexOf('msie') != -1 || browser.indexOf('trident') != -1) {
