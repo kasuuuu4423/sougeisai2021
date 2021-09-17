@@ -260,7 +260,7 @@ export class Image extends React.Component<ImageProps>{
             <_Image>
                 {this.props.imagePath !== '' && 
                     <div className={this.props.isContain ? "wrap_img contain" : "wrap_img"}>
-                        <img src={this.props.imagePath} alt="" />
+                        <a href={this.props.imagePath} target="_blank" rel="noreferrer"><img src={this.props.imagePath} alt="" /></a>
                     </div>
                 }
             </_Image>
