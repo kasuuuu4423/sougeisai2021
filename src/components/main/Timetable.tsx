@@ -261,7 +261,7 @@ class Timetable extends React.Component<TimetableProps, TimetableState>{
                     <div>
                         <Title title="イベントタイムテーブル"/>
                         <Links hideTitle={true} Links={{
-                            '配信先LINK→': 'https://youtube.com',
+                            '配信先LINK→': 'https://www.youtube.com/channel/UC9Lp2mbcVi8mzc2OUh47oRQ',
                         }}/>
                     </div>
                     <_Timetable>
