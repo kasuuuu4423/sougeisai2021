@@ -142,6 +142,7 @@ class Map extends React.Component<MapProps, MapState>{
     };
 
     private static nightTime = [18,0];
+    private static dayTime = [3,0];
 
     private _magRate: number = Map.MagRate['pc'];
     private _mapHeight: number = Map.MapHeight['pc'];
@@ -189,7 +190,10 @@ class Map extends React.Component<MapProps, MapState>{
 
         let image = new window.Image();
         image.src = window.location.origin+"/img/map/back.png";
-        if(Util.pastThisTime(Map.nightTime[0], Map.nightTime[1])){
+        if(
+            Util.pastThisTime(Map.nightTime[0], Map.nightTime[1]) ||
+            Util.beforeThisTime(Map.dayTime[0], Map.dayTime[1])
+        ){
             image.src = window.location.origin+"/img/map/back_night.png";
             this.backgroundColor = this.nightColor;
         }

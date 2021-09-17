@@ -87,6 +87,16 @@ class Util{
         return false;
     }
 
+    public static beforeThisTime(hour: number, min: number){
+        const thisTime = moment({'hour': hour, 'minute': min});
+        const now = moment();
+        const diff = now.diff(thisTime);
+        if(diff < 0){
+            return true;
+        }
+        return false;
+    }
+
     public static isSkip = () =>{
         return window.sessionStorage.getItem('isSkip') == 'true';
     }
