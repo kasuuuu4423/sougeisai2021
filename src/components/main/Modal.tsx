@@ -183,6 +183,9 @@ class Modal extends React.Component<ModalProps, ModalState>{
                         <Group hideDd={true} hideDt={true} twitter={info['groupTwitter']} instagram={info['groupInstagram']} place={info['groupPlace']} introduction={info['groupIntroduction']}/>
                         {info['introduction'] !== "" && <Introduction title="活動状況" introduction={info['introduction']}/>}
                         {info['imageUrl'] !== "" && <Image imagePath={info['imageUrl']}/>}
+                        <Links hideTitle={true} title="" Links={{
+                            'LINK': info['onAirLink'],
+                        }}/>
                         <ToTimetable handleCloseModal={this.props.handleCloseModal} handleOpenTimetable={this.props.handleOpenTimetable}></ToTimetable>
                     </dl>
                 </div>;
